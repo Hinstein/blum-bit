@@ -70,7 +70,7 @@ def play_doges(driver):
     time.sleep(random.uniform(10, 20))
 
 
-def play_blum(driver, play_blum_game):
+def play_blum(driver, is_play_blum_game):
     # 打开目标页面
     driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
 
@@ -144,7 +144,7 @@ def play_blum(driver, play_blum_game):
     # Random wait after clicking folders
     time.sleep(random.uniform(5, 10))
 
-    if play_blum_game:
+    if is_play_blum_game:
         # 是否玩游戏
         play_blum_game(driver, wait)
 
@@ -179,10 +179,10 @@ def play_blum_game(driver, wait):
 
 def clean_old_label(driver):
     # 打开一个初始页面并存储其句柄
-    driver.get("about:blank")
+    driver.get("https://web.telegram.org/k")
     initial_handle = driver.current_window_handle
     # 打开一个新的标签页
-    driver.execute_script("window.open('about:blank', '_blank');")
+    driver.execute_script("window.open('https://web.telegram.org/k', '_blank');")
     # 获取所有窗口句柄
     window_handles = driver.window_handles
     # 关闭除初始页面之外的所有标签页
