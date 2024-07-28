@@ -87,6 +87,7 @@ def create_threads(n, total, play_blum_game):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
+    :param play_blum_game:
     :param n: 线程数量
     :param total: 总数字数量，默认值为 100
     """
@@ -119,7 +120,7 @@ def create_threads(n, total, play_blum_game):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 15
+    thread_num = 3
     # 浏览器编号执行到多少
     bit_num = 91
     # blum玩游戏

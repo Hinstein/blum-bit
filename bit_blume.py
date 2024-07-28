@@ -65,6 +65,9 @@ def play_doges(driver):
         button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.new-message-bot-commands.is-view")))
         button.click()
         print("Button clicked successfully.")
+
+        button_alert = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.popup-button.btn.primary.rp")))
+        button_alert.click()
     except Exception as e:
         print(f"An error occurred: {e}")
     time.sleep(random.uniform(10, 20))
@@ -195,14 +198,14 @@ def clean_old_label(driver):
 
 
 if __name__ == '__main__':
-    select = list(range(1, 41))
-    # select = [1,2]
+    # select = list(range(1, 41))
+    select = [40]
     selected_values = get_file.get_id_by_seq(select)
     # Iterate through each profile directory
     for key in selected_values:
         seq = {key}
         id = selected_values[key]
         logger.info(f"Executing tasks for blum '{key}'...")
-        execute_tasks(key, id, False)
+        execute_tasks(key, id, True)
 
     logger.info("All tasks completed successfully.")
