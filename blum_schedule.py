@@ -3,11 +3,17 @@ import threading
 import time
 import schedule
 
+import main
 from blum_main import create_threads
+from log_config import setup_logger
+
+logger = setup_logger('main', 'blum_auto.log')
 
 
 # n是线程个数， total是你要完成到哪个浏览器
 def run_create_threads():
+    logger.info("定时任务开始")
+
     # 开启几个线程
     thread_num = 3
     # 浏览器编号执行到多少

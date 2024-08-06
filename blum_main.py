@@ -48,6 +48,7 @@ def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game):
     error = []
 
     for num in numbers:
+        error_num = None
         try:
             item = get_item_by_index(shuffled_dict, num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')

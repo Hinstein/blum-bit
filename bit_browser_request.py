@@ -23,6 +23,22 @@ def close_browser(id):  # 关闭窗口
     return res
 
 
+def get_browser_pids(browser_id):  # 关闭窗口
+    json_data = {
+        "ids": [
+            f'{browser_id}'
+        ]
+    }
+    res = requests.post(f"{url}/browser/pids/alive",
+                        data=json.dumps(json_data), headers=headers).json()
+    time.sleep(6)
+    # 提取 data 中的值
+    if 'data' in json_data and json_data['data']:
+        return list(json_data['data'].values())
+    else:
+        return []
+
+
 def browser_list():
     json_data = {
         "page": 0,

@@ -8,6 +8,7 @@ import time
 import random
 import bit_browser_request
 import get_file
+from kill_bit import terminate_processes
 from log_config import setup_logger
 
 logger = setup_logger('bit_blum', 'blum_auto.log')
@@ -44,11 +45,15 @@ def execute_tasks(seq, id, play_blum_game):
         bit_browser_request.close_browser(id)
 
     except Exception as e:
-        logger.error(f"An error occurred in blum '{seq}'")
+        logger.error(f"An error occurred in blum '{seq}' error:{e}")
         # Close the browser session if an error occurs
         driver.quit()
         bit_browser_request.close_browser(id)
         return seq
+    finally:
+        # 删除进程
+        time.sleep(5)
+        terminate_processes(bit_browser_request.get_browser_pids(id))
 
 
 def play_doges(driver):
@@ -69,7 +74,7 @@ def play_doges(driver):
         button_alert = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.popup-button.btn.primary.rp")))
         button_alert.click()
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print("")
     time.sleep(random.uniform(10, 20))
 
 
@@ -158,7 +163,6 @@ def play_blum_game(driver, wait):
         play_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.play-btn')))
         # 滚动到元素位置
         driver.execute_script("arguments[0].scrollIntoView();", play_button)
-        # driver.execute_script("arguments[0].scrollIntoView();", driver.find_element_by_css_selector("a.play-btn"))
         play_button.click()
 
         # Loop to click the 'Play' button if it exists
