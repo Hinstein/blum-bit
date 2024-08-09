@@ -1,12 +1,11 @@
 import random
-import threading
-import time
-
 import numpy as np
-
+import time
 import get_file
+
 from bit_blume import execute_tasks
 from log_config import setup_logger
+from concurrent.futures import ThreadPoolExecutor
 
 logger = setup_logger('blum_auto', 'blum_auto.log')
 
@@ -98,35 +97,40 @@ def create_threads(n, total, play_blum_game):
     selected_values = get_file.get_id_by_seq(select)
 
     logger.info("Original Dictionary:", selected_values)
-    step = total // n
-    threads = []
     result = np.array_split(numbers, n)
-    # 转换成列表形式
     list_result = [subarray.tolist() for subarray in result]
 
-    for i in range(n):
-        thread_name = f'Thread-{i + 1}'
-        thread = threading.Thread(target=print_numbers,
-                                  args=(list_result[i], thread_name, selected_values, play_blum_game))
-        threads.append(thread)
-        thread.start()
-        # 删除等待60秒后再启动下一个线程的代码
-        time.sleep(5)
+    # 使用 ThreadPoolExecutor 进行多线程处理
+    with ThreadPoolExecutor(max_workers=n) as executor:
+        futures = []
+        for i in range(n):
+            thread_name = f'Thread-{i + 1}'
+            future = executor.submit(print_numbers, list_result[i], thread_name, selected_values, play_blum_game)
+            futures.append(future)
 
-    for thread in threads:
-        thread.join()
+            # 添加启动延迟
+            time.sleep(5)
+
+        logger.info("All task has completed")
+
+        # 等待所有线程完成并检查异常
+        for i, future in enumerate(futures):
+            try:
+                future.result()  # 捕获异常
+            except Exception as e:
+                logger.error(f"Thread-{i + 1} 发生异常: {e}")
 
 
 # 不使用定时任务，单独运行
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 3
+    thread_num = 15
     # 浏览器编号执行到多少
-    bit_num = 91
+    bit_num = 201
     # blum玩游戏
-    # play_blum_game = True
+    play_blum_game = True
     # blum不玩游戏
-    play_blum_game = False
+    # play_blum_game = False
 
     create_threads(thread_num, bit_num, play_blum_game)

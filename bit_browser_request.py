@@ -2,6 +2,10 @@ import requests
 import json
 import time
 
+from log_config import setup_logger
+
+logger = setup_logger('bit_request', 'blum_auto.log')
+
 url = "http://127.0.0.1:54345"
 headers = {'Content-Type': 'application/json'}
 
@@ -31,10 +35,13 @@ def get_browser_pids(browser_id):  # 关闭窗口
     }
     res = requests.post(f"{url}/browser/pids/alive",
                         data=json.dumps(json_data), headers=headers).json()
+    logger.info(f"get browser:{browser_id} pids,data:{res}")
     time.sleep(6)
     # 提取 data 中的值
-    if 'data' in json_data and json_data['data']:
-        return list(json_data['data'].values())
+    if 'data' in res and res['data']:
+        error_treads = list(res['data'].values())
+        logger.error(f"browser_id{browser_id} is unclose,data:{res['data']},thread :{error_treads}")
+        return error_treads
     else:
         return []
 
@@ -48,6 +55,7 @@ def browser_list():
                         data=json.dumps(json_data), headers=headers).json()
     # print(res)
     return res
+
 
 def windowbounds_flexable():
     json_data = {

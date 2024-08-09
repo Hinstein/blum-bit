@@ -17,12 +17,16 @@ def run_create_threads():
     # 开启几个线程
     thread_num = 3
     # 浏览器编号执行到多少
-    bit_num = 91
+    bit_num = 201
     # blum玩游戏
     # play_blum_game = True
     # blum不玩游戏
     play_blum_game = False
 
+    logger.info("开始执行本地chrome")
+    main.main(play_blum_game)
+
+    logger.info("开始执行bit浏览器任务")
     create_threads(thread_num, bit_num, play_blum_game)
 
 

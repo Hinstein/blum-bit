@@ -27,7 +27,7 @@ service = Service('chromedriver-win64/chromedriver.exe')
 
 
 # Function to execute tasks for each profile
-def execute_tasks(profile_directory):
+def execute_tasks(profile_directory, play_game):
     try:
         # Set profile directory argument
         chrome_options.add_argument(f"--profile-directory={profile_directory}")
@@ -70,7 +70,7 @@ def execute_tasks(profile_directory):
             button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, button_css_selector)))
             button.click()
         except (NoSuchElementException, TimeoutException):
-            print("")
+            pass
 
         # Find and switch to iframe
         iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
@@ -82,7 +82,7 @@ def execute_tasks(profile_directory):
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.btn")))
             button.click()
         except (NoSuchElementException, TimeoutException):
-            print("")
+            pass
 
         # 出现彩蛋，需要关闭
         try:
@@ -95,7 +95,7 @@ def execute_tasks(profile_directory):
                                             'img[src="https://telegram.blum.codes/_dist/welcome-modal.QsapntSs.webp"][alt="Pokras welcome modal"]')))
             button2.click()
         except (NoSuchElementException, TimeoutException):
-            print("")
+            pass
 
         # 领取每日奖励
         try:
@@ -114,37 +114,38 @@ def execute_tasks(profile_directory):
                     (By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.button")))
             button.click()
         except (NoSuchElementException, TimeoutException):
-            print("")
+            pass
 
         # Random wait after clicking folders
         time.sleep(random.uniform(5, 10))
 
-        # 点击最初的play按钮
-        try:
-            # Click Play button in iframe
-            play_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.play-btn')))
-            # 滚动到元素位置
-            driver.execute_script("arguments[0].scrollIntoView();", play_button)
-            # driver.execute_script("arguments[0].scrollIntoView();", driver.find_element_by_css_selector("a.play-btn"))
-            play_button.click()
+        if play_game:
+            # 点击最初的play按钮
+            try:
+                # Click Play button in iframe
+                play_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.play-btn')))
+                # 滚动到元素位置
+                driver.execute_script("arguments[0].scrollIntoView();", play_button)
+                # driver.execute_script("arguments[0].scrollIntoView();", driver.find_element_by_css_selector("a.play-btn"))
+                play_button.click()
 
-            # Loop to click the 'Play' button if it exists
-            sum = 0
-            long_wait = WebDriverWait(driver, 120)
-            while True:
-                try:
-                    play_button = long_wait.until(EC.element_to_be_clickable(
-                        (By.XPATH, '//button[contains(@class, "kit-button") and contains(.//span, "Play")]')))
-                    play_button.click()
-                    sum = sum + 1
-                    # Random wait after clicking play button
-                except (NoSuchElementException, TimeoutException):
-                    logger.warning(f"blum '{profile_directory}' : 点击结束")
-                    break
-            logger.info(f"blum '{profile_directory}' completed the game '{sum}' times")
+                # Loop to click the 'Play' button if it exists
+                sum = 0
+                long_wait = WebDriverWait(driver, 120)
+                while True:
+                    try:
+                        play_button = long_wait.until(EC.element_to_be_clickable(
+                            (By.XPATH, '//button[contains(@class, "kit-button") and contains(.//span, "Play")]')))
+                        play_button.click()
+                        sum = sum + 1
+                        # Random wait after clicking play button
+                    except (NoSuchElementException, TimeoutException):
+                        logger.warning(f"blum '{profile_directory}' : 点击结束")
+                        break
+                logger.info(f"blum '{profile_directory}' completed the game '{sum}' times")
 
-        except (NoSuchElementException, TimeoutException):
-            logger.warning(f"blum '{profile_directory}' : 已经完成所有任务")
+            except (NoSuchElementException, TimeoutException):
+                logger.warning(f"blum '{profile_directory}' : 已经完成所有任务")
 
         # 切换回主内容
         driver.switch_to.default_content()
@@ -158,12 +159,16 @@ def execute_tasks(profile_directory):
         wait = WebDriverWait(driver, 20)
         # 使用 CSS 选择器定位并点击按钮
         try:
+            button_alert = wait.until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "button.popup-button.btn.primary.rp")))
+            button_alert.click()
             button = wait.until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "div.new-message-bot-commands.is-view")))
             button.click()
             print("Button clicked successfully.")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            pass
+
         time.sleep(random.uniform(5, 10))
 
         # Close the browser session
@@ -175,12 +180,17 @@ def execute_tasks(profile_directory):
         driver.quit()
 
 
-# Iterate through each profile directory
-for profile in profile_directories:
-    print(f"Executing tasks for profile '{profile}'...")
-    execute_tasks(profile)
-    # Random wait after clicking button
-    # time.sleep(random.uniform(300, 600))
-    print(f"Tasks completed for profile '{profile}'. Moving to next profile.")
+def main(play_game):
+    # Iterate through each profile directory
+    for profile in profile_directories:
+        print(f"Executing tasks for profile '{profile}'...")
+        execute_tasks(profile, play_game)
+        # Random wait after clicking button
+        # time.sleep(random.uniform(300, 600))
+        print(f"Tasks completed for profile '{profile}'. Moving to next profile.")
 
-print("All tasks completed successfully.")
+    print("All tasks completed successfully.")
+
+
+if __name__ == "__main__":
+    main(True)

@@ -69,12 +69,11 @@ def play_doges(driver):
     try:
         button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.new-message-bot-commands.is-view")))
         button.click()
-        print("Button clicked successfully.")
 
         button_alert = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.popup-button.btn.primary.rp")))
         button_alert.click()
     except Exception as e:
-        print("")
+        pass
     time.sleep(random.uniform(10, 20))
 
 
@@ -104,7 +103,7 @@ def play_blum(driver, is_play_blum_game):
         button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, button_css_selector)))
         button.click()
     except (NoSuchElementException, TimeoutException):
-        print("")
+        pass
 
     # Find and switch to iframe
     iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
@@ -116,7 +115,7 @@ def play_blum(driver, is_play_blum_game):
             EC.element_to_be_clickable((By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.btn")))
         button.click()
     except (NoSuchElementException, TimeoutException):
-        print("")
+        pass
 
     # 出现彩蛋，需要关闭
     # try:
@@ -129,7 +128,7 @@ def play_blum(driver, is_play_blum_game):
     #                                     'img[src="https://telegram.blum.codes/_dist/welcome-modal.QsapntSs.webp"][alt="Pokras welcome modal"]')))
     #     button2.click()
     # except (NoSuchElementException, TimeoutException):
-    #     print("")
+    #     pass
 
     # 领取每日奖励
     try:
@@ -148,7 +147,7 @@ def play_blum(driver, is_play_blum_game):
                 (By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.button")))
         button.click()
     except (NoSuchElementException, TimeoutException):
-        print("")
+        pass
     # Random wait after clicking folders
     time.sleep(random.uniform(5, 10))
 
