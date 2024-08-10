@@ -6,6 +6,8 @@ import schedule
 import main
 from blum_main import create_threads
 from log_config import setup_logger
+from multiprocessing import Process
+
 
 logger = setup_logger('main', 'blum_auto.log')
 
@@ -24,12 +26,14 @@ def run_create_threads():
     play_blum_game = False
 
     logger.info("开始执行本地chrome")
-    main.main(play_blum_game)
+    # 使用多进程异步执行 main.main(play_blum_game)
+    process = Process(target=main.main, args=(play_blum_game,))
+    process.start()
 
     logger.info("开始执行bit浏览器任务")
     create_threads(thread_num, bit_num, play_blum_game)
 
-
+run_create_threads()
 # 使用 schedule 库设置每3小时执行一次的定时任务
 schedule.every(3).hours.do(run_create_threads)
 

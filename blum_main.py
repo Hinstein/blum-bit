@@ -109,7 +109,7 @@ def create_threads(n, total, play_blum_game):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(5)
+            time.sleep(30)
 
         logger.info("All task has completed")
 
@@ -125,12 +125,12 @@ def create_threads(n, total, play_blum_game):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 15
+    thread_num = 8
     # 浏览器编号执行到多少
     bit_num = 201
     # blum玩游戏
-    play_blum_game = True
+    # play_blum_game = True
     # blum不玩游戏
-    # play_blum_game = False
+    play_blum_game = False
 
     create_threads(thread_num, bit_num, play_blum_game)

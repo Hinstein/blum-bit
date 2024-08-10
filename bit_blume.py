@@ -28,6 +28,12 @@ def execute_tasks(seq, id, play_blum_game):
         chrome_service = Service(driver_path)
         driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
+        # 设置页面加载超时为10秒
+        driver.set_page_load_timeout(10)
+
+        # 设置 JavaScript 执行超时为10秒
+        driver.set_script_timeout(10)
+
         # blum任务
         play_blum(driver, play_blum_game)
 
@@ -39,6 +45,8 @@ def execute_tasks(seq, id, play_blum_game):
 
         # 清理旧标签(只保留一个标签，避免标签过多卡顿)
         clean_old_label(driver)
+
+        time.sleep(1)
 
         # Close the browser session
         driver.quit()
@@ -64,7 +72,7 @@ def play_doges(driver):
     # 切换到新标签页
     driver.switch_to.window(window_handles[-1])
     # 等待页面加载
-    wait = WebDriverWait(driver, 20)
+    wait = WebDriverWait(driver, 15)
     # 使用 CSS 选择器定位并点击按钮
     try:
         button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.new-message-bot-commands.is-view")))
@@ -74,7 +82,7 @@ def play_doges(driver):
         button_alert.click()
     except Exception as e:
         pass
-    time.sleep(random.uniform(10, 20))
+    time.sleep(random.uniform(5, 10))
 
 
 def play_blum(driver, is_play_blum_game):
@@ -85,8 +93,8 @@ def play_blum(driver, is_play_blum_game):
     bit_browser_request.windowbounds_flexable()
 
     # Random wait after clicking folders
-    time.sleep(random.uniform(5, 10))
-    wait = WebDriverWait(driver, 20)
+    time.sleep(random.uniform(1, 3))
+    wait = WebDriverWait(driver, 10)
 
     # Click another element
     button_element = wait.until(EC.element_to_be_clickable(
@@ -94,7 +102,7 @@ def play_blum(driver, is_play_blum_game):
     button_element.click()
 
     # Random wait after clicking button
-    time.sleep(random.uniform(5, 10))
+    time.sleep(random.uniform(1, 3))
 
     # 防止弹出小launch跳板
     try:
@@ -139,7 +147,7 @@ def play_blum(driver, is_play_blum_game):
         button.click()
 
         # Random wait after clicking folders
-        time.sleep(random.uniform(5, 10))
+        time.sleep(random.uniform(1, 3))
 
         # 点击start farming
         button = wait.until(
@@ -149,7 +157,7 @@ def play_blum(driver, is_play_blum_game):
     except (NoSuchElementException, TimeoutException):
         pass
     # Random wait after clicking folders
-    time.sleep(random.uniform(5, 10))
+    time.sleep(random.uniform(1, 3))
 
     if is_play_blum_game:
         # 是否玩游戏
@@ -166,7 +174,7 @@ def play_blum_game(driver, wait):
 
         # Loop to click the 'Play' button if it exists
         sum = 0
-        long_wait = WebDriverWait(driver, 120)
+        long_wait = WebDriverWait(driver, 80)
         while True:
             try:
                 play_button = long_wait.until(EC.element_to_be_clickable(
@@ -187,10 +195,18 @@ def clean_old_label(driver):
     # 打开一个初始页面并存储其句柄
     driver.get("https://web.telegram.org/k")
     initial_handle = driver.current_window_handle
+
+    time.sleep(1)
     # 打开一个新的标签页
     driver.execute_script("window.open('https://web.telegram.org/k', '_blank');")
+
+    time.sleep(1)
+
     # 获取所有窗口句柄
     window_handles = driver.window_handles
+
+    time.sleep(1)
+
     # 关闭除初始页面之外的所有标签页
     for handle in window_handles:
         if handle != initial_handle:
