@@ -125,7 +125,7 @@ def create_threads(n, total, play_blum_game):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 8
+    thread_num = 1
     # 浏览器编号执行到多少
     bit_num = 201
     # blum玩游戏

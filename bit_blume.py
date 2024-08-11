@@ -75,7 +75,7 @@ def play_doges(driver):
     wait = WebDriverWait(driver, 15)
     # 使用 CSS 选择器定位并点击按钮
     try:
-        button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.new-message-bot-commands.is-view")))
+        button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".new-message-bot-commands-view")))
         button.click()
 
         button_alert = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.popup-button.btn.primary.rp")))

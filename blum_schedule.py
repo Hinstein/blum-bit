@@ -17,7 +17,7 @@ def run_create_threads():
     logger.info("定时任务开始")
 
     # 开启几个线程
-    thread_num = 3
+    thread_num = 8
     # 浏览器编号执行到多少
     bit_num = 201
     # blum玩游戏
@@ -27,8 +27,9 @@ def run_create_threads():
 
     logger.info("开始执行本地chrome")
     # 使用多进程异步执行 main.main(play_blum_game)
-    process = Process(target=main.main, args=(play_blum_game,))
-    process.start()
+    # process = Process(target=main.main, args=(play_blum_game,))
+    # process.start()
+    main.main(play_blum_game)
 
     logger.info("开始执行bit浏览器任务")
     create_threads(thread_num, bit_num, play_blum_game)
