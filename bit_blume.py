@@ -46,16 +46,18 @@ def execute_tasks(seq, id, play_blum_game):
         # 清理旧标签(只保留一个标签，避免标签过多卡顿)
         clean_old_label(driver)
 
-        time.sleep(1)
-
+        time.sleep(3)
         # Close the browser session
-        driver.quit()
         bit_browser_request.close_browser(id)
+        time.sleep(3)
+        driver.quit()
+
 
     except Exception as e:
         logger.error(f"An error occurred in blum '{seq}' error:{e}")
         # Close the browser session if an error occurs
         driver.quit()
+        time.sleep(3)
         bit_browser_request.close_browser(id)
         return seq
     finally:
@@ -196,22 +198,25 @@ def clean_old_label(driver):
     driver.get("https://web.telegram.org/k")
     initial_handle = driver.current_window_handle
 
-    time.sleep(1)
+    time.sleep(3)
     # 打开一个新的标签页
     driver.execute_script("window.open('https://web.telegram.org/k', '_blank');")
 
-    time.sleep(1)
+    time.sleep(3)
 
     # 获取所有窗口句柄
     window_handles = driver.window_handles
 
-    time.sleep(1)
+    time.sleep(3)
 
     # 关闭除初始页面之外的所有标签页
     for handle in window_handles:
         if handle != initial_handle:
             driver.switch_to.window(handle)
             driver.close()
+            time.sleep(1)
+
+    time.sleep(2)
     # 切换回初始页面
     driver.switch_to.window(initial_handle)
 
