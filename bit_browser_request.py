@@ -35,12 +35,10 @@ def get_browser_pids(browser_id):  # 关闭窗口
     }
     res = requests.post(f"{url}/browser/pids/alive",
                         data=json.dumps(json_data), headers=headers).json()
-    logger.info(f"get browser:{browser_id} pids,data:{res}")
-    time.sleep(6)
+    time.sleep(3)
     # 提取 data 中的值
     if 'data' in res and res['data']:
         error_treads = list(res['data'].values())
-        logger.error(f"browser_id{browser_id} is unclose,data:{res['data']},thread :{error_treads}")
         return error_treads
     else:
         return []

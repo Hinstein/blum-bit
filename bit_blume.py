@@ -54,7 +54,7 @@ def execute_tasks(seq, id, play_blum_game):
 
 
     except Exception as e:
-        logger.error(f"An error occurred in blum '{seq}' error:{e}")
+        logger.error(f"An error occurred in blum '{seq}'")
         # Close the browser session if an error occurs
         driver.quit()
         time.sleep(3)
@@ -62,7 +62,7 @@ def execute_tasks(seq, id, play_blum_game):
         return seq
     finally:
         # 删除进程
-        time.sleep(5)
+        time.sleep(3)
         terminate_processes(bit_browser_request.get_browser_pids(id))
 
 
