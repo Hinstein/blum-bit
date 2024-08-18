@@ -52,7 +52,7 @@ def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game):
             item = get_item_by_index(shuffled_dict, num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
             error_num = execute_tasks(num, item, play_blum_game)
-            logger.info(f'{thread_name} 结束 {num} 任务 :id:{item}')
+            logger.info(f'{thread_name} 结束 {num} 任务 {item}')
         except Exception as e:
             logger.error(f'{thread_name} 执行 {num} 任务报错 {item}')
         if (error_num != None):
