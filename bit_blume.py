@@ -41,7 +41,7 @@ def execute_tasks(seq, id, play_blum_game):
         driver.switch_to.default_content()
 
         # dog 任务
-        play_doges(driver)
+        # play_doges(driver)
 
         # 清理旧标签(只保留一个标签，避免标签过多卡顿)
         clean_old_label(driver)
@@ -195,12 +195,12 @@ def play_blum_game(driver, wait):
 
 def clean_old_label(driver):
     # 打开一个初始页面并存储其句柄
-    driver.get("https://web.telegram.org/k")
+    # driver.get("https://web.telegram.org/k")
     initial_handle = driver.current_window_handle
 
-    time.sleep(3)
+    # time.sleep(3)
     # 打开一个新的标签页
-    driver.execute_script("window.open('https://web.telegram.org/k', '_blank');")
+    # driver.execute_script("window.open('https://web.telegram.org/k', '_blank');")
 
     time.sleep(3)
 
@@ -218,7 +218,7 @@ def clean_old_label(driver):
 
     time.sleep(2)
     # 切换回初始页面
-    driver.switch_to.window(initial_handle)
+    # driver.switch_to.window(initial_handle)
 
 
 if __name__ == '__main__':
