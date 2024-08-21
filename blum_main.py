@@ -18,7 +18,7 @@ def get_item_by_index(items, index):
     :param index: 索引
     :return: 键值对
     """
-    if 0 <= index < len(items):
+    if 0 <= index <= len(items):
         return items[index]
     else:
         return None
@@ -91,7 +91,7 @@ def create_threads(n, total, play_blum_game):
     :param n: 线程数量
     :param total: 总数字数量，默认值为 100
     """
-    numbers = generate_random_sequence(1, total)
+    numbers = generate_random_sequence(1, total + 1)
 
     select = list(range(1, total + 1))
     selected_values = get_file.get_id_by_seq(select)
