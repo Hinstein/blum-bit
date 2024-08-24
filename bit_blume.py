@@ -169,7 +169,8 @@ def play_blum(driver, is_play_blum_game):
 def play_blum_game(driver, wait):
     try:
         # Click Play button in iframe
-        play_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.play-btn')))
+        play_button = wait.until(EC.element_to_be_clickable(
+            (By.XPATH, '//a[contains(@class, "play-btn") and contains(text(), "Play")]')))
         # 滚动到元素位置
         driver.execute_script("arguments[0].scrollIntoView();", play_button)
         play_button.click()
@@ -223,7 +224,7 @@ def clean_old_label(driver):
 
 if __name__ == '__main__':
     # select = list(range(1, 41))
-    select = [40]
+    select = [200]
     selected_values = get_file.get_id_by_seq(select)
     # Iterate through each profile directory
     for key in selected_values:
