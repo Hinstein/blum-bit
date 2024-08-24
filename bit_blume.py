@@ -16,6 +16,7 @@ logger = setup_logger('bit_blum', 'blum_auto.log')
 
 # Function to execute tasks for each profile
 def execute_tasks(seq, id, play_blum_game):
+    global driver
     try:
         response_data = bit_browser_request.send_post_request(id)
         driver_path = response_data['data']['driver']
@@ -35,7 +36,7 @@ def execute_tasks(seq, id, play_blum_game):
         driver.set_script_timeout(10)
 
         # blum任务
-        play_blum(driver, play_blum_game)
+        play_blum(driver, play_blum_game, seq)
 
         # 切换回主内容
         driver.switch_to.default_content()
@@ -87,16 +88,16 @@ def play_doges(driver):
     time.sleep(random.uniform(5, 10))
 
 
-def play_blum(driver, is_play_blum_game):
+def play_blum(browser_driver, is_play_blum_game, seq):
     # 打开目标页面
-    driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
+    browser_driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
 
     # 窗口自适应排列
     bit_browser_request.windowbounds_flexable()
 
     # Random wait after clicking folders
     time.sleep(random.uniform(1, 3))
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(browser_driver, 10)
 
     # Click another element
     button_element = wait.until(EC.element_to_be_clickable(
@@ -117,7 +118,7 @@ def play_blum(driver, is_play_blum_game):
 
     # Find and switch to iframe
     iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
-    driver.switch_to.frame(iframe_element)
+    browser_driver.switch_to.frame(iframe_element)
 
     # 领取每日登录奖励
     try:
@@ -163,10 +164,10 @@ def play_blum(driver, is_play_blum_game):
 
     if is_play_blum_game:
         # 是否玩游戏
-        play_blum_game(driver, wait)
+        play_blum_game(browser_driver, wait, seq)
 
 
-def play_blum_game(driver, wait):
+def play_blum_game(driver, wait, seq):
     try:
         # Click Play button in iframe
         play_button = wait.until(EC.element_to_be_clickable(
@@ -224,7 +225,7 @@ def clean_old_label(driver):
 
 if __name__ == '__main__':
     # select = list(range(1, 41))
-    select = [200]
+    select = [17]
     selected_values = get_file.get_id_by_seq(select)
     # Iterate through each profile directory
     for key in selected_values:
