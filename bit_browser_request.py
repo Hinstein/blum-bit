@@ -23,7 +23,7 @@ def close_browser(id):  # 关闭窗口
     json_data = {"id": f'{id}'}
     res = requests.post(f"{url}/browser/close",
                         data=json.dumps(json_data), headers=headers).json()
-    time.sleep(6)
+    time.sleep(2)
     return res
 
 

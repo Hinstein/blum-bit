@@ -33,8 +33,7 @@ def run_create_threads():
 
 run_create_threads()
 # 使用 schedule 库设置每3小时执行一次的定时任务
-schedule.every(3).hours.do(run_create_threads)
-
+schedule.every(1).hours.do(run_create_threads)
 
 def schedule_checker():
     while True:

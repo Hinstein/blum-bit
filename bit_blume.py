@@ -16,7 +16,6 @@ logger = setup_logger('bit_blum', 'blum_auto.log')
 
 # Function to execute tasks for each profile
 def execute_tasks(seq, id, play_blum_game):
-    global driver
     try:
         response_data = bit_browser_request.send_post_request(id)
         driver_path = response_data['data']['driver']
@@ -39,7 +38,7 @@ def execute_tasks(seq, id, play_blum_game):
         play_blum(driver, play_blum_game, seq)
 
         # 切换回主内容
-        driver.switch_to.default_content()
+        # driver.switch_to.default_content()
 
         # dog 任务
         # play_doges(driver)
@@ -48,16 +47,15 @@ def execute_tasks(seq, id, play_blum_game):
         clean_old_label(driver)
 
         time.sleep(3)
-        # Close the browser session
-        bit_browser_request.close_browser(id)
-        time.sleep(3)
+
         driver.quit()
 
+        # Close the browser session
+        bit_browser_request.close_browser(id)
 
     except Exception as e:
         logger.error(f"An error occurred in blum '{seq}'")
         # Close the browser session if an error occurs
-        driver.quit()
         time.sleep(3)
         bit_browser_request.close_browser(id)
         return seq
@@ -93,39 +91,47 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     browser_driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
 
     # 窗口自适应排列
-    bit_browser_request.windowbounds_flexable()
+    try:
+        bit_browser_request.windowbounds_flexable()
+    except Exception:
+        logger.error("窗口自适应排列失败")
 
     # Random wait after clicking folders
     time.sleep(random.uniform(1, 3))
     wait = WebDriverWait(browser_driver, 10)
 
-    # Click another element
+    # 点击 左下角 Launch Blum 按钮
     button_element = wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, 'button.is-web-view.reply-markup-button.rp')))
+        (By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
     button_element.click()
 
     # Random wait after clicking button
     time.sleep(random.uniform(1, 3))
 
-    # 防止弹出小launch跳板
+    # 防止点击 launch 弹出 start 面板
     try:
         # 通过CSS选择器点击按钮
         button_css_selector = "button.popup-button.btn.primary.rp"
         button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, button_css_selector)))
         button.click()
-    except (NoSuchElementException, TimeoutException):
+    except Exception:
         pass
 
-    # Find and switch to iframe
-    iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
-    browser_driver.switch_to.frame(iframe_element)
+    #  iframe 切换到游戏窗口
+    try:
+        # Random wait after clicking button
+        iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
+        browser_driver.switch_to.frame(iframe_element)
+    except Exception as e:
+        logger.error(f"blum '{seq}' : iframe 切换到游戏窗口失败,'{e}'")
+        pass
 
     # 领取每日登录奖励
     try:
         button = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.btn")))
         button.click()
-    except (NoSuchElementException, TimeoutException):
+    except Exception:
         pass
 
     # 出现彩蛋，需要关闭
@@ -141,6 +147,9 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     # except (NoSuchElementException, TimeoutException):
     #     pass
 
+    # Random wait after clicking folders
+    time.sleep(random.uniform(1, 3))
+
     # 领取每日奖励
     try:
         # 点击clam
@@ -148,17 +157,20 @@ def play_blum(browser_driver, is_play_blum_game, seq):
             EC.element_to_be_clickable(
                 (By.CSS_SELECTOR, "button.kit-button.is-large.is-drop.is-fill.button.is-done")))
         button.click()
+    except Exception:
+        pass
 
-        # Random wait after clicking folders
-        time.sleep(random.uniform(1, 3))
+    time.sleep(random.uniform(1, 3))
 
+    try:
         # 点击start farming
         button = wait.until(
             EC.element_to_be_clickable(
                 (By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.button")))
         button.click()
-    except (NoSuchElementException, TimeoutException):
+    except Exception:
         pass
+
     # Random wait after clicking folders
     time.sleep(random.uniform(1, 3))
 
@@ -191,41 +203,44 @@ def play_blum_game(driver, wait, seq):
                 break
         logger.info(f"blum '{seq}' completed the game '{sum}' times")
 
-    except (NoSuchElementException, TimeoutException):
+    except Exception:
         logger.warning(f"blum '{seq}' : 已经完成所有任务")
 
 
 def clean_old_label(driver):
-    # 打开一个初始页面并存储其句柄
-    # driver.get("https://web.telegram.org/k")
-    initial_handle = driver.current_window_handle
+    try:
+        # 打开一个初始页面并存储其句柄
+        # driver.get("https://web.telegram.org/k")
+        initial_handle = driver.current_window_handle
 
-    # time.sleep(3)
-    # 打开一个新的标签页
-    # driver.execute_script("window.open('https://web.telegram.org/k', '_blank');")
+        # time.sleep(3)
+        # 打开一个新的标签页
+        # driver.execute_script("window.open('https://web.telegram.org/k', '_blank');")
 
-    time.sleep(3)
+        time.sleep(3)
 
-    # 获取所有窗口句柄
-    window_handles = driver.window_handles
+        # 获取所有窗口句柄
+        window_handles = driver.window_handles
 
-    time.sleep(3)
+        time.sleep(3)
 
-    # 关闭除初始页面之外的所有标签页
-    for handle in window_handles:
-        if handle != initial_handle:
-            driver.switch_to.window(handle)
-            driver.close()
-            time.sleep(1)
+        # 关闭除初始页面之外的所有标签页
+        for handle in window_handles:
+            if handle != initial_handle:
+                driver.switch_to.window(handle)
+                driver.close()
+                time.sleep(1)
 
-    time.sleep(2)
-    # 切换回初始页面
-    # driver.switch_to.window(initial_handle)
+        time.sleep(2)
+        # 切换回初始页面
+        # driver.switch_to.window(initial_handle)
+    except Exception:
+        pass
 
 
 if __name__ == '__main__':
     # select = list(range(1, 41))
-    select = [17]
+    select = [154]
     selected_values = get_file.get_id_by_seq(select)
     # Iterate through each profile directory
     for key in selected_values:
