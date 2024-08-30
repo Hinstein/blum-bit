@@ -44,9 +44,9 @@ def get_browser_pids(browser_id):  # 关闭窗口
         return []
 
 
-def browser_list():
+def browser_list(page_num):
     json_data = {
-        "page": 0,
+        "page": page_num,
         "pageSize": 200
     }
     res = requests.post(f"{url}/browser/list",
@@ -90,19 +90,22 @@ def send_post_request(id):
 
 
 if __name__ == '__main__':
-    ori_data = browser_list()
-    datajson = ori_data['data']['list']
+    # 总页数
+    page = 5
+    for i in range(4, -1, -1):
+        ori_data = browser_list(i)
+        datajson = ori_data['data']['list']
 
-    # 指定要筛选的字段
-    fieldnames = ['id', 'seq']
+        # 指定要筛选的字段
+        fieldnames = ['id', 'seq']
 
-    # 循环遍历每个字典，筛选出指定字段的键值对，构造新的字典，并更新metamask数据
-    # 按seq排序
-    sorted_datajson = sorted(datajson, key=lambda x: x['seq'])
+        # 循环遍历每个字典，筛选出指定字段的键值对，构造新的字典，并更新metamask数据
+        # 按seq排序
+        sorted_datajson = sorted(datajson, key=lambda x: x['seq'])
 
-    # 遍历排序后的列表并输出
-    for item in sorted_datajson:
-        filtered_item = {key: item[key] for key in fieldnames}
-        id = filtered_item['id']
-        seq = filtered_item['seq']
-        print(seq, ":", id)
+        # 遍历排序后的列表并输出
+        for item in sorted_datajson:
+            filtered_item = {key: item[key] for key in fieldnames}
+            id = filtered_item['id']
+            seq = filtered_item['seq']
+            print(seq, ":", id)
