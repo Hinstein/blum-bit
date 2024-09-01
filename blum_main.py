@@ -49,7 +49,7 @@ def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game):
     for num in numbers:
         error_num = None
         try:
-            item = get_item_by_index(shuffled_dict, num)
+            item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
             error_num = execute_tasks(num, item, play_blum_game)
             logger.info(f'{thread_name} 结束 {num} 任务 {item}')
@@ -83,7 +83,7 @@ def shuffle_dict(input_dict):
     return shuffled_dict
 
 
-def create_threads(n, total, play_blum_game):
+def create_threads(n, bit_num_start, bit_num_end, play_blum_game):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
@@ -91,10 +91,9 @@ def create_threads(n, total, play_blum_game):
     :param n: 线程数量
     :param total: 总数字数量，默认值为 100
     """
-    numbers = generate_random_sequence(1, total + 1)
+    numbers = list(range(bit_num_start, bit_num_end + 1))
 
-    select = list(range(1, total + 1))
-    selected_values = get_file.get_id_by_seq(select)
+    selected_values = get_file.get_id_by_seq(numbers)
 
     logger.info("Original Dictionary:", selected_values)
     result = np.array_split(numbers, n)
@@ -125,12 +124,13 @@ def create_threads(n, total, play_blum_game):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 1
+    thread_num = 4
     # 浏览器编号执行到多少
-    bit_num = 201
+    bit_num_start = 1
+    bit_num_end = 500
     # blum玩游戏
     # play_blum_game = True
     # blum不玩游戏
     play_blum_game = False
 
-    create_threads(thread_num, bit_num, play_blum_game)
+    create_threads(thread_num, bit_num_start, bit_num_end, play_blum_game)
