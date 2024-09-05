@@ -91,7 +91,7 @@ def create_threads(n, bit_num_start, bit_num_end, play_blum_game):
     :param n: 线程数量
     :param total: 总数字数量，默认值为 100
     """
-    numbers = list(range(bit_num_start, bit_num_end + 1))
+    numbers = generate_random_sequence(bit_num_start, bit_num_end + 1)
 
     selected_values = get_file.get_id_by_seq(numbers)
 
