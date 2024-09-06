@@ -205,10 +205,10 @@ def login_tele(browser_driver, seq, tele_result):
         )
 
         # 接码平台获取
-        # password_field.send_keys(data.get('password'))
+        password_field.send_keys(data.get('password'))
 
         # 直接输入密码
-        password_field.send_keys("lilinhai123")
+        # password_field.send_keys("lilinhai123")
 
     except Exception as e:
         logger.error(f"blum '{seq}' : 点击next按钮 失败,'{e}'")
@@ -389,8 +389,8 @@ if __name__ == '__main__':
     # 开启几个线程
     thread_num = 4
     # 浏览器编号执行到多少
-    bit_num_start = 111
-    bit_num_end = 200
+    bit_num_start = 303
+    bit_num_end = 500
     # 电报账号文件
-    file_path = '/Users/lilinhai/Documents/电报账号.xlsx'
+    file_path = 'file/电报账号.xlsx'
     create_threads(thread_num, bit_num_start, bit_num_end, file_path)

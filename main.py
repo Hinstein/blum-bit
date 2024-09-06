@@ -37,13 +37,13 @@ def execute_tasks(profile_directory, play_blum_game):
         driver.set_script_timeout(10)
 
         # blum任务
-        play_blum(driver, play_blum_game)
+        play_blum(driver, play_blum_game, 1)
 
         # 切换回主内容
-        driver.switch_to.default_content()
+        # driver.switch_to.default_content()
 
         # dog 任务
-        play_doges(driver)
+        # play_doges(driver)
 
         # 清理旧标签(只保留一个标签，避免标签过多卡顿)
         clean_old_label(driver)

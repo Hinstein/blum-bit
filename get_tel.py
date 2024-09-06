@@ -30,8 +30,8 @@ class ExcelDataReader:
 
 if __name__ == '__main__':
     # 使用示例
-    file_path = '/Users/lilinhai/Documents/电报账号.xlsx'  # 替换为你的 Excel 文件路径
-    reader = ExcelDataReader()
+    file_path = 'file/电报账号.xlsx'  # 替换为你的 Excel 文件路径
+    reader = ExcelDataReader(file_path)
 
     # 获取序号为1的数据
     result = reader.get_data_by_serial_number(300)

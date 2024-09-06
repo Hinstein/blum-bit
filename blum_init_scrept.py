@@ -227,7 +227,7 @@ def login_tele(browser_driver, seq, tele_result):
     time.sleep(15)
 
 
-def execute_tasks(seq, id, tele_result):
+def execute_tasks(seq, id):
     try:
         response_data = bit_browser_request.send_post_request(id)
         driver_path = response_data['data']['driver']
@@ -299,7 +299,7 @@ def generate_random_sequence(start=1, end=100):
     return numbers
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, reader):
+def print_numbers(numbers, thread_name, shuffled_dict):
     """
     打印给定的数字列表
 
@@ -312,10 +312,9 @@ def print_numbers(numbers, thread_name, shuffled_dict, reader):
         error_num = None
         try:
             # 获取指定序号的数据
-            tele_result = reader.get_data_by_serial_number(num)
             item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-            error_num = execute_tasks(num, item, tele_result)
+            error_num = execute_tasks(num, item)
             logger.info(f'{thread_name} 结束 {num} 任务 {item}')
         except Exception as e:
             logger.error(f'{thread_name} 执行 {num} 任务报错 {item}')
@@ -339,7 +338,7 @@ def shuffle_dict(input_dict):
     return shuffled_dict
 
 
-def create_threads(n, bit_num_start, bit_num_end, file_path):
+def create_threads(n, bit_num_start, bit_num_end):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
@@ -355,18 +354,16 @@ def create_threads(n, bit_num_start, bit_num_end, file_path):
     result = np.array_split(numbers, n)
     list_result = [subarray.tolist() for subarray in result]
 
-    reader = ExcelDataReader(file_path)
-
     # 使用 ThreadPoolExecutor 进行多线程处理
     with ThreadPoolExecutor(max_workers=n) as executor:
         futures = []
         for i in range(n):
             thread_name = f'Thread-{i + 1}'
-            future = executor.submit(print_numbers, list_result[i], thread_name, selected_values, reader)
+            future = executor.submit(print_numbers, list_result[i], thread_name, selected_values)
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(30)
+            time.sleep(5)
 
         logger.info("All task has completed")
 
@@ -384,8 +381,6 @@ if __name__ == '__main__':
     # 开启几个线程
     thread_num = 15
     # 浏览器编号执行到多少
-    bit_num_start = 1
+    bit_num_start = 300
     bit_num_end = 500
-    # 电报账号文件
-    file_path = '/Users/lilinhai/Documents/电报账号.xlsx'
-    create_threads(thread_num, bit_num_start, bit_num_end, file_path)
+    create_threads(thread_num, bit_num_start, bit_num_end)

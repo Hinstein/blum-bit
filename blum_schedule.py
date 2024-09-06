@@ -15,10 +15,10 @@ def run_create_threads():
     logger.info("定时任务开始")
 
     # 开启几个线程
-    thread_num = 6
+    thread_num = 15
     # 浏览器编号执行到多少
-    bit_num_start = 201
-    bit_num_end = 302
+    bit_num_start = 1
+    bit_num_end = 500
     # blum玩游戏
     play_blum_game = True
     # blum不玩游戏
