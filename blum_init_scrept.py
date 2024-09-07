@@ -51,7 +51,7 @@ def install_script(browser_driver,seq):
     # 打开目标页面
     browser_driver.get("https://github.com/mudachyo/Blum/raw/main/blum-autoclicker.user.js")
 
-    time.sleep(3)
+    time.sleep(6)
 
     # 获取所有窗口句柄
     handles = browser_driver.window_handles
@@ -68,27 +68,23 @@ def install_script(browser_driver,seq):
     # Random wait after clicking folders
     time.sleep(3)
 
-    wait = WebDriverWait(browser_driver, 10)
+    wait = WebDriverWait(browser_driver, 5)
     # 点击安装按钮
-    try:
-        button = wait.until(EC.element_to_be_clickable((By.ID, 'confirm')))
 
-        # 点击按钮
-        button.click()
-        print(f"{seq} 安装成功！")
+    max_retries = 5  # 最大重试次数
+    for attempt in range(1, max_retries + 1):
+        try:
+            button = wait.until(EC.element_to_be_clickable((By.ID, 'confirm')))
 
-        # actions = ActionChains(browser_driver)
-        #
-        # # 模拟 Ctrl 按下不松开，按下 Enter，最后松开 Enter
-        # actions.key_down(Keys.CONTROL)  # 按下 Ctrl
-        # actions.key_down(Keys.ENTER)  # 按下 Enter
-        # actions.key_up(Keys.ENTER)  # 松开 Enter
-        # actions.key_up(Keys.CONTROL)  # 最后松开 Ctrl
-        # actions.perform()
+            # 点击按钮
+            button.click()
+            print(f"{seq} 安装成功！")
+            break  # 如果点击成功，退出循环
 
-    except Exception as e:
-        logger.error(f"{seq} 点击安装按钮失败")
-        raise  # 向上抛出异常
+        except Exception as e:
+            print(f"{seq} 点击安装按钮失败，正在重试 ({attempt}/{max_retries})...")
+            if attempt == max_retries:
+                raise  # 达到最大重试次数后，抛出异常
 
     time.sleep(3)
 
@@ -379,8 +375,8 @@ def create_threads(n, bit_num_start, bit_num_end):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 15
+    thread_num = 8
     # 浏览器编号执行到多少
-    bit_num_start = 300
-    bit_num_end = 500
+    bit_num_start = 500
+    bit_num_end = 1000
     create_threads(thread_num, bit_num_start, bit_num_end)
