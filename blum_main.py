@@ -108,7 +108,7 @@ def create_threads(n, bit_num_start, bit_num_end, play_blum_game):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(30)
+            time.sleep(5)
 
         logger.info("All task has completed")
 

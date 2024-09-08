@@ -47,7 +47,8 @@ def get_password_url(url):
         print(f"请求失败，状态码: {response.status_code}")
         return None
 
-def install_script(browser_driver,seq):
+
+def install_script(browser_driver, seq):
     # 打开目标页面
     browser_driver.get("https://github.com/mudachyo/Blum/raw/main/blum-autoclicker.user.js")
 
@@ -60,10 +61,10 @@ def install_script(browser_driver,seq):
     browser_driver.switch_to.window(handles[-1])
 
     # 窗口自适应排列
-    try:
-        bit_browser_request.windowbounds_flexable()
-    except Exception:
-        logger.error("窗口自适应排列失败")
+    # try:
+    #     bit_browser_request.windowbounds_flexable()
+    # except Exception:
+    #     logger.error("窗口自适应排列失败")
 
     # Random wait after clicking folders
     time.sleep(3)
@@ -247,7 +248,7 @@ def execute_tasks(seq, id):
         # login_tele(driver, seq, tele_result)
 
         # 安装blum脚本
-        install_script(driver,seq)
+        install_script(driver, seq)
 
         time.sleep(3)
 
@@ -334,15 +335,19 @@ def shuffle_dict(input_dict):
     return shuffled_dict
 
 
-def create_threads(n, bit_num_start, bit_num_end):
+def create_threads(n, bit_num_start, bit_num_end, error_list=None):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
-    :param play_blum_game:
     :param n: 线程数量
-    :param total: 总数字数量，默认值为 100
+    :param bit_num_start: 数字范围的起始值
+    :param bit_num_end: 数字范围的结束值
+    :param error_list: 错误列表，如果不为空，则用该列表的值代替正常的数字范围
     """
-    numbers = list(range(bit_num_start, bit_num_end + 1))
+    if error_list is not None and len(error_list) > 0:
+        numbers = error_list
+    else:
+        numbers = list(range(bit_num_start, bit_num_end + 1))
 
     selected_values = get_file.get_id_by_seq(numbers)
 
@@ -375,8 +380,10 @@ def create_threads(n, bit_num_start, bit_num_end):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 8
+    thread_num = 1
     # 浏览器编号执行到多少
-    bit_num_start = 500
-    bit_num_end = 1000
-    create_threads(thread_num, bit_num_start, bit_num_end)
+    bit_num_start = 1000
+    bit_num_end = 1500
+    error_list = [1345]
+    # error_list = None
+    create_threads(thread_num, bit_num_start, bit_num_end, error_list)

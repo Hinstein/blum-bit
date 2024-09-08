@@ -91,8 +91,8 @@ def send_post_request(id):
 
 if __name__ == '__main__':
     # 总页数
-    page = 5
-    for i in range(4, -1, -1):
+    page = 10
+    for i in range(29, -1, -1):
         ori_data = browser_list(i)
         datajson = ori_data['data']['list']
 

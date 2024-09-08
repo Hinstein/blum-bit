@@ -47,7 +47,8 @@ def get_password_url(url):
         print(f"请求失败，状态码: {response.status_code}")
         return None
 
-def install_script(browser_driver,seq):
+
+def install_script(browser_driver, seq):
     # 打开目标页面
     browser_driver.get("https://github.com/mudachyo/Blum/raw/main/blum-autoclicker.user.js")
 
@@ -113,6 +114,15 @@ def login_tele(browser_driver, seq, tele_result):
     time.sleep(random.uniform(1, 3))
     wait = WebDriverWait(browser_driver, 10)
 
+    # 点击 🖊 退到上一层
+    try:
+        # Random wait after clicking button
+        button_element = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '.phone-edit')))
+        button_element.click()
+    except Exception as e:
+        pass
+
     # 点击 LOGIN BY PHONE NUMBER
     try:
         # Random wait after clicking button
@@ -120,7 +130,6 @@ def login_tele(browser_driver, seq, tele_result):
             EC.element_to_be_clickable((By.XPATH, "//button[span[text()='Log in by phone Number']]")))
         button_element.click()
     except Exception as e:
-        logger.error(f"blum '{seq}' : 点击 LOGIN BY PHONE NUMBER 失败,'{e}'")
         pass
 
     # Random wait after clicking button
@@ -204,11 +213,13 @@ def login_tele(browser_driver, seq, tele_result):
             EC.visibility_of_element_located((By.CSS_SELECTOR, "input[type='password'][name='notsearch_password']"))
         )
 
-        # 接码平台获取
-        password_field.send_keys(data.get('password'))
+        if 330 >= seq >= 311:
+            # 直接输入密码
+            password_field.send_keys("lilinhai123")
+        else:
+            # 接码平台获取
+            password_field.send_keys(data.get('password'))
 
-        # 直接输入密码
-        # password_field.send_keys("lilinhai123")
 
     except Exception as e:
         logger.error(f"blum '{seq}' : 点击next按钮 失败,'{e}'")
@@ -344,7 +355,7 @@ def shuffle_dict(input_dict):
     return shuffled_dict
 
 
-def create_threads(n, bit_num_start, bit_num_end, file_path):
+def create_threads(n, bit_num_start, bit_num_end, file_path, error_list=None):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
@@ -352,7 +363,10 @@ def create_threads(n, bit_num_start, bit_num_end, file_path):
     :param n: 线程数量
     :param total: 总数字数量，默认值为 100
     """
-    numbers = list(range(bit_num_start, bit_num_end + 1))
+    if error_list is not None and len(error_list) > 0:
+        numbers = error_list
+    else:
+        numbers = list(range(bit_num_start, bit_num_end + 1))
 
     selected_values = get_file.get_id_by_seq(numbers)
 
@@ -387,10 +401,12 @@ def create_threads(n, bit_num_start, bit_num_end, file_path):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 4
+    thread_num = 20
     # 浏览器编号执行到多少
-    bit_num_start = 303
-    bit_num_end = 500
+    bit_num_start = 1171
+    bit_num_end = 1500
     # 电报账号文件
     file_path = 'file/电报账号.xlsx'
-    create_threads(thread_num, bit_num_start, bit_num_end, file_path)
+    error_list = [1305, 1017, 1204, 1025, 1203, 1213, 1202]
+    error_list = None
+    create_threads(thread_num, bit_num_start, bit_num_end, file_path, error_list)
