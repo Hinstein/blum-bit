@@ -21,7 +21,7 @@ from concurrent.futures import ThreadPoolExecutor
 logger = setup_logger('blum_auto', 'blum_auto.log')
 
 
-def get_password_url(url):
+def get_password_url(seq, url):
     response = requests.get(url)
 
     # 检查请求是否成功
@@ -42,6 +42,7 @@ def get_password_url(url):
         }
 
         print(data)
+        logger.error(f"{seq} 序号请求成功:{data}")
         return data
     else:
         print(f"请求失败，状态码: {response.status_code}")
@@ -186,7 +187,7 @@ def login_tele(browser_driver, seq, tele_result):
         time.sleep(30)
 
         try:
-            data = get_password_url(tele_result['链接'])
+            data = get_password_url(seq, tele_result['链接'])
         except Exception as e:
             logger.error(f"blum '{seq}' : 获取链接失败,'{e}'")
             raise
