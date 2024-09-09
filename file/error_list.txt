@@ -1,0 +1,662 @@
+D:\01APP\python\python.exe D:\06WorkSapce\blum\blum-bit\blum_init_scrept.py
+2024-09-09 13:44:12,495 - blum_auto - INFO - Original Dictionary:
+2024-09-09 13:44:12,498 - blum_auto - INFO - Thread-1 开始 1102 任务 646ed520a5ae43da95a38d2a40268d67
+2024-09-09 13:44:17,499 - blum_auto - INFO - Thread-2 开始 2809 任务 ba11a0bc42d5437887cad0121025d4a6
+2024-09-09 13:44:22,500 - blum_auto - INFO - Thread-3 开始 2610 任务 0f536eb6cd104484bc922fdb88460082
+1102 安装成功！
+2024-09-09 13:44:27,502 - blum_auto - INFO - Thread-4 开始 2315 任务 cef0c054eebc4ac9b007e631978aa7c5
+2809 安装成功！
+2024-09-09 13:44:32,502 - blum_auto - INFO - Thread-5 开始 822 任务 1d2e231ef53e4872abd0bc2f445efe33
+2610 安装成功！
+2024-09-09 13:44:37,503 - blum_auto - INFO - Thread-6 开始 1524 任务 960acff8ad2c437eaf1baa0c4f03f63f
+2315 安装成功！
+2024-09-09 13:44:42,504 - blum_auto - INFO - Thread-7 开始 127 任务 17ee1db82f4f433c8a9489939604ca40
+822 安装成功！
+2024-09-09 13:44:47,505 - blum_auto - INFO - Thread-8 开始 34 任务 059595fb45f443ba8646decc90dfb736
+2024-09-09 13:44:48,525 - blum_auto - INFO - Thread-1 结束 1102 任务 646ed520a5ae43da95a38d2a40268d67
+2024-09-09 13:44:48,525 - blum_auto - INFO - Thread-1 开始 1603 任务 6aaf328e403c4eb2bcac2d8271ef26cd
+1524 安装成功！
+2024-09-09 13:44:52,506 - blum_auto - INFO - Thread-9 开始 1236 任务 f7c30525442d42998a90d6e44d309a33
+2024-09-09 13:44:52,523 - blum_auto - INFO - Thread-2 结束 2809 任务 ba11a0bc42d5437887cad0121025d4a6
+2024-09-09 13:44:52,523 - blum_auto - INFO - Thread-2 开始 1710 任务 4ba54ab772574445801ccdff3670b75e
+2024-09-09 13:44:57,507 - blum_auto - INFO - Thread-10 开始 1440 任务 d6c9c08a90ab49f7acfe1800975021e4
+2024-09-09 13:44:57,616 - blum_auto - INFO - Thread-3 结束 2610 任务 0f536eb6cd104484bc922fdb88460082
+2024-09-09 13:44:57,616 - blum_auto - INFO - Thread-3 开始 2910 任务 fe51266306c646f8b2fdd57b8770dae6
+127 安装成功！
+2024-09-09 13:45:02,507 - blum_auto - INFO - Thread-11 开始 2541 任务 22fca24caf9b416caa6ea7b6da1b09ff
+2024-09-09 13:45:02,736 - blum_auto - INFO - Thread-4 结束 2315 任务 cef0c054eebc4ac9b007e631978aa7c5
+2024-09-09 13:45:02,736 - blum_auto - INFO - Thread-4 开始 2514 任务 0c2a4c76abe54a789ff849c97739ca13
+1603 安装成功！
+34 安装成功！
+2024-09-09 13:45:07,509 - blum_auto - INFO - Thread-12 开始 148 任务 c176f30120094165bb42143380ddc41c
+1236 安装成功！
+2024-09-09 13:45:07,759 - blum_auto - INFO - Thread-5 结束 822 任务 1d2e231ef53e4872abd0bc2f445efe33
+2024-09-09 13:45:07,759 - blum_auto - INFO - Thread-5 开始 1321 任务 5e19911cd8f1412198e741644544ef05
+1710 安装成功！
+2024-09-09 13:45:12,511 - blum_auto - INFO - Thread-13 开始 2451 任务 6f609451107f4b9fb984a08d8354b2d6
+2024-09-09 13:45:12,591 - blum_auto - INFO - Thread-6 结束 1524 任务 960acff8ad2c437eaf1baa0c4f03f63f
+2024-09-09 13:45:12,591 - blum_auto - INFO - Thread-6 开始 623 任务 2ff8b8645fe5431586acaa03d6638a0e
+2024-09-09 13:45:17,511 - blum_auto - INFO - Thread-14 开始 751 任务 5186cf794f0849f981faf64feece73f9
+2024-09-09 13:45:19,416 - blum_auto - INFO - Thread-7 结束 127 任务 17ee1db82f4f433c8a9489939604ca40
+2024-09-09 13:45:19,416 - blum_auto - INFO - Thread-7 开始 2126 任务 7e9651e0ee1d4fe9a58efb90569c021b
+2514 安装成功！
+148 安装成功！
+1440 安装成功！
+2910 安装成功！
+2024-09-09 13:45:22,512 - blum_auto - INFO - Thread-15 开始 1052 任务 5b43872600ca4a2ea971aaa5eeff49f0
+1321 安装成功！
+2541 安装成功！
+2024-09-09 13:45:25,028 - blum_auto - INFO - Thread-1 结束 1603 任务 6aaf328e403c4eb2bcac2d8271ef26cd
+2024-09-09 13:45:25,028 - blum_auto - INFO - Thread-1 开始 1408 任务 ef4f4927406e4ef69959cbb2a286f2fe
+2024-09-09 13:45:25,444 - blum_auto - INFO - Thread-8 结束 34 任务 059595fb45f443ba8646decc90dfb736
+2024-09-09 13:45:25,444 - blum_auto - INFO - Thread-8 开始 1634 任务 aea7b3b8d86f4fe19a6955fe40439a2a
+2451 安装成功！
+2024-09-09 13:45:27,513 - blum_auto - INFO - Thread-16 开始 2650 任务 e03dc9c94b3e4378b18f296748f828e0
+623 安装成功！
+2024-09-09 13:45:28,857 - blum_auto - INFO - Thread-9 结束 1236 任务 f7c30525442d42998a90d6e44d309a33
+2024-09-09 13:45:28,857 - blum_auto - INFO - Thread-9 开始 1538 任务 347b3c558a17470b83e018db68cfb42f
+2024-09-09 13:45:29,134 - blum_auto - INFO - Thread-2 结束 1710 任务 4ba54ab772574445801ccdff3670b75e
+2024-09-09 13:45:29,134 - blum_auto - INFO - Thread-2 开始 1112 任务 4765504180e3430d88c5410d094ed23f
+751 安装成功！
+2024-09-09 13:45:32,514 - blum_auto - INFO - Thread-17 开始 2257 任务 3ed42d53d9ea4f2aa3b1f6e9a8bb0b87
+2126 安装成功！
+1052 安装成功！
+2024-09-09 13:45:37,515 - blum_auto - INFO - Thread-18 开始 57 任务 5a70eef2870f49d5a4a4aecc1a3abb89
+1408 安装成功！
+1634 安装成功！
+2650 安装成功！
+2024-09-09 13:45:42,517 - blum_auto - INFO - Thread-19 开始 62 任务 30b1006a49564368afad9185ef7bee72
+2024-09-09 13:45:42,832 - blum_auto - INFO - Thread-4 结束 2514 任务 0c2a4c76abe54a789ff849c97739ca13
+2024-09-09 13:45:42,833 - blum_auto - INFO - Thread-4 开始 1518 任务 af9e305f82254b7eb1289ffdf31940b5
+1538 安装成功！
+2024-09-09 13:45:43,251 - blum_auto - INFO - Thread-12 结束 148 任务 c176f30120094165bb42143380ddc41c
+2024-09-09 13:45:43,251 - blum_auto - INFO - Thread-12 开始 948 任务 0972840881c24b96ab0ce896f2b93201
+2024-09-09 13:45:43,282 - blum_auto - INFO - Thread-10 结束 1440 任务 d6c9c08a90ab49f7acfe1800975021e4
+2024-09-09 13:45:43,282 - blum_auto - INFO - Thread-10 开始 1642 任务 78c78847cca145f0b767d494a7f692f1
+2024-09-09 13:45:43,574 - blum_auto - INFO - Thread-3 结束 2910 任务 fe51266306c646f8b2fdd57b8770dae6
+2024-09-09 13:45:43,574 - blum_auto - INFO - Thread-3 开始 2312 任务 b8bfecd744f14aa6bfcfe55c5d8bf34e
+2024-09-09 13:45:43,760 - blum_auto - INFO - Thread-5 结束 1321 任务 5e19911cd8f1412198e741644544ef05
+2024-09-09 13:45:43,760 - blum_auto - INFO - Thread-5 开始 1523 任务 8191cce84a7448d6afdc43df775aaec7
+1112 安装成功！
+2024-09-09 13:45:45,471 - blum_auto - INFO - Thread-11 结束 2541 任务 22fca24caf9b416caa6ea7b6da1b09ff
+2024-09-09 13:45:45,471 - blum_auto - INFO - Thread-11 开始 145 任务 36e001df599b40eeaf049aaa44068a9f
+2257 安装成功！
+2024-09-09 13:45:47,518 - blum_auto - INFO - Thread-20 开始 2665 任务 6f6dc90be9f54456ac79905baa8c5ab5
+2024-09-09 13:45:47,794 - blum_auto - INFO - Thread-13 结束 2451 任务 6f609451107f4b9fb984a08d8354b2d6
+2024-09-09 13:45:47,794 - blum_auto - INFO - Thread-13 开始 2051 任务 ab8c3c82c4f24f098e034ead90d339ce
+2024-09-09 13:45:48,900 - blum_auto - INFO - Thread-6 结束 623 任务 2ff8b8645fe5431586acaa03d6638a0e
+2024-09-09 13:45:48,900 - blum_auto - INFO - Thread-6 开始 2822 任务 01bf008e62d6492397f15ef040fa602e
+57 安装成功！
+2024-09-09 13:45:52,518 - blum_auto - INFO - Thread-21 开始 2970 任务 114b9cd047e6436c8b026e0a369624bf
+2024-09-09 13:45:52,614 - blum_auto - INFO - Thread-14 结束 751 任务 5186cf794f0849f981faf64feece73f9
+2024-09-09 13:45:52,614 - blum_auto - INFO - Thread-14 开始 1953 任务 f8633678a6f04819ad885f66bd28578b
+2024-09-09 13:45:54,609 - blum_auto - INFO - Thread-7 结束 2126 任务 7e9651e0ee1d4fe9a58efb90569c021b
+2024-09-09 13:45:54,609 - blum_auto - INFO - Thread-7 开始 1227 任务 20a8809cc15342628721f9c3043df392
+62 安装成功！
+1518 安装成功！
+2024-09-09 13:45:57,519 - blum_auto - INFO - Thread-22 开始 1071 任务 c7b8f46a4f0b426492f4d5522fd5897f
+948 安装成功！
+2024-09-09 13:45:57,957 - blum_auto - INFO - Thread-15 结束 1052 任务 5b43872600ca4a2ea971aaa5eeff49f0
+2024-09-09 13:45:57,957 - blum_auto - INFO - Thread-15 开始 652 任务 b84af247f682452fb361853ce424d14e
+1642 安装成功！
+2312 安装成功！
+1523 安装成功！
+145 安装成功！
+2024-09-09 13:46:00,501 - blum_auto - INFO - Thread-1 结束 1408 任务 ef4f4927406e4ef69959cbb2a286f2fe
+2024-09-09 13:46:00,502 - blum_auto - INFO - Thread-1 开始 1109 任务 f1f95a8b94e0407d9716a7eb91b0a6eb
+2024-09-09 13:46:01,039 - blum_auto - INFO - Thread-8 结束 1634 任务 aea7b3b8d86f4fe19a6955fe40439a2a
+2024-09-09 13:46:01,039 - blum_auto - INFO - Thread-8 开始 436 任务 2a826bf7c73b4381b4f1992498601314
+2665 安装成功！
+2051 安装成功！
+2024-09-09 13:46:02,520 - blum_auto - INFO - Thread-23 开始 1275 任务 90e7901ad77144fabb5f976347fc5340
+2024-09-09 13:46:02,936 - blum_auto - INFO - Thread-16 结束 2650 任务 e03dc9c94b3e4378b18f296748f828e0
+2024-09-09 13:46:02,936 - blum_auto - INFO - Thread-16 开始 1351 任务 15033d6a89d644fa9b095d7ee21b4de8
+2822 安装成功！
+2024-09-09 13:46:04,012 - blum_auto - INFO - Thread-9 结束 1538 任务 347b3c558a17470b83e018db68cfb42f
+2024-09-09 13:46:04,012 - blum_auto - INFO - Thread-9 开始 39 任务 242d92ceed8241ea845d10fe99488f64
+2024-09-09 13:46:05,497 - blum_auto - INFO - Thread-2 结束 1112 任务 4765504180e3430d88c5410d094ed23f
+2024-09-09 13:46:05,497 - blum_auto - INFO - Thread-2 开始 2010 任务 2021fc83ce9145feb04778b4f2a1f1e5
+1953 安装成功！
+2970 安装成功！
+2024-09-09 13:46:07,521 - blum_auto - INFO - Thread-24 开始 1980 任务 3bd5a1347f3741eba07ca7767648dda0
+2024-09-09 13:46:07,677 - blum_auto - INFO - Thread-17 结束 2257 任务 3ed42d53d9ea4f2aa3b1f6e9a8bb0b87
+2024-09-09 13:46:07,677 - blum_auto - INFO - Thread-17 开始 1056 任务 63754239e41d4e2aa39a3d9625fbdf5f
+1227 安装成功！
+1071 安装成功！
+652 安装成功！
+2024-09-09 13:46:12,522 - blum_auto - INFO - Thread-25 开始 1378 任务 02f3004d1f974daca792ef00b018126d
+2024-09-09 13:46:13,751 - blum_auto - INFO - Thread-18 结束 57 任务 5a70eef2870f49d5a4a4aecc1a3abb89
+2024-09-09 13:46:13,751 - blum_auto - INFO - Thread-18 开始 2655 任务 59136e1d84e8475d99cbaeb725d45d50
+436 安装成功！
+1109 安装成功！
+1275 安装成功！
+2024-09-09 13:46:17,208 - blum_auto - INFO - Thread-19 结束 62 任务 30b1006a49564368afad9185ef7bee72
+2024-09-09 13:46:17,208 - blum_auto - INFO - Thread-19 开始 2863 任务 c600ab0df05c4befad3725f1e65d8ebb
+2024-09-09 13:46:17,523 - blum_auto - INFO - Thread-26 开始 1184 任务 03e3cafc941645698431742d4e8fb132
+39 安装成功！
+2024-09-09 13:46:18,417 - blum_auto - INFO - Thread-4 结束 1518 任务 af9e305f82254b7eb1289ffdf31940b5
+2024-09-09 13:46:18,417 - blum_auto - INFO - Thread-4 开始 119 任务 fc8a1cf4a7c5461d8b9b662cf1c47ba9
+1351 安装成功！
+2024-09-09 13:46:18,956 - blum_auto - INFO - Thread-12 结束 948 任务 0972840881c24b96ab0ce896f2b93201
+2024-09-09 13:46:18,956 - blum_auto - INFO - Thread-12 开始 450 任务 f6ee209e16b9490c9cd49fb35bce4290
+2024-09-09 13:46:19,432 - blum_auto - INFO - Thread-10 结束 1642 任务 78c78847cca145f0b767d494a7f692f1
+2024-09-09 13:46:19,432 - blum_auto - INFO - Thread-10 开始 1441 任务 e06530ed55324b36a098a6c3c0ccd7ef
+2024-09-09 13:46:19,556 - blum_auto - INFO - Thread-3 结束 2312 任务 b8bfecd744f14aa6bfcfe55c5d8bf34e
+2024-09-09 13:46:19,556 - blum_auto - INFO - Thread-3 开始 2714 任务 9df4e662050148c48a4138abaed9d995
+2010 安装成功！
+2024-09-09 13:46:19,631 - blum_auto - INFO - Thread-5 结束 1523 任务 8191cce84a7448d6afdc43df775aaec7
+2024-09-09 13:46:19,631 - blum_auto - INFO - Thread-5 开始 1721 任务 8c5da6d052004d9cbdb253503eaaf38f
+2024-09-09 13:46:21,542 - blum_auto - INFO - Thread-11 结束 145 任务 36e001df599b40eeaf049aaa44068a9f
+2024-09-09 13:46:21,542 - blum_auto - INFO - Thread-11 开始 643 任务 6ac65ee702d1441d893028089603e2c1
+1980 安装成功！
+2024-09-09 13:46:22,524 - blum_auto - INFO - Thread-27 开始 2487 任务 6e4d65e453f647629f990f956cd2f359
+1056 安装成功！
+2024-09-09 13:46:23,041 - blum_auto - INFO - Thread-20 结束 2665 任务 6f6dc90be9f54456ac79905baa8c5ab5
+2024-09-09 13:46:23,041 - blum_auto - INFO - Thread-20 开始 567 任务 1929246dbe2344659ebaa90113501388
+2024-09-09 13:46:23,270 - blum_auto - INFO - Thread-13 结束 2051 任务 ab8c3c82c4f24f098e034ead90d339ce
+2024-09-09 13:46:23,270 - blum_auto - INFO - Thread-13 开始 1552 任务 f2f917f3e03949d9b96f37a7ab8fced1
+2024-09-09 13:46:25,215 - blum_auto - INFO - Thread-6 结束 2822 任务 01bf008e62d6492397f15ef040fa602e
+2024-09-09 13:46:25,215 - blum_auto - INFO - Thread-6 开始 2224 任务 a4aac7d1c64f44d0b6baa20c07c8f83e
+1378 安装成功！
+2024-09-09 13:46:27,524 - blum_auto - INFO - Thread-28 开始 395 任务 5fc257be65e741f3b5f8be50e3f90360
+2024-09-09 13:46:28,272 - blum_auto - INFO - Thread-14 结束 1953 任务 f8633678a6f04819ad885f66bd28578b
+2024-09-09 13:46:28,272 - blum_auto - INFO - Thread-14 开始 1451 任务 b33c92d8a60049658ee828f1dc39b146
+2655 安装成功！
+2024-09-09 13:46:28,485 - blum_auto - INFO - Thread-21 结束 2970 任务 114b9cd047e6436c8b026e0a369624bf
+2024-09-09 13:46:28,485 - blum_auto - INFO - Thread-21 开始 971 任务 c202d859b1014e3e8a342795a7920e1b
+2024-09-09 13:46:30,263 - blum_auto - INFO - Thread-7 结束 1227 任务 20a8809cc15342628721f9c3043df392
+2024-09-09 13:46:30,263 - blum_auto - INFO - Thread-7 开始 1028 任务 8c4093eb008d4810a7ac2d2b7d487b33
+2863 安装成功！
+1184 安装成功！
+2024-09-09 13:46:32,526 - blum_auto - INFO - Thread-29 开始 2793 任务 8732e4ef4f104013b133d76bfa0e4530
+119 安装成功！
+2024-09-09 13:46:33,229 - blum_auto - INFO - Thread-22 结束 1071 任务 c7b8f46a4f0b426492f4d5522fd5897f
+2024-09-09 13:46:33,229 - blum_auto - INFO - Thread-22 开始 275 任务 ed2d98a8a7f74b5db15df5f78d7819ce
+2024-09-09 13:46:33,672 - blum_auto - INFO - Thread-15 结束 652 任务 b84af247f682452fb361853ce424d14e
+2024-09-09 13:46:33,672 - blum_auto - INFO - Thread-15 开始 2253 任务 51568e82e1904794816115b6e0090e99
+450 安装成功！
+1441 安装成功！
+2714 安装成功！
+1721 安装成功！
+2024-09-09 13:46:36,430 - blum_auto - INFO - Thread-8 结束 436 任务 2a826bf7c73b4381b4f1992498601314
+2024-09-09 13:46:36,430 - blum_auto - INFO - Thread-8 开始 2834 任务 f7a535cc9f524e8983ce3572fa874e2f
+643 安装成功！
+2024-09-09 13:46:37,194 - blum_auto - INFO - Thread-1 结束 1109 任务 f1f95a8b94e0407d9716a7eb91b0a6eb
+2024-09-09 13:46:37,194 - blum_auto - INFO - Thread-1 开始 2806 任务 7cb28329c70e420cae0e5e13b9da16c4
+2487 安装成功！
+2024-09-09 13:46:37,527 - blum_auto - INFO - Thread-30 开始 1699 任务 c6bb858fd8b9495abbdbb56ec591fc69
+2024-09-09 13:46:38,219 - blum_auto - INFO - Thread-23 结束 1275 任务 90e7901ad77144fabb5f976347fc5340
+2024-09-09 13:46:38,219 - blum_auto - INFO - Thread-23 开始 278 任务 1392a187de4044a4a51b03048eac06c2
+1552 安装成功！
+567 安装成功！
+2024-09-09 13:46:39,552 - blum_auto - INFO - Thread-9 结束 39 任务 242d92ceed8241ea845d10fe99488f64
+2024-09-09 13:46:39,552 - blum_auto - INFO - Thread-9 开始 2637 任务 a8f533841cc547d5a5477c0fccf60dc8
+2024-09-09 13:46:39,966 - blum_auto - INFO - Thread-16 结束 1351 任务 15033d6a89d644fa9b095d7ee21b4de8
+2024-09-09 13:46:39,966 - blum_auto - INFO - Thread-16 开始 1858 任务 f2509173d0f4497e8036651524233128
+2224 安装成功！
+2024-09-09 13:46:41,255 - blum_auto - INFO - Thread-2 结束 2010 任务 2021fc83ce9145feb04778b4f2a1f1e5
+2024-09-09 13:46:41,255 - blum_auto - INFO - Thread-2 开始 2110 任务 998a42400f854027980558e37364e46b
+395 安装成功！
+2024-09-09 13:46:42,528 - blum_auto - INFO - All task has completed
+2024-09-09 13:46:42,801 - blum_auto - INFO - Thread-24 结束 1980 任务 3bd5a1347f3741eba07ca7767648dda0
+2024-09-09 13:46:42,801 - blum_auto - INFO - Thread-24 开始 2979 任务 32db8c8f00e3465ead64fd9a496d5386
+971 安装成功！
+1451 安装成功！
+2024-09-09 13:46:44,495 - blum_auto - INFO - Thread-17 结束 1056 任务 63754239e41d4e2aa39a3d9625fbdf5f
+2024-09-09 13:46:44,495 - blum_auto - INFO - Thread-17 开始 1660 任务 324a6d096d7645789ceeb8194c062c7c
+1028 安装成功！
+2793 安装成功！
+2024-09-09 13:46:47,948 - blum_auto - INFO - Thread-25 结束 1378 任务 02f3004d1f974daca792ef00b018126d
+2024-09-09 13:46:47,948 - blum_auto - INFO - Thread-25 开始 582 任务 10b11fb9d7bf4a18b19a46a36a523d98
+275 安装成功！
+2253 安装成功！
+2024-09-09 13:46:49,561 - blum_auto - INFO - Thread-18 结束 2655 任务 59136e1d84e8475d99cbaeb725d45d50
+2024-09-09 13:46:49,561 - blum_auto - INFO - Thread-18 开始 1960 任务 2a699d04d71943288d4c86f59388a7c3
+2834 安装成功！
+2806 安装成功！
+1699 安装成功！
+2024-09-09 13:46:52,844 - blum_auto - INFO - Thread-19 结束 2863 任务 c600ab0df05c4befad3725f1e65d8ebb
+2024-09-09 13:46:52,844 - blum_auto - INFO - Thread-19 开始 66 任务 2f91addb595b427891bf9b8d762cb0e9
+2024-09-09 13:46:52,981 - blum_auto - INFO - Thread-26 结束 1184 任务 03e3cafc941645698431742d4e8fb132
+2024-09-09 13:46:52,982 - blum_auto - INFO - Thread-26 开始 487 任务 6113e8beaed14e4f97f32785806fb988
+2024-09-09 13:46:54,314 - blum_auto - INFO - Thread-4 结束 119 任务 fc8a1cf4a7c5461d8b9b662cf1c47ba9
+2024-09-09 13:46:54,314 - blum_auto - INFO - Thread-4 开始 2718 任务 f62f70d47bad4541bbb4d06d37e9e070
+2637 安装成功！
+1858 安装成功！
+278 安装成功！
+2024-09-09 13:46:55,540 - blum_auto - INFO - Thread-12 结束 450 任务 f6ee209e16b9490c9cd49fb35bce4290
+2024-09-09 13:46:55,540 - blum_auto - INFO - Thread-12 开始 1347 任务 df898708a8a94ba2b63536f208777d68
+2024-09-09 13:46:56,231 - blum_auto - INFO - Thread-10 结束 1441 任务 e06530ed55324b36a098a6c3c0ccd7ef
+2024-09-09 13:46:56,231 - blum_auto - INFO - Thread-10 开始 1643 任务 b3607e28189447638a8e656de30f6cf5
+2024-09-09 13:46:56,292 - blum_auto - INFO - Thread-5 结束 1721 任务 8c5da6d052004d9cbdb253503eaaf38f
+2024-09-09 13:46:56,292 - blum_auto - INFO - Thread-5 开始 223 任务 6823b6b2b7d64852a23b731f3b4fb424
+2024-09-09 13:46:56,574 - blum_auto - INFO - Thread-3 结束 2714 任务 9df4e662050148c48a4138abaed9d995
+2024-09-09 13:46:56,574 - blum_auto - INFO - Thread-3 开始 417 任务 3591a48cca58435a9b7e1c6bc3da3392
+2110 安装成功！
+2979 安装成功！
+2024-09-09 13:46:58,626 - blum_auto - INFO - Thread-11 结束 643 任务 6ac65ee702d1441d893028089603e2c1
+2024-09-09 13:46:58,626 - blum_auto - INFO - Thread-11 开始 2945 任务 23cf3067662b4e12b1d0006dc25e0d36
+2024-09-09 13:46:58,687 - blum_auto - INFO - Thread-27 结束 2487 任务 6e4d65e453f647629f990f956cd2f359
+2024-09-09 13:46:58,687 - blum_auto - INFO - Thread-27 开始 1482 任务 97b72300cec1426c8192e29a4e70775f
+1660 安装成功！
+2024-09-09 13:46:59,775 - blum_auto - INFO - Thread-13 结束 1552 任务 f2f917f3e03949d9b96f37a7ab8fced1
+2024-09-09 13:46:59,775 - blum_auto - INFO - Thread-13 开始 1350 任务 83871677b8354a969cb4d356ddb33bc9
+2024-09-09 13:47:00,152 - blum_auto - ERROR - An error occurred in blum '1643'
+2024-09-09 13:47:00,156 - blum_auto - ERROR - An error occurred in blum '223'
+2024-09-09 13:47:00,908 - blum_auto - INFO - Thread-20 结束 567 任务 1929246dbe2344659ebaa90113501388
+2024-09-09 13:47:00,908 - blum_auto - INFO - Thread-20 开始 1265 任务 d6707f38b8864723a55d4317a02bf88c
+2024-09-09 13:47:01,368 - blum_auto - INFO - Thread-6 结束 2224 任务 a4aac7d1c64f44d0b6baa20c07c8f83e
+2024-09-09 13:47:01,368 - blum_auto - INFO - Thread-6 开始 2724 任务 be695187a88e448fadd29648719cb6b2
+2024-09-09 13:47:03,359 - blum_auto - INFO - Thread-28 结束 395 任务 5fc257be65e741f3b5f8be50e3f90360
+2024-09-09 13:47:03,359 - blum_auto - INFO - Thread-28 开始 2291 任务 008538d199b049bb923347fcc4932cf9
+1960 安装成功！
+582 安装成功！
+2024-09-09 13:47:04,937 - blum_auto - INFO - Thread-14 结束 1451 任务 b33c92d8a60049658ee828f1dc39b146
+2024-09-09 13:47:04,937 - blum_auto - INFO - Thread-21 结束 971 任务 c202d859b1014e3e8a342795a7920e1b
+2024-09-09 13:47:04,937 - blum_auto - INFO - Thread-14 开始 1250 任务 b4caa892056c4404a16c023cbaca2ff9
+2024-09-09 13:47:04,937 - blum_auto - INFO - Thread-21 开始 1873 任务 782c40d240c6435483ba9dfc321519c2
+2024-09-09 13:47:06,435 - blum_auto - INFO - Thread-7 结束 1028 任务 8c4093eb008d4810a7ac2d2b7d487b33
+2024-09-09 13:47:06,435 - blum_auto - INFO - Thread-7 开始 130 任务 17b196201b184080921ca46f7fe4e81b
+487 安装成功！
+66 安装成功！
+2024-09-09 13:47:08,254 - blum_auto - INFO - Thread-29 结束 2793 任务 8732e4ef4f104013b133d76bfa0e4530
+2024-09-09 13:47:08,254 - blum_auto - INFO - Thread-29 开始 2692 任务 1856c355ea6c4b68a789e1342167d12c
+2718 安装成功！
+2024-09-09 13:47:09,689 - blum_auto - INFO - Thread-22 结束 275 任务 ed2d98a8a7f74b5db15df5f78d7819ce
+2024-09-09 13:47:09,689 - blum_auto - INFO - Thread-22 开始 2474 任务 33892282d95f480fb02d4f3432695abe
+2024-09-09 13:47:10,182 - blum_auto - INFO - Thread-15 结束 2253 任务 51568e82e1904794816115b6e0090e99
+2024-09-09 13:47:10,182 - blum_auto - INFO - Thread-15 开始 853 任务 efc32fcf7a3a4961a5a6a3b33af364ba
+1347 安装成功！
+2024-09-09 13:47:12,195 - blum_auto - INFO - Thread-5 结束 223 任务 6823b6b2b7d64852a23b731f3b4fb424
+2024-09-09 13:47:12,195 - blum_auto - INFO - Thread-5 开始 1123 任务 e97a373026b949deb3ffb7fdf559e39b
+2024-09-09 13:47:12,196 - blum_auto - INFO - Thread-10 结束 1643 任务 b3607e28189447638a8e656de30f6cf5
+2024-09-09 13:47:12,196 - blum_auto - INFO - Thread-10 开始 2840 任务 1b73d814bcae413aaa72b431d3758277
+417 安装成功！
+2024-09-09 13:47:12,535 - blum_auto - INFO - Thread-8 结束 2834 任务 f7a535cc9f524e8983ce3572fa874e2f
+2024-09-09 13:47:12,535 - blum_auto - INFO - Thread-8 开始 36 任务 6fa25db3b1ae4853820db5f648b426b2
+2945 安装成功！
+1482 安装成功！
+2024-09-09 13:47:13,762 - blum_auto - INFO - Thread-1 结束 2806 任务 7cb28329c70e420cae0e5e13b9da16c4
+2024-09-09 13:47:13,762 - blum_auto - INFO - Thread-1 开始 1508 任务 b3a54726574946448e1b490176c0d164
+2024-09-09 13:47:14,124 - blum_auto - INFO - Thread-30 结束 1699 任务 c6bb858fd8b9495abbdbb56ec591fc69
+2024-09-09 13:47:14,124 - blum_auto - INFO - Thread-30 开始 1796 任务 aba21757205c44a28b0e2d8b0143ef90
+1350 安装成功！
+1265 安装成功！
+2724 安装成功！
+2024-09-09 13:47:16,336 - blum_auto - INFO - Thread-9 结束 2637 任务 a8f533841cc547d5a5477c0fccf60dc8
+2024-09-09 13:47:16,336 - blum_auto - INFO - Thread-9 开始 738 任务 e1c5121f02c64d7188c04b5b72440f6b
+2024-09-09 13:47:16,428 - blum_auto - INFO - Thread-23 结束 278 任务 1392a187de4044a4a51b03048eac06c2
+2024-09-09 13:47:16,428 - blum_auto - INFO - Thread-23 开始 2078 任务 3db9b969eae9413aad820c4d550437c4
+2024-09-09 13:47:16,444 - blum_auto - INFO - Thread-16 结束 1858 任务 f2509173d0f4497e8036651524233128
+2024-09-09 13:47:16,444 - blum_auto - INFO - Thread-16 开始 2357 任务 e74e835a91df4b61bb3984c39a7a6b2f
+2291 安装成功！
+2024-09-09 13:47:17,769 - blum_auto - INFO - Thread-2 结束 2110 任务 998a42400f854027980558e37364e46b
+2024-09-09 13:47:17,769 - blum_auto - INFO - Thread-2 开始 1211 任务 34333b2b7261406b9431fd3917bc1c64
+2024-09-09 13:47:18,745 - blum_auto - INFO - Thread-24 结束 2979 任务 32db8c8f00e3465ead64fd9a496d5386
+2024-09-09 13:47:18,745 - blum_auto - INFO - Thread-24 开始 2080 任务 5ee80d87fe484471955e8f861f0ca206
+1250 安装成功！
+1873 安装成功！
+2024-09-09 13:47:20,108 - blum_auto - INFO - Thread-17 结束 1660 任务 324a6d096d7645789ceeb8194c062c7c
+2024-09-09 13:47:20,108 - blum_auto - INFO - Thread-17 开始 1958 任务 78ee1ba1a5164cad9dc826c2b404206d
+130 安装成功！
+2692 安装成功！
+2474 安装成功！
+2024-09-09 13:47:25,637 - blum_auto - INFO - Thread-18 结束 1960 任务 2a699d04d71943288d4c86f59388a7c3
+2024-09-09 13:47:25,637 - blum_auto - INFO - Thread-18 开始 2559 任务 b50d3d91d253462b903af76f0fb0c001
+2024-09-09 13:47:25,653 - blum_auto - INFO - Thread-25 结束 582 任务 10b11fb9d7bf4a18b19a46a36a523d98
+2024-09-09 13:47:25,653 - blum_auto - INFO - Thread-25 开始 1479 任务 26f4b34289ee4078a9a3d36401e2fc84
+853 安装成功！
+1123 安装成功！
+2840 安装成功！
+36 安装成功！
+2024-09-09 13:47:28,395 - blum_auto - INFO - Thread-26 结束 487 任务 6113e8beaed14e4f97f32785806fb988
+2024-09-09 13:47:28,395 - blum_auto - INFO - Thread-26 开始 1783 任务 6736e668790349448ffa85845ebd2927
+2024-09-09 13:47:28,915 - blum_auto - INFO - Thread-19 结束 66 任务 2f91addb595b427891bf9b8d762cb0e9
+2024-09-09 13:47:28,915 - blum_auto - INFO - Thread-19 开始 966 任务 91bb9caf251d4cb0ace79fb9978ccb4a
+1508 安装成功！
+1796 安装成功！
+2024-09-09 13:47:30,006 - blum_auto - INFO - Thread-4 结束 2718 任务 f62f70d47bad4541bbb4d06d37e9e070
+2024-09-09 13:47:30,006 - blum_auto - INFO - Thread-4 开始 2918 任务 7c034f7870f94b7d9c5e1a29b94d4450
+2024-09-09 13:47:31,689 - blum_auto - INFO - Thread-12 结束 1347 任务 df898708a8a94ba2b63536f208777d68
+2024-09-09 13:47:31,689 - blum_auto - INFO - Thread-12 开始 250 任务 96626aac4f724501ba764e3f832517d5
+2078 安装成功！
+2357 安装成功！
+738 安装成功！
+2024-09-09 13:47:33,535 - blum_auto - INFO - Thread-3 结束 417 任务 3591a48cca58435a9b7e1c6bc3da3392
+2024-09-09 13:47:33,535 - blum_auto - INFO - Thread-3 开始 2114 任务 f59980e90c1f45869f25e98e13ca8261
+2024-09-09 13:47:33,950 - blum_auto - INFO - Thread-11 结束 2945 任务 23cf3067662b4e12b1d0006dc25e0d36
+2024-09-09 13:47:33,950 - blum_auto - INFO - Thread-11 开始 1546 任务 4577646db7844a47b8acdb19d8f514ae
+2080 安装成功！
+1211 安装成功！
+2024-09-09 13:47:34,911 - blum_auto - INFO - Thread-27 结束 1482 任务 97b72300cec1426c8192e29a4e70775f
+2024-09-09 13:47:34,911 - blum_auto - INFO - Thread-27 开始 1988 任务 4624f5ccae2c485b9ea9c103c39bc6b8
+1958 安装成功！
+2024-09-09 13:47:35,610 - blum_auto - INFO - Thread-13 结束 1350 任务 83871677b8354a969cb4d356ddb33bc9
+2024-09-09 13:47:35,610 - blum_auto - INFO - Thread-13 开始 1051 任务 37757ff3f5e749faa2d5177f1c27d557
+2024-09-09 13:47:36,728 - blum_auto - INFO - Thread-20 结束 1265 任务 d6707f38b8864723a55d4317a02bf88c
+2024-09-09 13:47:36,728 - blum_auto - INFO - Thread-20 开始 2266 任务 b9065b623d2b40559daa9f4ba3157c18
+2024-09-09 13:47:37,006 - blum_auto - INFO - Thread-6 结束 2724 任务 be695187a88e448fadd29648719cb6b2
+2024-09-09 13:47:37,006 - blum_auto - INFO - Thread-6 开始 1725 任务 0eb006f5c07744f08a7cc4481b05d0b1
+2024-09-09 13:47:38,813 - blum_auto - INFO - Thread-28 结束 2291 任务 008538d199b049bb923347fcc4932cf9
+2024-09-09 13:47:38,813 - blum_auto - INFO - Thread-28 开始 2394 任务 b1ef63520a4e49d095eff08fbfe046d4
+1479 安装成功！
+2559 安装成功！
+2024-09-09 13:47:40,866 - blum_auto - INFO - Thread-14 结束 1250 任务 b4caa892056c4404a16c023cbaca2ff9
+2024-09-09 13:47:40,866 - blum_auto - INFO - Thread-14 开始 2353 任务 05974e38378b4fb3ac87d08811468c28
+2024-09-09 13:47:40,882 - blum_auto - INFO - Thread-21 结束 1873 任务 782c40d240c6435483ba9dfc321519c2
+2024-09-09 13:47:40,882 - blum_auto - INFO - Thread-21 开始 1368 任务 ac1563c0649d47969014d064baf14aca
+1783 安装成功！
+966 安装成功！
+2024-09-09 13:47:43,886 - blum_auto - INFO - Thread-7 结束 130 任务 17b196201b184080921ca46f7fe4e81b
+2024-09-09 13:47:43,886 - blum_auto - INFO - Thread-7 开始 1329 任务 445a63eaa18840b3bbd7c2f8e7454f73
+2918 安装成功！
+2024-09-09 13:47:44,390 - blum_auto - INFO - Thread-29 结束 2692 任务 1856c355ea6c4b68a789e1342167d12c
+2024-09-09 13:47:44,390 - blum_auto - INFO - Thread-29 开始 1594 任务 75c5c2e7ca0a4f508950db0870649379
+250 安装成功！
+2024-09-09 13:47:46,554 - blum_auto - INFO - Thread-22 结束 2474 任务 33892282d95f480fb02d4f3432695abe
+2024-09-09 13:47:46,554 - blum_auto - INFO - Thread-22 开始 2475 任务 c650df76e9974f4c97569abe0905a440
+2024-09-09 13:47:47,753 - blum_auto - INFO - Thread-15 结束 853 任务 efc32fcf7a3a4961a5a6a3b33af364ba
+2024-09-09 13:47:47,754 - blum_auto - INFO - Thread-15 开始 1656 任务 3304b88b6ee3424491cd3f41255841c8
+2114 安装成功！
+2024-09-09 13:47:48,994 - blum_auto - INFO - Thread-5 结束 1123 任务 e97a373026b949deb3ffb7fdf559e39b
+2024-09-09 13:47:48,994 - blum_auto - INFO - Thread-5 开始 1822 任务 31bb352de58f4fa49655bea0d4d4dfb6
+2024-09-09 13:47:49,116 - blum_auto - INFO - Thread-10 结束 2840 任务 1b73d814bcae413aaa72b431d3758277
+2024-09-09 13:47:49,116 - blum_auto - INFO - Thread-10 开始 42 任务 3d5d2fe22f284988875386d1a0289fac
+1546 安装成功！
+2024-09-09 13:47:49,442 - blum_auto - INFO - Thread-8 结束 36 任务 6fa25db3b1ae4853820db5f648b426b2
+2024-09-09 13:47:49,442 - blum_auto - INFO - Thread-8 开始 2936 任务 c213683177e6439cb115d9381efa82c4
+1988 安装成功！
+1051 安装成功！
+2024-09-09 13:47:50,665 - blum_auto - INFO - Thread-1 结束 1508 任务 b3a54726574946448e1b490176c0d164
+2024-09-09 13:47:50,665 - blum_auto - INFO - Thread-1 开始 411 任务 ddfcc726e4524018bb6887504d7b8908
+2024-09-09 13:47:50,896 - blum_auto - INFO - Thread-30 结束 1796 任务 aba21757205c44a28b0e2d8b0143ef90
+2024-09-09 13:47:50,896 - blum_auto - INFO - Thread-30 开始 1493 任务 6a7bbe54d2b94e0fa23d9f384147a3b0
+2266 安装成功！
+1725 安装成功！
+2394 安装成功！
+2024-09-09 13:47:53,688 - blum_auto - INFO - Thread-23 结束 2078 任务 3db9b969eae9413aad820c4d550437c4
+2024-09-09 13:47:53,689 - blum_auto - INFO - Thread-23 开始 1979 任务 7093abb9fa15450cbdf942af4d3723f1
+2024-09-09 13:47:54,463 - blum_auto - INFO - Thread-16 结束 2357 任务 e74e835a91df4b61bb3984c39a7a6b2f
+2024-09-09 13:47:54,463 - blum_auto - INFO - Thread-16 开始 1455 任务 64ad7c53f48a41f681ebd939f615a56a
+2024-09-09 13:47:54,466 - blum_auto - INFO - Thread-9 结束 738 任务 e1c5121f02c64d7188c04b5b72440f6b
+2024-09-09 13:47:54,466 - blum_auto - INFO - Thread-9 开始 342 任务 c4dcc631d8e94e24bb9bf023acc98d51
+2024-09-09 13:47:55,590 - blum_auto - INFO - Thread-24 结束 2080 任务 5ee80d87fe484471955e8f861f0ca206
+2024-09-09 13:47:55,590 - blum_auto - INFO - Thread-24 开始 2679 任务 7b48ed0f3af248b1b93be85b93ef653f
+1368 安装成功！
+2353 安装成功！
+2024-09-09 13:47:56,085 - blum_auto - INFO - Thread-2 结束 1211 任务 34333b2b7261406b9431fd3917bc1c64
+2024-09-09 13:47:56,086 - blum_auto - INFO - Thread-2 开始 2510 任务 85f863179ec54cbea7ad40025edb5833
+2024-09-09 13:47:56,438 - blum_auto - INFO - Thread-17 结束 1958 任务 78ee1ba1a5164cad9dc826c2b404206d
+2024-09-09 13:47:56,438 - blum_auto - INFO - Thread-17 开始 1157 任务 cd9e3b2d44724fa2b62d920e528f6105
+1329 安装成功！
+1594 安装成功！
+2475 安装成功！
+2024-09-09 13:48:02,186 - blum_auto - INFO - Thread-18 结束 2559 任务 b50d3d91d253462b903af76f0fb0c001
+2024-09-09 13:48:02,186 - blum_auto - INFO - Thread-18 开始 2060 任务 d3e5da6fd389473fac7dda9c4737828b
+2024-09-09 13:48:02,451 - blum_auto - INFO - Thread-25 结束 1479 任务 26f4b34289ee4078a9a3d36401e2fc84
+2024-09-09 13:48:02,451 - blum_auto - INFO - Thread-25 开始 1985 任务 acf3851f15cb43bfa8b47e5e9f222140
+2024-09-09 13:48:03,674 - blum_auto - INFO - Thread-26 结束 1783 任务 6736e668790349448ffa85845ebd2927
+2024-09-09 13:48:03,675 - blum_auto - INFO - Thread-26 开始 2682 任务 3fe5dde6c9f044398cc18a5626dd05ce
+2024-09-09 13:48:04,835 - blum_auto - INFO - Thread-19 结束 966 任务 91bb9caf251d4cb0ace79fb9978ccb4a
+2024-09-09 13:48:04,835 - blum_auto - INFO - Thread-19 开始 1363 任务 5f6668982a8b41b5ba3d48c7d2f75cf7
+2024-09-09 13:48:05,493 - blum_auto - INFO - Thread-4 结束 2918 任务 7c034f7870f94b7d9c5e1a29b94d4450
+2024-09-09 13:48:05,493 - blum_auto - INFO - Thread-4 开始 720 任务 6d64712d93dd4ef9ac21bedaf913fe98
+2024-09-09 13:48:07,574 - blum_auto - INFO - Thread-12 结束 250 任务 96626aac4f724501ba764e3f832517d5
+2024-09-09 13:48:07,574 - blum_auto - INFO - Thread-12 开始 48 任务 97a8b8a7e9b04b78ace6960cfee109dd
+2024-09-09 13:48:09,678 - blum_auto - INFO - Thread-3 结束 2114 任务 f59980e90c1f45869f25e98e13ca8261
+2024-09-09 13:48:09,678 - blum_auto - INFO - Thread-3 开始 217 任务 6c77cff629364844a74fb2788660123b
+2024-09-09 13:48:10,640 - blum_auto - INFO - Thread-11 结束 1546 任务 4577646db7844a47b8acdb19d8f514ae
+2024-09-09 13:48:10,640 - blum_auto - INFO - Thread-11 开始 2946 任务 fb9ea25af66d48aa9d0d678682f5cc1d
+2024-09-09 13:48:10,840 - blum_auto - INFO - Thread-27 结束 1988 任务 4624f5ccae2c485b9ea9c103c39bc6b8
+2024-09-09 13:48:10,841 - blum_auto - INFO - Thread-27 开始 585 任务 63427e6384f44189b8f6138c8c9ae2f6
+2024-09-09 13:48:11,514 - blum_auto - INFO - Thread-13 结束 1051 任务 37757ff3f5e749faa2d5177f1c27d557
+2024-09-09 13:48:11,514 - blum_auto - INFO - Thread-13 开始 2649 任务 d258a614cfbf444bb39665dd469171e9
+2024-09-09 13:48:13,304 - blum_auto - INFO - Thread-20 结束 2266 任务 b9065b623d2b40559daa9f4ba3157c18
+2024-09-09 13:48:13,304 - blum_auto - INFO - Thread-20 开始 1466 任务 5109ef8702bb4a0796d92dd03501a1ef
+2024-09-09 13:48:13,395 - blum_auto - INFO - Thread-6 结束 1725 任务 0eb006f5c07744f08a7cc4481b05d0b1
+2024-09-09 13:48:13,395 - blum_auto - INFO - Thread-6 开始 2025 任务 f757e5b12a514fa992c7b81b0e96966a
+2936 安装成功！
+1822 安装成功！
+1656 安装成功！
+1493 安装成功！
+42 安装成功！
+2024-09-09 13:48:15,074 - blum_auto - INFO - Thread-28 结束 2394 任务 b1ef63520a4e49d095eff08fbfe046d4
+2024-09-09 13:48:15,074 - blum_auto - INFO - Thread-28 开始 1893 任务 180bd7ec8e4243abab7259101c6d662a
+342 安装成功！
+2024-09-09 13:48:16,929 - blum_auto - INFO - Thread-21 结束 1368 任务 ac1563c0649d47969014d064baf14aca
+2024-09-09 13:48:16,930 - blum_auto - INFO - Thread-14 结束 2353 任务 05974e38378b4fb3ac87d08811468c28
+2024-09-09 13:48:16,930 - blum_auto - INFO - Thread-21 开始 2670 任务 8525f7cb4f5342c19beaaae38b5c0333
+2024-09-09 13:48:16,930 - blum_auto - INFO - Thread-14 开始 1751 任务 6165b693faeb465da796421fb4bc93c2
+2679 安装成功！
+1979 安装成功！
+1157 安装成功！
+1455 安装成功！
+2510 安装成功！
+1985 安装成功！
+2060 安装成功！
+411 安装成功！
+2682 安装成功！
+2024-09-09 13:48:20,285 - blum_auto - INFO - Thread-29 结束 1594 任务 75c5c2e7ca0a4f508950db0870649379
+2024-09-09 13:48:20,285 - blum_auto - INFO - Thread-29 开始 94 任务 409ca35beac14b6faaddf2d832d1b7a4
+1363 安装成功！
+2024-09-09 13:48:20,654 - blum_auto - INFO - Thread-7 结束 1329 任务 445a63eaa18840b3bbd7c2f8e7454f73
+2024-09-09 13:48:20,654 - blum_auto - INFO - Thread-7 开始 134 任务 a30472447abb44f0b3512d8cae124d30
+2024-09-09 13:48:22,515 - blum_auto - INFO - Thread-22 结束 2475 任务 c650df76e9974f4c97569abe0905a440
+2024-09-09 13:48:22,515 - blum_auto - INFO - Thread-22 开始 1876 任务 403f8efff6bb43349b5227e54f639013
+720 安装成功！
+48 安装成功！
+585 安装成功！
+217 安装成功！
+2649 安装成功！
+2946 安装成功！
+2025 安装成功！
+1466 安装成功！
+2024-09-09 13:48:30,850 - blum_auto - ERROR - An error occurred in blum '1751'
+1893 安装成功！
+2670 安装成功！
+2024-09-09 13:48:35,427 - blum_auto - INFO - Thread-8 结束 2936 任务 c213683177e6439cb115d9381efa82c4
+2024-09-09 13:48:35,427 - blum_auto - INFO - Thread-8 开始 1638 任务 8c126f92259f4f8f8401dd8a0a96a744
+2024-09-09 13:48:35,519 - blum_auto - INFO - Thread-15 结束 1656 任务 3304b88b6ee3424491cd3f41255841c8
+2024-09-09 13:48:35,519 - blum_auto - INFO - Thread-15 开始 1954 任务 3e3fcd9428fe4d0c9b9bc0a774c9611f
+2024-09-09 13:48:35,519 - blum_auto - INFO - Thread-5 结束 1822 任务 31bb352de58f4fa49655bea0d4d4dfb6
+2024-09-09 13:48:35,519 - blum_auto - INFO - Thread-5 开始 1222 任务 646ca0e3b7394bf5aa43fff1aab92782
+2024-09-09 13:48:35,828 - blum_auto - INFO - Thread-10 结束 42 任务 3d5d2fe22f284988875386d1a0289fac
+2024-09-09 13:48:35,828 - blum_auto - INFO - Thread-30 结束 1493 任务 6a7bbe54d2b94e0fa23d9f384147a3b0
+2024-09-09 13:48:35,828 - blum_auto - INFO - Thread-10 开始 2640 任务 89703562c1c74107a291ffe01cf8aa16
+2024-09-09 13:48:35,828 - blum_auto - INFO - Thread-30 开始 896 任务 f822dd6d22c64687b46fb8fab1cae29d
+134 安装成功！
+94 安装成功！
+2024-09-09 13:48:37,329 - blum_auto - INFO - Thread-9 结束 342 任务 c4dcc631d8e94e24bb9bf023acc98d51
+2024-09-09 13:48:37,329 - blum_auto - INFO - Thread-9 开始 1141 任务 461d5710261c42fc8ca4c0e5beed8379
+1876 安装成功！
+2024-09-09 13:48:38,859 - blum_auto - INFO - Thread-24 结束 2679 任务 7b48ed0f3af248b1b93be85b93ef653f
+2024-09-09 13:48:38,859 - blum_auto - INFO - Thread-24 开始 385 任务 2c3d290ea18149bdbb718c9af964d0c4
+2024-09-09 13:48:38,874 - blum_auto - INFO - Thread-23 结束 1979 任务 7093abb9fa15450cbdf942af4d3723f1
+2024-09-09 13:48:38,874 - blum_auto - INFO - Thread-23 开始 2876 任务 29bb1de9ec624e7999d0641f7665af18
+2024-09-09 13:48:38,921 - blum_auto - INFO - Thread-17 结束 1157 任务 cd9e3b2d44724fa2b62d920e528f6105
+2024-09-09 13:48:38,921 - blum_auto - INFO - Thread-17 开始 2856 任务 e59a993dc523482ca3cf2153a4d24bf5
+2024-09-09 13:48:39,352 - blum_auto - INFO - Thread-2 结束 2510 任务 85f863179ec54cbea7ad40025edb5833
+2024-09-09 13:48:39,352 - blum_auto - INFO - Thread-2 开始 113 任务 10dfb6e7c54044cd862241810f955c67
+2024-09-09 13:48:39,582 - blum_auto - INFO - Thread-16 结束 1455 任务 64ad7c53f48a41f681ebd939f615a56a
+2024-09-09 13:48:39,583 - blum_auto - INFO - Thread-16 开始 1354 任务 e834009a15e448f8a21c525bc381297f
+2024-09-09 13:48:40,333 - blum_auto - INFO - Thread-18 结束 2060 任务 d3e5da6fd389473fac7dda9c4737828b
+2024-09-09 13:48:40,333 - blum_auto - INFO - Thread-25 结束 1985 任务 acf3851f15cb43bfa8b47e5e9f222140
+2024-09-09 13:48:40,333 - blum_auto - INFO - Thread-18 开始 2362 任务 a773e2b0077545b1b10494fc5d8974bb
+2024-09-09 13:48:40,333 - blum_auto - INFO - Thread-25 开始 2582 任务 6e3b32f9e02d49de89f018d4654e341f
+2024-09-09 13:48:40,491 - blum_auto - INFO - Thread-1 结束 411 任务 ddfcc726e4524018bb6887504d7b8908
+2024-09-09 13:48:40,492 - blum_auto - INFO - Thread-1 开始 11 任务 e866ea6adb3d4312a7d7ef27c34e7824
+2024-09-09 13:48:40,838 - blum_auto - INFO - Thread-26 结束 2682 任务 3fe5dde6c9f044398cc18a5626dd05ce
+2024-09-09 13:48:40,838 - blum_auto - INFO - Thread-26 开始 85 任务 e4992312c3984c6a896b823845613fce
+2024-09-09 13:48:41,914 - blum_auto - INFO - Thread-19 结束 1363 任务 5f6668982a8b41b5ba3d48c7d2f75cf7
+2024-09-09 13:48:41,914 - blum_auto - INFO - Thread-19 开始 169 任务 b782e8b0e1a0470ea6483e51b27a50bf
+2024-09-09 13:48:45,184 - blum_auto - INFO - Thread-4 结束 720 任务 6d64712d93dd4ef9ac21bedaf913fe98
+2024-09-09 13:48:45,185 - blum_auto - INFO - Thread-4 开始 2320 任务 51cc0dddc76a420384b1891da13517c8
+2024-09-09 13:48:45,667 - blum_auto - INFO - Thread-12 结束 48 任务 97a8b8a7e9b04b78ace6960cfee109dd
+2024-09-09 13:48:45,667 - blum_auto - INFO - Thread-12 开始 49 任务 9786a159f9b44c07b02fe90d6d41c7f6
+2024-09-09 13:48:46,913 - blum_auto - INFO - Thread-14 结束 1751 任务 6165b693faeb465da796421fb4bc93c2
+2024-09-09 13:48:46,913 - blum_auto - INFO - Thread-14 开始 1553 任务 40cd547e17304bb99d5275a8849bc5d3
+2024-09-09 13:48:48,056 - blum_auto - INFO - Thread-27 结束 585 任务 63427e6384f44189b8f6138c8c9ae2f6
+2024-09-09 13:48:48,056 - blum_auto - INFO - Thread-27 开始 2090 任务 1f0bef6f526f42238dd77b25daa57c8e
+2024-09-09 13:48:48,770 - blum_auto - INFO - Thread-3 结束 217 任务 6c77cff629364844a74fb2788660123b
+2024-09-09 13:48:48,770 - blum_auto - INFO - Thread-3 开始 716 任务 812b07c518814deeb85971c3b653ccca
+2024-09-09 13:48:49,617 - blum_auto - INFO - Thread-13 结束 2649 任务 d258a614cfbf444bb39665dd469171e9
+2024-09-09 13:48:49,617 - blum_auto - INFO - Thread-13 开始 851 任务 72fef2700b274e3f96bd33242e000957
+2024-09-09 13:48:49,693 - blum_auto - INFO - Thread-11 结束 2946 任务 fb9ea25af66d48aa9d0d678682f5cc1d
+2024-09-09 13:48:49,694 - blum_auto - INFO - Thread-11 开始 1446 任务 615742bed3c34f5f95446ceb3a664a4a
+1638 安装成功！
+1954 安装成功！
+1222 安装成功！
+2024-09-09 13:48:50,352 - blum_auto - INFO - Thread-6 结束 2025 任务 f757e5b12a514fa992c7b81b0e96966a
+2024-09-09 13:48:50,352 - blum_auto - INFO - Thread-6 开始 1527 任务 aedf3162f1df46aaa1485b694880fa7f
+896 安装成功！
+2640 安装成功！
+2024-09-09 13:48:51,221 - blum_auto - INFO - Thread-20 结束 1466 任务 5109ef8702bb4a0796d92dd03501a1ef
+2024-09-09 13:48:51,221 - blum_auto - INFO - Thread-20 开始 2070 任务 5b062507be9d4e6eb32e4ebcfed81347
+2024-09-09 13:48:52,142 - blum_auto - INFO - Thread-28 结束 1893 任务 180bd7ec8e4243abab7259101c6d662a
+2024-09-09 13:48:52,142 - blum_auto - INFO - Thread-28 开始 2096 任务 cc61c5d172e54244a870ad903ce1a7b4
+1141 安装成功！
+2876 安装成功！
+385 安装成功！
+2856 安装成功！
+2024-09-09 13:48:55,230 - blum_auto - INFO - Thread-21 结束 2670 任务 8525f7cb4f5342c19beaaae38b5c0333
+2024-09-09 13:48:55,230 - blum_auto - INFO - Thread-21 开始 1470 任务 8fcc19bb7c9341578c33e2d981e431c7
+1354 安装成功！
+113 安装成功！
+2582 安装成功！
+85 安装成功！
+2362 安装成功！
+11 安装成功！
+2024-09-09 13:48:57,125 - blum_auto - INFO - Thread-7 结束 134 任务 a30472447abb44f0b3512d8cae124d30
+2024-09-09 13:48:57,125 - blum_auto - INFO - Thread-7 开始 1231 任务 e0afdd7ce07b46b589e78430eb510584
+169 安装成功！
+2024-09-09 13:48:57,344 - blum_auto - INFO - Thread-29 结束 94 任务 409ca35beac14b6faaddf2d832d1b7a4
+2024-09-09 13:48:57,344 - blum_auto - INFO - Thread-29 开始 2294 任务 eb1eec250de24b329f87972651624cfb
+2024-09-09 13:48:59,858 - blum_auto - INFO - Thread-22 结束 1876 任务 403f8efff6bb43349b5227e54f639013
+2024-09-09 13:48:59,858 - blum_auto - INFO - Thread-22 开始 2076 任务 44c30e50813949bbb55f8b77fd749a6d
+2024-09-09 13:49:11,151 - blum_auto - INFO - Thread-8 结束 1638 任务 8c126f92259f4f8f8401dd8a0a96a744
+2024-09-09 13:49:11,152 - blum_auto - INFO - Thread-8 开始 139 任务 2a3fecabe72e4f9bbe8c3c1ce89a7d2f
+2024-09-09 13:49:11,198 - blum_auto - INFO - Thread-15 结束 1954 任务 3e3fcd9428fe4d0c9b9bc0a774c9611f
+2024-09-09 13:49:11,198 - blum_auto - INFO - Thread-15 开始 2852 任务 5a51bb9d27bb456f8288ea1480636fbd
+2024-09-09 13:49:11,719 - blum_auto - INFO - Thread-5 结束 1222 任务 646ca0e3b7394bf5aa43fff1aab92782
+2024-09-09 13:49:12,106 - blum_auto - INFO - Thread-30 结束 896 任务 f822dd6d22c64687b46fb8fab1cae29d
+2024-09-09 13:49:12,106 - blum_auto - INFO - Thread-30 开始 996 任务 dbd3d78da40e48b38f5ab5b3ddc6126a
+2024-09-09 13:49:12,491 - blum_auto - INFO - Thread-10 结束 2640 任务 89703562c1c74107a291ffe01cf8aa16
+2090 安装成功！
+2320 安装成功！
+1553 安装成功！
+49 安装成功！
+716 安装成功！
+2024-09-09 13:49:14,919 - blum_auto - INFO - Thread-9 结束 1141 任务 461d5710261c42fc8ca4c0e5beed8379
+2024-09-09 13:49:14,919 - blum_auto - INFO - Thread-9 开始 2341 任务 75a91125f9d449d2afd2799d250e6b23
+2024-09-09 13:49:15,178 - blum_auto - INFO - Thread-23 结束 2876 任务 29bb1de9ec624e7999d0641f7665af18
+2024-09-09 13:49:15,178 - blum_auto - INFO - Thread-23 开始 2478 任务 5bda30ae46e6435bbb6f12795b31a9de
+2024-09-09 13:49:15,207 - blum_auto - INFO - Thread-24 结束 385 任务 2c3d290ea18149bdbb718c9af964d0c4
+2024-09-09 13:49:15,207 - blum_auto - INFO - Thread-24 开始 1882 任务 ef9c48b3091c4342b04a40c545785de6
+2024-09-09 13:49:15,284 - blum_auto - INFO - Thread-17 结束 2856 任务 e59a993dc523482ca3cf2153a4d24bf5
+2024-09-09 13:49:15,284 - blum_auto - INFO - Thread-17 开始 2459 任务 034fb42436c9484985f4d41952b685c9
+2096 安装成功！
+2076 安装成功！
+2070 安装成功！
+2294 安装成功！
+1527 安装成功！
+1446 安装成功！
+851 安装成功！
+2024-09-09 13:49:17,094 - blum_auto - INFO - Thread-2 结束 113 任务 10dfb6e7c54044cd862241810f955c67
+1231 安装成功！
+2024-09-09 13:49:17,156 - blum_auto - INFO - Thread-16 结束 1354 任务 e834009a15e448f8a21c525bc381297f
+2024-09-09 13:49:17,156 - blum_auto - INFO - Thread-16 开始 1558 任务 02e79dc2417f4c059eada4027a020507
+1470 安装成功！
+2024-09-09 13:49:17,506 - blum_auto - INFO - Thread-25 结束 2582 任务 6e3b32f9e02d49de89f018d4654e341f
+2024-09-09 13:49:17,506 - blum_auto - INFO - Thread-25 开始 2484 任务 2a86f9e9ba0d4671a5e8db674e1ace63
+2024-09-09 13:49:17,551 - blum_auto - INFO - Thread-26 结束 85 任务 e4992312c3984c6a896b823845613fce
+2024-09-09 13:49:17,552 - blum_auto - INFO - Thread-26 开始 2387 任务 da7706f3601a46cf8b983c60229e28cb
+2024-09-09 13:49:17,552 - blum_auto - INFO - Thread-18 结束 2362 任务 a773e2b0077545b1b10494fc5d8974bb
+2024-09-09 13:49:17,552 - blum_auto - INFO - Thread-18 开始 2463 任务 5ffcb379e5484cf89de468f69e1bd769
+2024-09-09 13:49:18,237 - blum_auto - INFO - Thread-1 结束 11 任务 e866ea6adb3d4312a7d7ef27c34e7824
+2024-09-09 13:49:19,167 - blum_auto - INFO - Thread-19 结束 169 任务 b782e8b0e1a0470ea6483e51b27a50bf
+2024-09-09 13:49:19,167 - blum_auto - INFO - Thread-19 开始 666 任务 64580c6b561b4cd6b2b039f22c0e869d
+2852 安装成功！
+139 安装成功！
+996 安装成功！
+2341 安装成功！
+2478 安装成功！
+1882 安装成功！
+2459 安装成功！
+1558 安装成功！
+2484 安装成功！
+2387 安装成功！
+2463 安装成功！
+2024-09-09 13:49:34,688 - blum_auto - INFO - Thread-27 结束 2090 任务 1f0bef6f526f42238dd77b25daa57c8e
+2024-09-09 13:49:34,689 - blum_auto - INFO - Thread-27 开始 1787 任务 2fb9dbc989524b76a2cf7a14eac77eee
+2024-09-09 13:49:34,689 - blum_auto - INFO - Thread-4 结束 2320 任务 51cc0dddc76a420384b1891da13517c8
+2024-09-09 13:49:34,755 - blum_auto - INFO - Thread-14 结束 1553 任务 40cd547e17304bb99d5275a8849bc5d3
+2024-09-09 13:49:34,827 - blum_auto - INFO - Thread-12 结束 49 任务 9786a159f9b44c07b02fe90d6d41c7f6
+2024-09-09 13:49:35,615 - blum_auto - INFO - Thread-3 结束 716 任务 812b07c518814deeb85971c3b653ccca
+666 安装成功！
+2024-09-09 13:49:36,894 - blum_auto - INFO - Thread-28 结束 2096 任务 cc61c5d172e54244a870ad903ce1a7b4
+2024-09-09 13:49:36,894 - blum_auto - INFO - Thread-28 开始 2396 任务 343226c26d3a4244917a209bf9b759e2
+2024-09-09 13:49:37,639 - blum_auto - INFO - Thread-22 结束 2076 任务 44c30e50813949bbb55f8b77fd749a6d
+2024-09-09 13:49:37,639 - blum_auto - INFO - Thread-22 开始 2976 任务 69ad99f7f9284cc5a4f17703aa524ba3
+2024-09-09 13:49:38,169 - blum_auto - INFO - Thread-6 结束 1527 任务 aedf3162f1df46aaa1485b694880fa7f
+2024-09-09 13:49:38,364 - blum_auto - INFO - Thread-20 结束 2070 任务 5b062507be9d4e6eb32e4ebcfed81347
+2024-09-09 13:49:38,364 - blum_auto - INFO - Thread-20 开始 272 任务 c83722d4249d4c9ea45110a8f4eafda8
+2024-09-09 13:49:38,387 - blum_auto - INFO - Thread-29 结束 2294 任务 eb1eec250de24b329f87972651624cfb
+2024-09-09 13:49:38,387 - blum_auto - INFO - Thread-29 开始 1195 任务 22affe24c3ab4a0a87acf7c97ab3f541
+2024-09-09 13:49:38,424 - blum_auto - INFO - Thread-7 结束 1231 任务 e0afdd7ce07b46b589e78430eb510584
+2024-09-09 13:49:38,493 - blum_auto - INFO - Thread-13 结束 851 任务 72fef2700b274e3f96bd33242e000957
+2024-09-09 13:49:38,497 - blum_auto - INFO - Thread-11 结束 1446 任务 615742bed3c34f5f95446ceb3a664a4a
+2024-09-09 13:49:38,898 - blum_auto - INFO - Thread-21 结束 1470 任务 8fcc19bb7c9341578c33e2d981e431c7
+2024-09-09 13:49:38,898 - blum_auto - INFO - Thread-21 开始 573 任务 7aaa07903480483a96367b743d1afb18
+2024-09-09 13:49:47,386 - blum_auto - INFO - Thread-15 结束 2852 任务 5a51bb9d27bb456f8288ea1480636fbd
+2024-09-09 13:49:47,433 - blum_auto - INFO - Thread-8 结束 139 任务 2a3fecabe72e4f9bbe8c3c1ce89a7d2f
+2024-09-09 13:49:48,733 - blum_auto - INFO - Thread-30 结束 996 任务 dbd3d78da40e48b38f5ab5b3ddc6126a
+2024-09-09 13:49:48,733 - blum_auto - INFO - Thread-30 开始 1597 任务 2af0e2123ed04bac84748526344224d6
+1787 安装成功！
+2396 安装成功！
+2024-09-09 13:49:51,402 - blum_auto - INFO - Thread-9 结束 2341 任务 75a91125f9d449d2afd2799d250e6b23
+2976 安装成功！
+2024-09-09 13:49:52,361 - blum_auto - INFO - Thread-23 结束 2478 任务 5bda30ae46e6435bbb6f12795b31a9de
+2024-09-09 13:49:52,361 - blum_auto - INFO - Thread-23 开始 2079 任务 f50ccac739db4ac6bb303a67c32365a0
+2024-09-09 13:49:52,578 - blum_auto - INFO - Thread-24 结束 1882 任务 ef9c48b3091c4342b04a40c545785de6
+2024-09-09 13:49:52,578 - blum_auto - INFO - Thread-24 开始 679 任务 ef39edddbbf9406db2b60cc259fc2d25
+2024-09-09 13:49:52,671 - blum_auto - INFO - Thread-17 结束 2459 任务 034fb42436c9484985f4d41952b685c9
+272 安装成功！
+1195 安装成功！
+573 安装成功！
+2024-09-09 13:49:54,346 - blum_auto - INFO - Thread-16 结束 1558 任务 02e79dc2417f4c059eada4027a020507
+2024-09-09 13:49:54,656 - blum_auto - INFO - Thread-25 结束 2484 任务 2a86f9e9ba0d4671a5e8db674e1ace63
+2024-09-09 13:49:54,656 - blum_auto - INFO - Thread-25 开始 1380 任务 cef0376ecdb94d158ec651f2d61a01ca
+2024-09-09 13:49:54,811 - blum_auto - INFO - Thread-26 结束 2387 任务 da7706f3601a46cf8b983c60229e28cb
+2024-09-09 13:49:54,811 - blum_auto - INFO - Thread-26 开始 2585 任务 97a6df27f5ed4ba38ccefbafae1a13bf
+2024-09-09 13:49:55,229 - blum_auto - INFO - Thread-18 结束 2463 任务 5ffcb379e5484cf89de468f69e1bd769
+2024-09-09 13:49:56,881 - blum_auto - INFO - Thread-19 结束 666 任务 64580c6b561b4cd6b2b039f22c0e869d
+1597 安装成功！
+2079 安装成功！
+679 安装成功！
+1380 安装成功！
+2585 安装成功！
+2024-09-09 13:50:10,100 - blum_auto - INFO - Thread-27 结束 1787 任务 2fb9dbc989524b76a2cf7a14eac77eee
+2024-09-09 13:50:10,100 - blum_auto - INFO - Thread-27 开始 889 任务 6fbf232578cc4c3190221b999d9fc52c
+2024-09-09 13:50:11,961 - blum_auto - INFO - Thread-28 结束 2396 任务 343226c26d3a4244917a209bf9b759e2
+2024-09-09 13:50:11,961 - blum_auto - INFO - Thread-28 开始 1895 任务 257350b5d1634b6eb5c94c6f4682f21d
+2024-09-09 13:50:12,952 - blum_auto - INFO - Thread-22 结束 2976 任务 69ad99f7f9284cc5a4f17703aa524ba3
+2024-09-09 13:50:13,858 - blum_auto - INFO - Thread-20 结束 272 任务 c83722d4249d4c9ea45110a8f4eafda8
+2024-09-09 13:50:14,168 - blum_auto - INFO - Thread-29 结束 1195 任务 22affe24c3ab4a0a87acf7c97ab3f541
+2024-09-09 13:50:14,168 - blum_auto - INFO - Thread-29 开始 1897 任务 486c03b431fa4b29a70405e4f460ef92
+2024-09-09 13:50:14,453 - blum_auto - INFO - Thread-21 结束 573 任务 7aaa07903480483a96367b743d1afb18
+2024-09-09 13:50:24,119 - blum_auto - INFO - Thread-30 结束 1597 任务 2af0e2123ed04bac84748526344224d6
+2024-09-09 13:50:24,119 - blum_auto - INFO - Thread-30 开始 694 任务 e122f6e401e14707928d16b6f30de3ef
+2024-09-09 13:50:27,707 - blum_auto - INFO - Thread-23 结束 2079 任务 f50ccac739db4ac6bb303a67c32365a0
+2024-09-09 13:50:27,815 - blum_auto - INFO - Thread-24 结束 679 任务 ef39edddbbf9406db2b60cc259fc2d25
+2024-09-09 13:50:30,029 - blum_auto - INFO - Thread-25 结束 1380 任务 cef0376ecdb94d158ec651f2d61a01ca
+2024-09-09 13:50:30,152 - blum_auto - INFO - Thread-26 结束 2585 任务 97a6df27f5ed4ba38ccefbafae1a13bf
+889 安装成功！
+1895 安装成功！
+1897 安装成功！
+694 安装成功！
+2024-09-09 13:50:56,839 - blum_auto - INFO - Thread-27 结束 889 任务 6fbf232578cc4c3190221b999d9fc52c
+2024-09-09 13:50:56,915 - blum_auto - INFO - Thread-28 结束 1895 任务 257350b5d1634b6eb5c94c6f4682f21d
+2024-09-09 13:50:56,993 - blum_auto - INFO - Thread-29 结束 1897 任务 486c03b431fa4b29a70405e4f460ef92
+2024-09-09 13:51:00,465 - blum_auto - INFO - Thread-30 结束 694 任务 e122f6e401e14707928d16b6f30de3ef
+
+Process finished with exit code 0
