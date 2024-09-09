@@ -58,13 +58,13 @@ def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game):
         if (error_num != None):
             error.append(error_num)
 
-    for error_no in error:
-        try:
-            item = get_item_by_index(shuffled_dict, error_no)
-            logger.info(f'{thread_name} 重试 {error_no} 任务 {item}')
-            execute_tasks(error_no, item, play_blum_game)
-        except Exception as e:
-            logger.error(f'{thread_name} 重试 {error_no} 任务错误')
+    # for error_no in error:
+    #     try:
+    #         item = get_item_by_index(shuffled_dict, error_no)
+    #         logger.info(f'{thread_name} 重试 {error_no} 任务 {item}')
+    #         execute_tasks(error_no, item, play_blum_game)
+    #     except Exception as e:
+    #         logger.error(f'{thread_name} 重试 {error_no} 任务错误')
 
 
 def shuffle_dict(input_dict):
