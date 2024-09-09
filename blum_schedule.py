@@ -18,18 +18,18 @@ def run_create_threads():
     thread_num = 20
     # 浏览器编号执行到多少
     bit_num_start = 1
-    bit_num_end = 1000
+    bit_num_end = 1500
     # blum玩游戏
-    play_blum_game = True
+    # play_blum_game = True
     # blum不玩游戏
-    # play_blum_game = False
+    play_blum_game = False
 
     logger.info("开始执行bit浏览器任务")
     create_threads(thread_num, bit_num_start, bit_num_end, play_blum_game)
 
 
 run_create_threads()
-# 使用 schedule 库设置每3小时执行一次的定时任务
+# 使用 schedule 库设置每1min执行一次的定时任务
 schedule.every(1).minute.do(run_create_threads)
 
 

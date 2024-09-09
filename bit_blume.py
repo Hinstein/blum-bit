@@ -91,10 +91,10 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     browser_driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
 
     # 窗口自适应排列
-    try:
-        bit_browser_request.windowbounds_flexable()
-    except Exception:
-        logger.error("窗口自适应排列失败")
+    # try:
+    #     bit_browser_request.windowbounds_flexable()
+    # except Exception:
+    #     logger.error("窗口自适应排列失败")
 
     # Random wait after clicking folders
     time.sleep(random.uniform(1, 3))
