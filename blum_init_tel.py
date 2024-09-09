@@ -385,7 +385,7 @@ def create_threads(n, bit_num_start, bit_num_end, file_path, error_list=None):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(30)
+            time.sleep(5)
 
         logger.info("All task has completed")
 
@@ -403,10 +403,10 @@ if __name__ == '__main__':
     # 开启几个线程
     thread_num = 20
     # 浏览器编号执行到多少
-    bit_num_start = 1171
-    bit_num_end = 1500
+    bit_num_start = 1501
+    bit_num_end = 1600
     # 电报账号文件
     file_path = 'file/电报账号.xlsx'
-    error_list = [1305, 1017, 1204, 1025, 1203, 1213, 1202]
+    error_list = [1322, 1474, 787, 1280, 1020, 910, 344, 1356, 496, 1, 1182, 1483, 356, 393]
     error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, file_path, error_list)

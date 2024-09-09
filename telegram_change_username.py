@@ -245,7 +245,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(20)
+            time.sleep(5)
 
         logger.info("All task has completed")
 
