@@ -1,4 +1,5 @@
 import re
+from collections import Counter, defaultdict
 
 
 def extract_error_numbers(filename):
@@ -8,7 +9,6 @@ def extract_error_numbers(filename):
     :param filename: 包含错误信息的文件名
     :return: 包含所有提取到的数字的数组
     """
-    # 定义用于匹配错误信息中的数字的正则表达式
     error_pattern = re.compile(r"An error occurred in blum '(\d+)'")
 
     error_numbers = []
@@ -18,7 +18,6 @@ def extract_error_numbers(filename):
             for line in file:
                 match = error_pattern.search(line)
                 if match:
-                    # 提取匹配的数字并将其转换为整数
                     number = int(match.group(1))
                     error_numbers.append(number)
     except UnicodeDecodeError:
@@ -27,7 +26,35 @@ def extract_error_numbers(filename):
     return error_numbers
 
 
+def group_errors_by_frequency(error_numbers):
+    """
+    根据出现次数对错误号码进行分组，并对组内的序号按大小排序。
+
+    :param error_numbers: 包含所有提取到的错误号码的数组
+    :return: 一个字典，其中键是失败的次数，值是一个列表，包含所有出现该次数的错误号码，且该列表按序号大小排序
+    """
+    # 使用 Counter 统计每个错误号码的出现次数
+    error_counts = Counter(error_numbers)
+
+    # 创建一个默认字典，用于将错误号码按出现次数进行分组
+    grouped_errors = defaultdict(list)
+
+    for number, count in error_counts.items():
+        grouped_errors[count].append(number)
+
+    # 对每个失败次数的列表内的错误号码进行排序
+    for count in grouped_errors:
+        grouped_errors[count].sort()
+
+    # 将结果转换为普通字典并按失败次数（键）降序排序
+    grouped_errors = dict(sorted(grouped_errors.items(), key=lambda x: x[0], reverse=True))
+
+    return grouped_errors
+
+
 # 使用示例
 filename = 'file/error_list.txt'
 error_numbers = extract_error_numbers(filename)
-print(error_numbers)
+grouped_errors = group_errors_by_frequency(error_numbers)
+
+print(grouped_errors)
