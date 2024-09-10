@@ -18,7 +18,7 @@ def run_create_threads():
     thread_num = 20
     # 浏览器编号执行到多少
     bit_num_start = 1
-    bit_num_end = 1500
+    bit_num_end = 1780
     # blum玩游戏
     # play_blum_game = True
     # blum不玩游戏
