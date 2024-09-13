@@ -318,41 +318,38 @@ def generate_random_sequence(start=1, end=100):
 
 def print_numbers(numbers, thread_name, shuffled_dict, reader):
     """
-    打印给定的数字列表
+    打印给定的数字列表并处理任务
 
     :param numbers: 数字列表
     :param thread_name: 线程名称
+    :param shuffled_dict: 随机排序后的字典
+    :param reader: 数据读取对象
     """
     error = []
 
     for num in numbers:
-        error_num = None
-        try:
-            # 获取指定序号的数据
-            tele_result = reader.get_data_by_serial_number(num)
-            item = shuffled_dict.get(num)
-            logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-
-            while error_num is not None:
+        while True:
+            try:
+                # 获取指定序号的数据
+                tele_result = reader.get_data_by_serial_number(num)
+                item = shuffled_dict.get(num)
+                logger.info(f'{thread_name} 开始 {num} 任务 {item}')
                 error_num = execute_tasks(num, item, tele_result)
-                if error_num is not None:
-                    logger.warning(f'{thread_name} 任务 {num} 失败，重试')
-                    # 可加入适当的等待时间，避免过度频繁重试
-                    time.sleep(1)  # 或者更合适的等待时间
 
-            logger.info(f'{thread_name} 结束 {num} 任务 {item}')
-        except Exception as e:
-            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}: {e}')
-            error_num = e  # 将异常记录到 error_num 中
-            while error_num is not None:
-                # 如果在异常情况下需要重试
-                try:
-                    error_num = execute_tasks(num, item, tele_result)
-                    if error_num is None:
-                        logger.info(f'{thread_name} 任务 {num} 重新执行成功')
-                except Exception as e:
-                    logger.error(f'{thread_name} 执行 {num} 任务报错 {item}: {e}')
-                    time.sleep(1)  # 或者更合适的等待时间
+                # 如果 error_num 为 None，则任务成功完成，退出循环
+                if error_num is None:
+                    logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+                    break
+                else:
+                    logger.warning(f'{thread_name} {num} 任务执行失败，重新尝试...')
+
+            except Exception as e:
+                logger.error(f'{thread_name} 执行 {num} 任务报错: {e} 任务项: {item}')
+                # 出现异常时继续循环以重新执行任务
+
+        # 收集所有未能成功完成的任务
+        if error_num is not None:
+            error.append(error_num)
 
 
 def shuffle_dict(input_dict):
