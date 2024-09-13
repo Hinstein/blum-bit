@@ -113,7 +113,7 @@ def login_tele(browser_driver, seq, tele_result):
 
     # Random wait after clicking folders
     time.sleep(random.uniform(1, 3))
-    wait = WebDriverWait(browser_driver, 10)
+    wait = WebDriverWait(browser_driver, 30)
 
     # 点击 🖊 退到上一层
     try:
@@ -332,12 +332,27 @@ def print_numbers(numbers, thread_name, shuffled_dict, reader):
             tele_result = reader.get_data_by_serial_number(num)
             item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-            error_num = execute_tasks(num, item, tele_result)
+
+            while error_num is not None:
+                error_num = execute_tasks(num, item, tele_result)
+                if error_num is not None:
+                    logger.warning(f'{thread_name} 任务 {num} 失败，重试')
+                    # 可加入适当的等待时间，避免过度频繁重试
+                    time.sleep(1)  # 或者更合适的等待时间
+
             logger.info(f'{thread_name} 结束 {num} 任务 {item}')
         except Exception as e:
-            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}')
-        if (error_num != None):
-            error.append(error_num)
+            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}: {e}')
+            error_num = e  # 将异常记录到 error_num 中
+            while error_num is not None:
+                # 如果在异常情况下需要重试
+                try:
+                    error_num = execute_tasks(num, item, tele_result)
+                    if error_num is None:
+                        logger.info(f'{thread_name} 任务 {num} 重新执行成功')
+                except Exception as e:
+                    logger.error(f'{thread_name} 执行 {num} 任务报错 {item}: {e}')
+                    time.sleep(1)  # 或者更合适的等待时间
 
 
 def shuffle_dict(input_dict):
@@ -404,10 +419,11 @@ if __name__ == '__main__':
     # 开启几个线程
     thread_num = 20
     # 浏览器编号执行到多少
-    bit_num_start = 1501
-    bit_num_end = 1600
+    bit_num_start = 1989
+    bit_num_end = 2500
+
     # 电报账号文件
     file_path = 'file/电报账号.xlsx'
-    error_list = [1322, 1474, 787, 1280, 1020, 910, 344, 1356, 496, 1, 1182, 1483, 356, 393]
-    error_list = None
+    error_list = [ 1554]
+    # error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, file_path, error_list)
