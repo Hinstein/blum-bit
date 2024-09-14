@@ -115,6 +115,17 @@ def login_tele(browser_driver, seq, tele_result):
     time.sleep(random.uniform(1, 3))
     wait = WebDriverWait(browser_driver, 30)
 
+    # 如果能够点击launch blum按钮，说明已经登陆了，不需要走下面的流程
+    try:
+        wait1 = WebDriverWait(browser_driver, 10)
+        # 点击 左下角 Launch Blum 按钮
+        button_element = wait1.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
+        button_element.click()
+        return
+    except Exception as e:
+        pass
+
     # 点击 🖊 退到上一层
     try:
         # Random wait after clicking button
@@ -213,6 +224,15 @@ def login_tele(browser_driver, seq, tele_result):
         password_field = wait.until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "input[type='password'][name='notsearch_password']"))
         )
+
+        # 点击输入框以确保焦点在该元素上
+        password_field.click()
+
+        # 清除输入框中的内容
+        password_field.send_keys(Keys.CONTROL + "a")  # 选择所有文本
+
+        for _ in range(10):
+            password_field.send_keys(Keys.BACKSPACE)  # 删除文本
 
         if 330 >= seq >= 311:
             # 直接输入密码
@@ -318,38 +338,63 @@ def generate_random_sequence(start=1, end=100):
 
 def print_numbers(numbers, thread_name, shuffled_dict, reader):
     """
-    打印给定的数字列表并处理任务
+    打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
     :param numbers: 数字列表
     :param thread_name: 线程名称
     :param shuffled_dict: 随机排序后的字典
     :param reader: 数据读取对象
     """
-    error = []
+    error_list = []
 
+    # 第一步：先执行所有任务并记录出错的任务
     for num in numbers:
-        while True:
+        try:
+            # 获取指定序号的数据
+            tele_result = reader.get_data_by_serial_number(num)
+            item = shuffled_dict.get(num)
+            logger.info(f'{thread_name} 开始 {num} 任务 {item}')
+            error_num = execute_tasks(num, item, tele_result)
+
+            # 如果返回 error_num，则将任务记录到 error_list 中
+            if error_num is not None:
+                error_list.append((num, item, tele_result))
+                logger.warning(f'{thread_name} {num} 任务执行失败，需要重新尝试...')
+
+            logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+
+        except Exception as e:
+            logger.error(f'{thread_name} 执行 {num} 任务报错: {e} 任务项: {item}')
+            # 异常任务也记录到重试列表
+            error_list.append((num, item, tele_result))
+
+    # 第二步：针对有 error_num 的任务进行重试，直到所有任务成功
+    while error_list:
+        logger.info(f'{thread_name} 开始重试失败的任务列表...')
+        retry_errors = []
+
+        # 遍历当前的 error_list
+        for num, item, tele_result in error_list:
             try:
-                # 获取指定序号的数据
-                tele_result = reader.get_data_by_serial_number(num)
-                item = shuffled_dict.get(num)
-                logger.info(f'{thread_name} 开始 {num} 任务 {item}')
+                logger.info(f'{thread_name} 重试 {num} 任务 {item}')
                 error_num = execute_tasks(num, item, tele_result)
 
-                # 如果 error_num 为 None，则任务成功完成，退出循环
+                # 如果任务成功（error_num 为 None），任务完成，不再添加到 retry_errors
                 if error_num is None:
-                    logger.info(f'{thread_name} 结束 {num} 任务 {item}')
-                    break
+                    logger.info(f'{thread_name} 成功完成 {num} 任务 {item}')
                 else:
-                    logger.warning(f'{thread_name} {num} 任务执行失败，重新尝试...')
+                    # 任务失败，加入重试列表
+                    retry_errors.append((num, item, tele_result))
+                    logger.warning(f'{thread_name} {num} 任务重试失败，继续重试...')
 
             except Exception as e:
-                logger.error(f'{thread_name} 执行 {num} 任务报错: {e} 任务项: {item}')
-                # 出现异常时继续循环以重新执行任务
+                logger.error(f'{thread_name} 重试执行 {num} 任务报错: {e} 任务项: {item}')
+                retry_errors.append((num, item, tele_result))
 
-        # 收集所有未能成功完成的任务
-        if error_num is not None:
-            error.append(error_num)
+        # 更新 error_list 为 retry_errors，如果列表为空则说明所有任务成功
+        error_list = retry_errors
+
+    logger.info(f'{thread_name} 所有任务已成功完成。')
 
 
 def shuffle_dict(input_dict):
