@@ -3,7 +3,6 @@ import threading
 import time
 import schedule
 
-import main
 from blum_main import create_threads
 from log_config import setup_logger
 

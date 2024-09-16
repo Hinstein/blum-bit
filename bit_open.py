@@ -13,7 +13,7 @@ from log_config import setup_logger
 logger = setup_logger('bit_blum', 'blum_auto.log')
 
 
-def create_threads(n, numbers):
+def create_threads(n, bit_num_start, bit_num_end,  error_list=None):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
@@ -22,6 +22,10 @@ def create_threads(n, numbers):
     :param bit_num_end: 数字范围的结束值
     :param error_list: 错误列表，如果不为空，则用该列表的值代替正常的数字范围
     """
+    if error_list is not None and len(error_list) > 0:
+        numbers = error_list
+    else:
+        numbers = list(range(bit_num_start, bit_num_end + 1))
 
     selected_values = get_file.get_id_by_seq(numbers)
 

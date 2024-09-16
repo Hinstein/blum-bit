@@ -1,13 +1,55 @@
 import random
+from threading import Thread, Event
+
 import numpy as np
 import time
+
+import bit_browser_request
 import get_file
 
 from bit_blume import execute_tasks
+from kill_bit import terminate_processes
 from log_config import setup_logger
 from concurrent.futures import ThreadPoolExecutor
 
 logger = setup_logger('blum_auto', 'blum_auto.log')
+
+
+class TimeoutError(Exception):
+    pass
+
+
+def conditional_timeout(seconds, enable_timeout):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            if enable_timeout:
+                result = [None]
+                exception = [None]
+                event = Event()
+
+                def target():
+                    try:
+                        result[0] = func(*args, **kwargs)
+                    except Exception as e:
+                        exception[0] = e
+                    finally:
+                        event.set()
+
+                thread = Thread(target=target)
+                thread.start()
+                event.wait(timeout=seconds)
+                if thread.is_alive():
+                    thread.join(0)  # Clean up the thread if still alive
+                    raise TimeoutError("Function call timed out")
+                if exception[0]:
+                    raise exception[0]
+                return result[0]
+            else:
+                return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
 
 
 def get_item_by_index(items, index):
@@ -37,25 +79,43 @@ def generate_random_sequence(start=1, end=100):
     return numbers
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game):
+def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game, task_timeout=90):
     """
-    打印给定的数字列表
+    打印给定的数字列表，并根据 play_blum_game 设置超时机制
 
     :param numbers: 数字列表
     :param thread_name: 线程名称
+    :param shuffled_dict: 字典，数字与任务相关联
+    :param play_blum_game: 游戏标志或其他相关参数
+    :param task_timeout: 每个任务的超时时间（秒）
     """
     error = []
+
+    # 使用装饰器来决定是否启用超时
+    @conditional_timeout(task_timeout, not play_blum_game)
+    def task_function(num, item):
+        return execute_tasks(num, item, play_blum_game)
 
     for num in numbers:
         error_num = None
         try:
             item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-            error_num = execute_tasks(num, item, play_blum_game)
-            logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+
+            try:
+                task_function(num, item)
+                logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+            except TimeoutError:
+                logger.warning(f'{thread_name} 执行 {num} 任务超时 {item}')
+            except Exception as e:
+                logger.error(f'{thread_name} 执行 {num} 任务报错 {item}，错误信息: {e}')
+            finally:
+                terminate_processes(bit_browser_request.get_browser_pids(item))
+
         except Exception as e:
-            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}')
-        if (error_num != None):
+            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}，错误信息: {e}')
+
+        if error_num is not None:
             error.append(error_num)
 
     # for error_no in error:
