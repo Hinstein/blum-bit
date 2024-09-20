@@ -157,7 +157,7 @@ def generate_random_sequence(start=1, end=100):
     return numbers
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, reader):
+def print_numbers(numbers, thread_name, shuffled_dict):
     """
     打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
@@ -172,14 +172,13 @@ def print_numbers(numbers, thread_name, shuffled_dict, reader):
     for num in numbers:
         try:
             # 获取指定序号的数据
-            tele_result = reader.get_data_by_serial_number(num)
             item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-            error_num = execute_tasks(num, item, tele_result)
+            error_num = execute_tasks(num, item )
 
             # 如果返回 error_num，则将任务记录到 error_list 中
             if error_num is not None:
-                error_list.append((num, item, tele_result))
+                error_list.append((num, item))
                 logger.warning(f'{thread_name} {num} 任务执行失败，需要重新尝试...')
 
             logger.info(f'{thread_name} 结束 {num} 任务 {item}')
@@ -187,7 +186,7 @@ def print_numbers(numbers, thread_name, shuffled_dict, reader):
         except Exception as e:
             logger.error(f'{thread_name} 执行 {num} 任务报错: {e} 任务项: {item}')
             # 异常任务也记录到重试列表
-            error_list.append((num, item, tele_result))
+            error_list.append((num, item))
 
     # 第二步：针对有 error_num 的任务进行重试，直到所有任务成功
     while error_list:
@@ -195,22 +194,22 @@ def print_numbers(numbers, thread_name, shuffled_dict, reader):
         retry_errors = []
 
         # 遍历当前的 error_list
-        for num, item, tele_result in error_list:
+        for num, item in error_list:
             try:
                 logger.info(f'{thread_name} 重试 {num} 任务 {item}')
-                error_num = execute_tasks(num, item, tele_result)
+                error_num = execute_tasks(num, item)
 
                 # 如果任务成功（error_num 为 None），任务完成，不再添加到 retry_errors
                 if error_num is None:
                     logger.info(f'{thread_name} 成功完成 {num} 任务 {item}')
                 else:
                     # 任务失败，加入重试列表
-                    retry_errors.append((num, item, tele_result))
+                    retry_errors.append((num, item))
                     logger.warning(f'{thread_name} {num} 任务重试失败，继续重试...')
 
             except Exception as e:
                 logger.error(f'{thread_name} 重试执行 {num} 任务报错: {e} 任务项: {item}')
-                retry_errors.append((num, item, tele_result))
+                retry_errors.append((num, item))
 
         # 更新 error_list 为 retry_errors，如果列表为空则说明所有任务成功
         error_list = retry_errors
