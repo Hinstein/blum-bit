@@ -3,7 +3,6 @@ import numpy as np
 import time
 
 from selenium import webdriver
-from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
@@ -12,7 +11,6 @@ import requests
 from bs4 import BeautifulSoup
 import bit_browser_request
 import get_file
-from get_tel import ExcelDataReader
 from kill_bit import terminate_processes
 
 from log_config import setup_logger
@@ -61,10 +59,10 @@ def install_script(browser_driver, seq):
     browser_driver.switch_to.window(handles[-1])
 
     # 窗口自适应排列
-    # try:
-    #     bit_browser_request.windowbounds_flexable()
-    # except Exception:
-    #     logger.error("窗口自适应排列失败")
+    try:
+        bit_browser_request.windowbounds_flexable()
+    except Exception:
+        logger.error("窗口自适应排列失败")
 
     # Random wait after clicking folders
     time.sleep(3)
@@ -90,140 +88,6 @@ def install_script(browser_driver, seq):
     time.sleep(3)
 
 
-def login_tele(browser_driver, seq, tele_result):
-    # 打开目标页面
-    browser_driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
-
-    # 获取所有窗口句柄
-    handles = browser_driver.window_handles
-
-    # 切换到最后一个打开的窗口（通常是当前活动窗口）
-    browser_driver.switch_to.window(handles[-1])
-
-    # 窗口自适应排列
-    try:
-        bit_browser_request.windowbounds_flexable()
-    except Exception:
-        logger.error("窗口自适应排列失败")
-
-    # Random wait after clicking folders
-    time.sleep(random.uniform(1, 3))
-    wait = WebDriverWait(browser_driver, 10)
-
-    # 点击 LOGIN BY PHONE NUMBER
-    try:
-        # Random wait after clicking button
-        button_element = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//button[span[text()='Log in by phone Number']]")))
-        button_element.click()
-    except Exception as e:
-        logger.error(f"blum '{seq}' : 点击 LOGIN BY PHONE NUMBER 失败,'{e}'")
-        pass
-
-    # Random wait after clicking button
-    time.sleep(random.uniform(1, 3))
-
-    # 填入电话号码
-    try:
-        # Random wait after clicking button
-        # 定位 contenteditable 的 <div> 元素
-        input_field = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[2]/div[2]/div/div[3]/div[2]/div[1]"))
-        )
-
-        # 点击输入框以确保焦点在该元素上
-        input_field.click()
-
-        # 清除输入框中的内容
-        input_field.send_keys(Keys.CONTROL + "a")  # 选择所有文本
-
-        for _ in range(5):
-            input_field.send_keys(Keys.BACKSPACE)  # 删除文本
-
-        phone_number = tele_result['账号']
-
-        # 写入数字到输入框
-        input_field.send_keys(phone_number)  # 替换为你想要输入的数字
-    except Exception as e:
-        logger.error(f"blum '{seq}' : 填入电话号码 失败,'{e}'")
-        raise
-
-    # 点击next按钮
-    try:
-        # 使用 XPath 根据文本内容定位按钮
-        button = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//button[span[text()='Next']]"))
-        )
-
-        # 点击该按钮
-        button.click()
-    except Exception as e:
-        logger.error(f"blum '{seq}' : 点击next按钮 失败,'{e}'")
-        raise
-
-    # 输入验证码
-    try:
-        # 使用 XPath 根据文本内容定位按钮
-        # 定义显式等待
-        cod_wait = WebDriverWait(browser_driver, 30)  # 10秒的等待时间
-
-        # 使用 XPath 定位输入框元素
-        input_field = cod_wait.until(
-            EC.visibility_of_element_located((By.XPATH, "/html/body/div[1]/div/div[2]/div[4]/div/div[3]/div/input")))
-
-        try:
-            data = get_password_url(tele_result['链接'])
-        except Exception as e:
-            logger.error(f"blum '{seq}' : 获取链接失败,'{e}'")
-            raise
-
-        # 点击该按钮
-        input_field.click()
-
-        input_field.send_keys(data.get('code'))
-
-        time.sleep(5)
-    except Exception as e:
-        logger.error(f"blum '{seq}' : 点击next按钮 失败,'{e}'")
-        raise
-
-    # Random wait after clicking button
-    time.sleep(10)
-
-    # 输入密码
-    try:
-        wait = WebDriverWait(browser_driver, 10)  # 10秒的等待时间
-
-        # 使用 CSS 选择器定位输入框元素
-        password_field = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "input[type='password'][name='notsearch_password']"))
-        )
-
-        # 输入密码
-        password_field.send_keys(data.get('password'))  # 替换为你想要输入的密码
-
-    except Exception as e:
-        logger.error(f"blum '{seq}' : 点击next按钮 失败,'{e}'")
-        raise
-
-    time.sleep(5)
-
-    # 点击next按钮
-    try:
-        # 使用 XPath 定位按钮元素
-        button = wait.until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="auth-pages"]/div/div[2]/div[5]/div/div[2]/button'))
-        )
-
-        # 点击按钮
-        button.click()
-    except Exception as e:
-        logger.error(f"点击按钮失败: {e}")
-        raise  # 向上抛出异常
-
-    time.sleep(15)
-
-
 def execute_tasks(seq, id):
     try:
         response_data = bit_browser_request.send_post_request(id)
@@ -243,9 +107,6 @@ def execute_tasks(seq, id):
 
         # 设置 JavaScript 执行超时为10秒
         driver.set_script_timeout(10)
-
-        # 账号登陆
-        # login_tele(driver, seq, tele_result)
 
         # 安装blum脚本
         install_script(driver, seq)
@@ -296,27 +157,65 @@ def generate_random_sequence(start=1, end=100):
     return numbers
 
 
-def print_numbers(numbers, thread_name, shuffled_dict):
+def print_numbers(numbers, thread_name, shuffled_dict, reader):
     """
-    打印给定的数字列表
+    打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
     :param numbers: 数字列表
     :param thread_name: 线程名称
+    :param shuffled_dict: 随机排序后的字典
+    :param reader: 数据读取对象
     """
-    error = []
+    error_list = []
 
+    # 第一步：先执行所有任务并记录出错的任务
     for num in numbers:
-        error_num = None
         try:
             # 获取指定序号的数据
+            tele_result = reader.get_data_by_serial_number(num)
             item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-            error_num = execute_tasks(num, item)
+            error_num = execute_tasks(num, item, tele_result)
+
+            # 如果返回 error_num，则将任务记录到 error_list 中
+            if error_num is not None:
+                error_list.append((num, item, tele_result))
+                logger.warning(f'{thread_name} {num} 任务执行失败，需要重新尝试...')
+
             logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+
         except Exception as e:
-            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}')
-        if (error_num != None):
-            error.append(error_num)
+            logger.error(f'{thread_name} 执行 {num} 任务报错: {e} 任务项: {item}')
+            # 异常任务也记录到重试列表
+            error_list.append((num, item, tele_result))
+
+    # 第二步：针对有 error_num 的任务进行重试，直到所有任务成功
+    while error_list:
+        logger.info(f'{thread_name} 开始重试失败的任务列表...')
+        retry_errors = []
+
+        # 遍历当前的 error_list
+        for num, item, tele_result in error_list:
+            try:
+                logger.info(f'{thread_name} 重试 {num} 任务 {item}')
+                error_num = execute_tasks(num, item, tele_result)
+
+                # 如果任务成功（error_num 为 None），任务完成，不再添加到 retry_errors
+                if error_num is None:
+                    logger.info(f'{thread_name} 成功完成 {num} 任务 {item}')
+                else:
+                    # 任务失败，加入重试列表
+                    retry_errors.append((num, item, tele_result))
+                    logger.warning(f'{thread_name} {num} 任务重试失败，继续重试...')
+
+            except Exception as e:
+                logger.error(f'{thread_name} 重试执行 {num} 任务报错: {e} 任务项: {item}')
+                retry_errors.append((num, item, tele_result))
+
+        # 更新 error_list 为 retry_errors，如果列表为空则说明所有任务成功
+        error_list = retry_errors
+
+    logger.info(f'{thread_name} 所有任务已成功完成。')
 
 
 def shuffle_dict(input_dict):
