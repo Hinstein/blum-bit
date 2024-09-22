@@ -234,12 +234,14 @@ def login_tele(browser_driver, seq, tele_result):
         for _ in range(10):
             password_field.send_keys(Keys.BACKSPACE)  # 删除文本
 
-        if 1741 >= seq:
-            # 直接输入密码
-            password_field.send_keys("qweqwe")
-        else:
-            # 接码平台获取
-            password_field.send_keys(data.get('password'))
+        password_field.send_keys("lilinhai123")
+
+        # if 1741 >= seq:
+        #     # 直接输入密码
+        #     password_field.send_keys("qweqwe")
+        # else:
+        #     # 接码平台获取
+        #     password_field.send_keys(data.get('password'))
 
 
     except Exception as e:
@@ -286,9 +288,6 @@ def execute_tasks(seq, id, tele_result):
 
         # 账号登陆
         login_tele(driver, seq, tele_result)
-
-        # 安装blum脚本
-        # install_script(driver,seq)
 
         time.sleep(3)
 
