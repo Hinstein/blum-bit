@@ -13,7 +13,7 @@ from log_config import setup_logger
 logger = setup_logger('bit_blum', 'blum_auto.log')
 
 
-def create_threads(n, bit_num_start, bit_num_end,  error_list=None):
+def create_threads(n, bit_num_start, bit_num_end, error_list=None):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
@@ -42,7 +42,7 @@ def create_threads(n, bit_num_start, bit_num_end,  error_list=None):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(5)
+            time.sleep(1)
 
         logger.info("All task has completed")
 
@@ -56,25 +56,62 @@ def create_threads(n, bit_num_start, bit_num_end,  error_list=None):
 
 def print_numbers(numbers, thread_name, shuffled_dict):
     """
-    打印给定的数字列表
+    打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
     :param numbers: 数字列表
     :param thread_name: 线程名称
+    :param shuffled_dict: 随机排序后的字典
+    :param reader: 数据读取对象
     """
-    error = []
+    error_list = []
 
+    # 第一步：先执行所有任务并记录出错的任务
     for num in numbers:
-        error_num = None
         try:
             # 获取指定序号的数据
             item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
             error_num = execute_tasks(num, item)
+
+            # 如果返回 error_num，则将任务记录到 error_list 中
+            if error_num is not None:
+                error_list.append((num, item))
+                logger.warning(f'{thread_name} {num} 任务执行失败，需要重新尝试...')
+
             logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+
         except Exception as e:
-            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}')
-        if (error_num != None):
-            error.append(error_num)
+            logger.error(f'{thread_name} 执行 {num} 任务报错: {e} 任务项: {item}')
+            # 异常任务也记录到重试列表
+            error_list.append((num, item))
+
+    # 第二步：针对有 error_num 的任务进行重试，直到所有任务成功
+    while error_list:
+        logger.info(f'{thread_name} 开始重试失败的任务列表...')
+        retry_errors = []
+
+        # 遍历当前的 error_list
+        for num, item in error_list:
+            try:
+                logger.info(f'{thread_name} 重试 {num} 任务 {item}')
+                error_num = execute_tasks(num, item)
+
+                # 如果任务成功（error_num 为 None），任务完成，不再添加到 retry_errors
+                if error_num is None:
+                    logger.info(f'{thread_name} 成功完成 {num} 任务 {item}')
+                else:
+                    # 任务失败，加入重试列表
+                    retry_errors.append((num, item))
+                    logger.warning(f'{thread_name} {num} 任务重试失败，继续重试...')
+
+            except Exception as e:
+                logger.error(f'{thread_name} 重试执行 {num} 任务报错: {e} 任务项: {item}')
+                retry_errors.append((num, item))
+
+        # 更新 error_list 为 retry_errors，如果列表为空则说明所有任务成功
+        error_list = retry_errors
+
+    logger.info(f'{thread_name} 所有任务已成功完成。')
 
 
 # Function to execute tasks for each profile
@@ -110,9 +147,12 @@ if __name__ == '__main__':
     # 开启几个线程
     thread_num = 20
 
-    # select = list(range(1, 41))
-    select = [1800, 393, 454, 563, 794, 1930, 19, 21, 83, 209, 269, 298, 324, 436, 455, 472, 610, 657, 704, 784, 954,
-              993, 1020, 1100, 1188, 1212, 1308, 1351, 1367, 1398, 1480, 1553, 1554, 1630, 1723, 1836, 1988, 1989, 2104,
-              2216, 2254, 2281, 2346, 2442, 2449, 2482, 2494, 2499]
+    # 浏览器编号执行到多少
+    bit_num_start = 2541
+    bit_num_end = 2660
 
-    create_threads(thread_num, select)
+    # 电报账号文件
+    file_path = 'file/电报账号.xlsx'
+    error_list = [2577, 2578, 2579, 2580]
+    error_list = None
+    create_threads(thread_num, bit_num_start, bit_num_end, error_list)
