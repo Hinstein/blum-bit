@@ -160,10 +160,10 @@ def do_task(browser_driver, seq):
         wait = WebDriverWait(browser_driver, 15)
 
         # 窗口自适应排列
-        # try:
-        #     bit_browser_request.windowbounds_flexable()
-        # except Exception:
-        #     logger.error("窗口自适应排列失败")
+        try:
+            bit_browser_request.windowbounds_flexable()
+        except Exception:
+            logger.error("窗口自适应排列失败")
 
         # 点击 Launch Blum 按钮
         button_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
