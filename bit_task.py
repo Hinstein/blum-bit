@@ -268,24 +268,46 @@ def do_task(browser_driver, seq):
         # 等待页面加载完成
         time.sleep(2)  # 可以根据页面加载速度调整等待时间
 
-        # 定位 "首页" 任务的 Start 按钮
-        css_selector = ".tasks-pill-inline.is-status-not-started.is-dark.pages-tasks-pill.pill-btn"
+        home_task_click(browser_driver, iframe_element)
 
-        # 使用该方法点击 "Start" 按钮
-        click_visible_buttons(browser_driver, css_selector)
+        # 点击socilas
+        button = wait.until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[3]')))
+        button.click()
 
-        # 等待一段时间，确保任务处理完成
-        time.sleep(5)
+        # 等待页面加载完成
+        time.sleep(2)  # 可以根据页面加载速度调整等待时间
 
-        clean_old_label(browser_driver)
-        browser_driver.switch_to.frame(iframe_element)
+        home_task_click(browser_driver, iframe_element)
 
-        # 使用该方法点击 "Claim" 按钮（示例代码）
-        claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
-        click_visible_buttons(browser_driver, claim_css_selector)
+        # 点击Acedemy
+        button = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[4]')))
+        button.click()
+
+        # 等待页面加载完成
+        time.sleep(2)  # 可以根据页面加载速度调整等待时间
+
+        home_task_click(browser_driver, iframe_element)
+
 
     except Exception as e:
         print(f"{seq}任务执行失败:")
+
+
+def home_task_click(browser_driver, iframe_element):
+    # 定位 "首页" 任务的 Start 按钮
+    css_selector = ".tasks-pill-inline.is-status-not-started.is-dark.pages-tasks-pill.pill-btn"
+    # 使用该方法点击 "Start" 按钮
+    click_visible_buttons(browser_driver, css_selector)
+    # 等待一段时间，确保任务处理完成
+    time.sleep(5)
+    clean_old_label(browser_driver)
+    browser_driver.switch_to.frame(iframe_element)
+    # 使用该方法点击 "Claim" 按钮（示例代码）
+    claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
+    click_visible_buttons(browser_driver, claim_css_selector)
 
 
 def schedule_checker():
@@ -296,26 +318,26 @@ def schedule_checker():
 
 def run_create_threads():
     # 开启几个线程
-    thread_num = 20
+    thread_num = 1
 
     # 浏览器编号执行到多少
     bit_num_start = 1
     bit_num_end = 300
 
-    error_list = [318]
-    error_list = None
+    error_list = [1912]
+    # error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
 
 
 if __name__ == '__main__':
     run_create_threads()
     # 使用 schedule 库设置每1min执行一次的定时任务
-    schedule.every(1).minute.do(run_create_threads)
-
-    # 创建一个单独的线程来运行 schedule 检查器
-    schedule_thread = threading.Thread(target=schedule_checker)
-    schedule_thread.daemon = True
-    schedule_thread.start()
-
-    # 主线程等待 schedule 线程
-    schedule_thread.join()
+    # schedule.every(1).minute.do(run_create_threads)
+    #
+    # # 创建一个单独的线程来运行 schedule 检查器
+    # schedule_thread = threading.Thread(target=schedule_checker)
+    # schedule_thread.daemon = True
+    # schedule_thread.start()
+    #
+    # # 主线程等待 schedule 线程
+    # schedule_thread.join()
