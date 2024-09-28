@@ -1,6 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
+from django.template.defaultfilters import yesno
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
@@ -145,14 +146,15 @@ def execute_tasks(seq, id):
 
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 20
+    thread_num = 15
 
     # 浏览器编号执行到多少
-    bit_num_start = 2541
-    bit_num_end = 2660
+    bit_num_start = 174
+    bit_num_end = 188
+
 
     # 电报账号文件
     file_path = 'file/电报账号.xlsx'
-    error_list = [2577, 2578, 2579, 2580]
+    error_list = [1293]
     error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)

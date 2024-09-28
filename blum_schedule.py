@@ -14,14 +14,14 @@ def run_create_threads():
     logger.info("定时任务开始")
 
     # 开启几个线程
-    thread_num = 20
+    thread_num = 24
     # 浏览器编号执行到多少
     bit_num_start = 1
-    bit_num_end = 1780
+    bit_num_end = 3000
     # blum玩游戏
-    # play_blum_game = True
+    play_blum_game = True
     # blum不玩游戏
-    play_blum_game = False
+    # play_blum_game = False
 
     logger.info("开始执行bit浏览器任务")
     create_threads(thread_num, bit_num_start, bit_num_end, play_blum_game)
