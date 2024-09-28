@@ -308,7 +308,7 @@ def run_create_threads():
 
 
 if __name__ == '__main__':
-    # run_create_threads()
+    run_create_threads()
     # 使用 schedule 库设置每1min执行一次的定时任务
     schedule.every(1).minute.do(run_create_threads)
 
