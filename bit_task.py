@@ -332,12 +332,12 @@ def run_create_threads():
 if __name__ == '__main__':
     run_create_threads()
     # 使用 schedule 库设置每1min执行一次的定时任务
-    # schedule.every(1).minute.do(run_create_threads)
-    #
-    # # 创建一个单独的线程来运行 schedule 检查器
-    # schedule_thread = threading.Thread(target=schedule_checker)
-    # schedule_thread.daemon = True
-    # schedule_thread.start()
-    #
-    # # 主线程等待 schedule 线程
-    # schedule_thread.join()
+    schedule.every(1).minute.do(run_create_threads)
+
+    # 创建一个单独的线程来运行 schedule 检查器
+    schedule_thread = threading.Thread(target=schedule_checker)
+    schedule_thread.daemon = True
+    schedule_thread.start()
+
+    # 主线程等待 schedule 线程
+    schedule_thread.join()
