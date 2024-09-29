@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 import schedule
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -62,7 +63,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
                 logger.error(f"Thread-{i + 1} 发生异常: {e}")
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, task_timeout=300):
+def print_numbers(numbers, thread_name, shuffled_dict, task_timeout=600):
     """
     打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
@@ -166,16 +167,24 @@ def execute_tasks(seq, id):
 def click_visible_buttons(browser_driver, css_selector, wait_time=2):
     """
     查找所有可见且可点击的按钮并点击。
+    如果 CSS 选择器中包含 'started' 字符串，则记录点击次数，当点击次数大于 5 次时执行 clean_old_label 方法。
+    返回是否有任何按钮被点击过。
 
     :param browser_driver: 浏览器驱动对象
     :param css_selector: 按钮的 CSS 选择器
     :param wait_time: 每次点击后的等待时间，默认2秒
+    :return: 布尔值，表示是否有按钮被点击过
     """
     attempts = 0  # 初始化尝试次数
+    click_count = 0  # 记录 'started' 按钮的点击次数
+    was_clicked = False  # 标记是否有按钮被点击过
 
-    while attempts < 5:  # 循环最多 5 次
+    # 判断是否为 'started' 按钮
+    is_started_button = 'started' in css_selector
+
+    while attempts < 3:  # 循环最多 3 次
         buttons = browser_driver.find_elements(By.CSS_SELECTOR, css_selector)
-        clicked_any = False  # 标记是否点击了按钮
+        clicked_any = False  # 标记当前循环是否点击了按钮
 
         for button in buttons:
             try:
@@ -188,12 +197,23 @@ def click_visible_buttons(browser_driver, css_selector, wait_time=2):
                     button.click()
                     time.sleep(wait_time)  # 点击后等待一段时间
                     clicked_any = True  # 标记已点击
-                # else:
-                # print(f"按钮不可见或不可点击: {css_selector}")
+                    was_clicked = True  # 标记在某次循环中有按钮被点击过
+
+                    # 如果是 'started' 按钮，记录点击次数
+                    if is_started_button:
+                        click_count += 1
+                        print(f"已点击 'started' 按钮 {click_count} 次")
+
+                        # 当点击次数大于 5 时，执行 clean_old_label 方法
+                        if click_count > 5:
+                            clean_old_label(browser_driver)
+                            # 切换到游戏窗口 iframe
+                            iframe_element = browser_driver.find_element(By.CSS_SELECTOR, 'iframe.payment-verification')
+                            browser_driver.switch_to.frame(iframe_element)
+                            click_count = 0  # 重置点击次数
 
             except Exception as e:
-                # print(f"无法点击按钮: {e}")
-                pass
+                pass  # 忽略异常，继续循环
 
         # 如果这轮没有点击任何按钮，退出循环
         if not clicked_any:
@@ -201,6 +221,23 @@ def click_visible_buttons(browser_driver, css_selector, wait_time=2):
 
         attempts += 1  # 增加尝试次数
 
+    return was_clicked  # 返回是否有按钮被点击过
+
+
+def is_element_with_class_present(driver, class_name):
+    """
+    检查是否存在具有指定类名的元素。
+
+    :param driver: Selenium WebDriver
+    :param class_name: 要检查的类名
+    :return: 如果元素存在返回 True，否则返回 False
+    """
+    try:
+        # 使用类名选择器查找元素
+        element = driver.find_element(By.CSS_SELECTOR, class_name)
+        return True if element else False
+    except NoSuchElementException:
+        return False
 
 def do_task(browser_driver, seq):
     try:
@@ -234,36 +271,40 @@ def do_task(browser_driver, seq):
         # 打开 earn 页面
         button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[2]')))
         button.click()
-        time.sleep(5)
 
-        # 点击 weekly open 按钮
-        button = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
-        button.click()
-        time.sleep(5)
+        time.sleep(10)
 
-        # 点击 "Start" 按钮
-        # print("开始点击 Start 按钮...")
-        click_visible_buttons(browser_driver,
-                              ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
+        # 如果weekly 没有完成任务才打开
+        if not is_element_with_class_present(browser_driver, ".kit-icon.done-icon"):
+            # 点击 weekly open 按钮
+            button = wait.until(EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
+            button.click()
 
-        # 等待一段时间，确保任务处理完成
-        time.sleep(5)
+            # 点击 "Start" 按钮
+            # print("开始点击 Start 按钮...")
+            was_clicked = click_visible_buttons(browser_driver,
+                                  ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-        clean_old_label(browser_driver)
-        browser_driver.switch_to.frame(iframe_element)
+            # 等待一段时间，确保任务处理完成
+            time.sleep(2)
 
-        # 点击 "Claim" 按钮
-        # print("开始点击 Claim 按钮...")
-        click_visible_buttons(browser_driver,
-                              ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
+            # 被点击过才执行claim操作
+            if was_clicked:
+                clean_old_label(browser_driver)
+                browser_driver.switch_to.frame(iframe_element)
 
-        time.sleep(5)
+            # 点击 "Claim" 按钮
+            # print("开始点击 Claim 按钮...")
+            click_visible_buttons(browser_driver,
+                                  ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-        # 关闭页面
-        button = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
-        button.click()
+            time.sleep(2)
+
+            # 关闭页面
+            button = wait.until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
+            button.click()
 
         # 等待页面加载完成
         time.sleep(2)  # 可以根据页面加载速度调整等待时间
@@ -304,11 +345,12 @@ def home_task_click(browser_driver, iframe_element):
     # 定位 "首页" 任务的 Start 按钮
     css_selector = ".tasks-pill-inline.is-status-not-started.is-dark.pages-tasks-pill.pill-btn"
     # 使用该方法点击 "Start" 按钮
-    click_visible_buttons(browser_driver, css_selector)
+    was_clicked = click_visible_buttons(browser_driver, css_selector)
     # 等待一段时间，确保任务处理完成
     time.sleep(5)
-    clean_old_label(browser_driver)
-    browser_driver.switch_to.frame(iframe_element)
+    if was_clicked:
+        clean_old_label(browser_driver)
+        browser_driver.switch_to.frame(iframe_element)
     # 使用该方法点击 "Claim" 按钮（示例代码）
     claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
     click_visible_buttons(browser_driver, claim_css_selector)
