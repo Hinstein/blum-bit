@@ -273,6 +273,8 @@ def do_task(browser_driver, seq):
         # 点击socilas
         button = wait.until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[3]')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+        time.sleep(0.5)  # 等待滚动完成
         button.click()
 
         # 等待页面加载完成
@@ -284,6 +286,8 @@ def do_task(browser_driver, seq):
         button = wait.until(
             EC.element_to_be_clickable(
                 (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[4]')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+        time.sleep(0.5)  # 等待滚动完成
         button.click()
 
         # 等待页面加载完成
