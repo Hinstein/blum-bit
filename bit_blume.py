@@ -117,10 +117,12 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     except Exception:
         pass
 
+
+    iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
+
     #  iframe 切换到游戏窗口
     try:
         # Random wait after clicking button
-        iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
         browser_driver.switch_to.frame(iframe_element)
     except Exception as e:
         logger.error(f"blum '{seq}' : iframe 切换到游戏窗口失败")
@@ -190,7 +192,7 @@ def play_blum_game(driver, wait, seq):
 
         # Loop to click the 'Play' button if it exists
         sum = 0
-        long_wait = WebDriverWait(driver, 80)
+        long_wait = WebDriverWait(driver, 100)
         while True:
             try:
                 play_button = long_wait.until(EC.element_to_be_clickable(
@@ -233,14 +235,14 @@ def clean_old_label(driver):
 
         time.sleep(2)
         # 切换回初始页面
-        # driver.switch_to.window(initial_handle)
+        driver.switch_to.window(initial_handle)
     except Exception:
         pass
 
 
 if __name__ == '__main__':
     # select = list(range(1, 41))
-    select = [154]
+    select = [142]
     selected_values = get_file.get_id_by_seq(select)
     # Iterate through each profile directory
     for key in selected_values:

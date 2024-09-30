@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 import schedule
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,6 +15,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 import bit_browser_request
 import get_file
 from bit_blume import clean_old_label
+from blum_main import conditional_timeout
+from kill_bit import terminate_processes
 from log_config import setup_logger
 
 logger = setup_logger('bit_blum', 'blum_auto.log')
@@ -60,7 +63,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
                 logger.error(f"Thread-{i + 1} 发生异常: {e}")
 
 
-def print_numbers(numbers, thread_name, shuffled_dict):
+def print_numbers(numbers, thread_name, shuffled_dict, task_timeout=600):
     """
     打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
@@ -71,51 +74,59 @@ def print_numbers(numbers, thread_name, shuffled_dict):
     """
     error_list = []
 
+    # 使用装饰器来决定是否启用超时
+    @conditional_timeout(task_timeout, True)
+    def task_function(num, item):
+        return execute_tasks(num, item)
+
     # 第一步：先执行所有任务并记录出错的任务
     for num in numbers:
+        error_num = None
         try:
-            # 获取指定序号的数据
             item = shuffled_dict.get(num)
             logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-            error_num = execute_tasks(num, item)
 
-            # 如果返回 error_num，则将任务记录到 error_list 中
-            if error_num is not None:
-                error_list.append((num, item))
-                logger.warning(f'{thread_name} {num} 任务执行失败，需要重新尝试...')
-
-            logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+            try:
+                task_function(num, item)
+                logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+            except TimeoutError:
+                logger.warning(f'{thread_name} 执行 {num} 任务超时 {item}')
+            except Exception as e:
+                logger.error(f'{thread_name} 执行 {num} 任务报错 {item}，错误信息: {e}')
+            finally:
+                terminate_processes(bit_browser_request.get_browser_pids(item))
 
         except Exception as e:
-            logger.error(f'{thread_name} 执行 {num} 任务报错: {e} 任务项: {item}')
-            # 异常任务也记录到重试列表
-            error_list.append((num, item))
+            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}，错误信息: {e}')
 
-    # 第二步：针对有 error_num 的任务进行重试，直到所有任务成功
-    while error_list:
-        logger.info(f'{thread_name} 开始重试失败的任务列表...')
-        retry_errors = []
+        if error_num is not None:
+            error_list.append(error_num)
 
-        # 遍历当前的 error_list
-        for num, item in error_list:
-            try:
-                logger.info(f'{thread_name} 重试 {num} 任务 {item}')
-                error_num = execute_tasks(num, item)
-
-                # 如果任务成功（error_num 为 None），任务完成，不再添加到 retry_errors
-                if error_num is None:
-                    logger.info(f'{thread_name} 成功完成 {num} 任务 {item}')
-                else:
-                    # 任务失败，加入重试列表
-                    retry_errors.append((num, item))
-                    logger.warning(f'{thread_name} {num} 任务重试失败，继续重试...')
-
-            except Exception as e:
-                logger.error(f'{thread_name} 重试执行 {num} 任务报错: {e} 任务项: {item}')
-                retry_errors.append((num, item))
-
-        # 更新 error_list 为 retry_errors，如果列表为空则说明所有任务成功
-        error_list = retry_errors
+    # # 第二步：针对有 error_num 的任务进行重试，直到所有任务成功
+    # while error_list:
+    #     logger.info(f'{thread_name} 开始重试失败的任务列表...')
+    #     retry_errors = []
+    #
+    #     # 遍历当前的 error_list
+    #     for num, item in error_list:
+    #         try:
+    #             logger.info(f'{thread_name} 重试 {num} 任务 {item}')
+    #             error_num = execute_tasks(num, item)
+    #
+    #             # 如果任务成功（error_num 为 None），任务完成，不再添加到 retry_errors
+    #             if error_num is None:
+    #                 logger.info(f'{thread_name} 成功完成 {num} 任务 {item}')
+    #             else:
+    #                 # 任务失败，加入重试列表
+    #                 retry_errors.append((num, item))
+    #                 logger.warning(f'{thread_name} {num} 任务重试失败，继续重试...')
+    #
+    #         except Exception as e:
+    #             logger.error(f'{thread_name} 重试执行 {num} 任务报错: {e} 任务项: {item}')
+    #             retry_errors.append((num, item))
+    #
+    #     # 更新 error_list 为 retry_errors，如果列表为空则说明所有任务成功
+    #     error_list = retry_errors
 
     logger.info(f'{thread_name} 所有任务已成功完成。')
 
@@ -153,6 +164,81 @@ def execute_tasks(seq, id):
         bit_browser_request.close_browser(id)
 
 
+def click_visible_buttons(browser_driver, css_selector, wait_time=2):
+    """
+    查找所有可见且可点击的按钮并点击。
+    如果 CSS 选择器中包含 'started' 字符串，则记录点击次数，当点击次数大于 5 次时执行 clean_old_label 方法。
+    返回是否有任何按钮被点击过。
+
+    :param browser_driver: 浏览器驱动对象
+    :param css_selector: 按钮的 CSS 选择器
+    :param wait_time: 每次点击后的等待时间，默认2秒
+    :return: 布尔值，表示是否有按钮被点击过
+    """
+    attempts = 0  # 初始化尝试次数
+    click_count = 0  # 记录 'started' 按钮的点击次数
+    was_clicked = False  # 标记是否有按钮被点击过
+
+    # 判断是否为 'started' 按钮
+    is_started_button = 'started' in css_selector
+
+    while attempts < 3:  # 循环最多 3 次
+        buttons = browser_driver.find_elements(By.CSS_SELECTOR, css_selector)
+        clicked_any = False  # 标记当前循环是否点击了按钮
+
+        for button in buttons:
+            try:
+                # 滚动到按钮的位置
+                browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+                time.sleep(0.5)  # 等待滚动完成
+
+                # 检查按钮是否可见且可点击
+                if button.is_displayed() and button.is_enabled():
+                    button.click()
+                    time.sleep(wait_time)  # 点击后等待一段时间
+                    clicked_any = True  # 标记已点击
+                    was_clicked = True  # 标记在某次循环中有按钮被点击过
+
+                    # 如果是 'started' 按钮，记录点击次数
+                    if is_started_button:
+                        click_count += 1
+                        print(f"已点击 'started' 按钮 {click_count} 次")
+
+                        # 当点击次数大于 5 时，执行 clean_old_label 方法
+                        if click_count > 5:
+                            clean_old_label(browser_driver)
+                            # 切换到游戏窗口 iframe
+                            iframe_element = browser_driver.find_element(By.CSS_SELECTOR, 'iframe.payment-verification')
+                            browser_driver.switch_to.frame(iframe_element)
+                            click_count = 0  # 重置点击次数
+
+            except Exception as e:
+                pass  # 忽略异常，继续循环
+
+        # 如果这轮没有点击任何按钮，退出循环
+        if not clicked_any:
+            break
+
+        attempts += 1  # 增加尝试次数
+
+    return was_clicked  # 返回是否有按钮被点击过
+
+
+def is_element_with_class_present(driver, class_name):
+    """
+    检查是否存在具有指定类名的元素。
+
+    :param driver: Selenium WebDriver
+    :param class_name: 要检查的类名
+    :return: 如果元素存在返回 True，否则返回 False
+    """
+    try:
+        # 使用类名选择器查找元素
+        element = driver.find_element(By.CSS_SELECTOR, class_name)
+        return True if element else False
+    except NoSuchElementException:
+        return False
+
 def do_task(browser_driver, seq):
     try:
         browser_driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
@@ -185,47 +271,89 @@ def do_task(browser_driver, seq):
         # 打开 earn 页面
         button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[2]')))
         button.click()
-        time.sleep(5)
 
-        # 点击 weekly open 按钮
-        button = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
-        button.click()
-        time.sleep(5)
-
-
-
-        # 查找并点击 Start 按钮
-        start_buttons = browser_driver.find_elements(By.XPATH,
-                                                     "//button[contains(@class, 'tasks-pill-inline')]/div[text()='Start']")
-        for start_button in start_buttons:
-            try:
-                if start_button.is_displayed() and start_button.is_enabled():
-                    start_button.click()
-                    time.sleep(1)  # 等待新窗口打开
-                else:
-                    print("Start按钮不可见或不可点击")
-            except Exception as e:
-                print(f"{seq}无法点击 Start 按钮")
-
-        # 等待一段时间以确保任务处理完成后再查找 Claim 按钮
         time.sleep(10)
 
-        # 查找并点击 Claim 按钮
-        claim_buttons = browser_driver.find_elements(By.XPATH,
-                                                     "//button[contains(@class, 'tasks-pill-inline')]//div[text()='Claim']")
-        for claim_button in claim_buttons:
-            try:
-                if claim_button.is_displayed() and claim_button.is_enabled():
-                    claim_button.click()
-                    time.sleep(random.uniform(3, 5))  # 点击后等待一段时间
-                else:
-                    print("Claim按钮不可见或不可点击")
-            except Exception as e:
-                print(f"{seq}无法点击按钮")
+        # 如果weekly 没有完成任务才打开
+        if not is_element_with_class_present(browser_driver, ".kit-icon.done-icon"):
+            # 点击 weekly open 按钮
+            button = wait.until(EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
+            button.click()
+
+            # 点击 "Start" 按钮
+            # print("开始点击 Start 按钮...")
+            was_clicked = click_visible_buttons(browser_driver,
+                                  ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
+
+            # 等待一段时间，确保任务处理完成
+            time.sleep(2)
+
+            # 被点击过才执行claim操作
+            if was_clicked:
+                clean_old_label(browser_driver)
+                browser_driver.switch_to.frame(iframe_element)
+
+            # 点击 "Claim" 按钮
+            # print("开始点击 Claim 按钮...")
+            click_visible_buttons(browser_driver,
+                                  ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
+
+            time.sleep(2)
+
+            # 关闭页面
+            button = wait.until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
+            button.click()
+
+        # 等待页面加载完成
+        time.sleep(2)  # 可以根据页面加载速度调整等待时间
+
+        home_task_click(browser_driver, iframe_element)
+
+        # 点击socilas
+        button = wait.until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[3]')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+        time.sleep(0.5)  # 等待滚动完成
+        button.click()
+
+        # 等待页面加载完成
+        time.sleep(2)  # 可以根据页面加载速度调整等待时间
+
+        home_task_click(browser_driver, iframe_element)
+
+        # 点击Acedemy
+        button = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[4]')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+        time.sleep(0.5)  # 等待滚动完成
+        button.click()
+
+        # 等待页面加载完成
+        time.sleep(2)  # 可以根据页面加载速度调整等待时间
+
+        home_task_click(browser_driver, iframe_element)
+
 
     except Exception as e:
         print(f"{seq}任务执行失败:")
+
+
+def home_task_click(browser_driver, iframe_element):
+    # 定位 "首页" 任务的 Start 按钮
+    css_selector = ".tasks-pill-inline.is-status-not-started.is-dark.pages-tasks-pill.pill-btn"
+    # 使用该方法点击 "Start" 按钮
+    was_clicked = click_visible_buttons(browser_driver, css_selector)
+    # 等待一段时间，确保任务处理完成
+    time.sleep(5)
+    if was_clicked:
+        clean_old_label(browser_driver)
+        browser_driver.switch_to.frame(iframe_element)
+    # 使用该方法点击 "Claim" 按钮（示例代码）
+    claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
+    click_visible_buttons(browser_driver, claim_css_selector)
 
 
 def schedule_checker():
@@ -236,15 +364,16 @@ def schedule_checker():
 
 def run_create_threads():
     # 开启几个线程
-    thread_num = 18
+    thread_num = 1
 
     # 浏览器编号执行到多少
     bit_num_start = 1
-    bit_num_end = 1000
+    bit_num_end = 300
 
-    error_list = [151]
-    error_list = None
+    error_list = [1912]
+    # error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
+
 
 if __name__ == '__main__':
     run_create_threads()

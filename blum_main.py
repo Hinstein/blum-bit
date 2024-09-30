@@ -79,7 +79,7 @@ def generate_random_sequence(start=1, end=100):
     return numbers
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game, task_timeout=90):
+def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game, task_timeout=50):
     """
     打印给定的数字列表，并根据 play_blum_game 设置超时机制
 
@@ -143,15 +143,19 @@ def shuffle_dict(input_dict):
     return shuffled_dict
 
 
-def create_threads(n, bit_num_start, bit_num_end, play_blum_game):
+def create_threads(n, bit_num_start, bit_num_end, play_blum_game, error_list=None):
     """
     创建 n 个线程，并平分随机顺序的数字给这些线程打印
 
-    :param play_blum_game:
     :param n: 线程数量
-    :param total: 总数字数量，默认值为 100
+    :param bit_num_start: 数字范围的起始值
+    :param bit_num_end: 数字范围的结束值
+    :param error_list: 错误列表，如果不为空，则用该列表的值代替正常的数字范围
     """
-    numbers = generate_random_sequence(bit_num_start, bit_num_end + 1)
+    if error_list is not None and len(error_list) > 0:
+        numbers = error_list
+    else:
+        numbers = list(range(bit_num_start, bit_num_end + 1))
 
     selected_values = get_file.get_id_by_seq(numbers)
 
@@ -168,7 +172,7 @@ def create_threads(n, bit_num_start, bit_num_end, play_blum_game):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(5)
+            time.sleep(2)
 
         logger.info("All task has completed")
 
@@ -184,7 +188,7 @@ def create_threads(n, bit_num_start, bit_num_end, play_blum_game):
 # n是线程个数， total是你要完成到哪个浏览器
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 4
+    thread_num = 24
     # 浏览器编号执行到多少
     bit_num_start = 1
     bit_num_end = 500
@@ -193,4 +197,6 @@ if __name__ == '__main__':
     # blum不玩游戏
     play_blum_game = False
 
-    create_threads(thread_num, bit_num_start, bit_num_end, play_blum_game)
+    error_list = [1836, 2546]
+    error_list = None
+    create_threads(thread_num, bit_num_start, bit_num_end, play_blum_game, error_list)
