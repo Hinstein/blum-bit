@@ -123,7 +123,7 @@ def play_blum(browser_driver, is_play_blum_game, seq):
         iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
         browser_driver.switch_to.frame(iframe_element)
     except Exception as e:
-        logger.error(f"blum '{seq}' : iframe 切换到游戏窗口失败,'{e}'")
+        logger.error(f"blum '{seq}' : iframe 切换到游戏窗口失败")
         pass
 
     # 领取每日登录奖励
