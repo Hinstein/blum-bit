@@ -125,7 +125,7 @@ def play_blum(browser_driver, is_play_blum_game, seq):
         # Random wait after clicking button
         browser_driver.switch_to.frame(iframe_element)
     except Exception as e:
-        logger.error(f"blum '{seq}' : iframe 切换到游戏窗口失败,'{e}'")
+        logger.error(f"blum '{seq}' : iframe 切换到游戏窗口失败")
         pass
 
     # 领取每日登录奖励
