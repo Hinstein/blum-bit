@@ -1,18 +1,12 @@
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
-import pyautogui
 from selenium import webdriver
-from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.chrome.service import Service
-
-import time
-
-from selenium.webdriver.common.by import By
 
 import bit_browser_request
 import get_file
-from kill_bit import terminate_processes
 from log_config import setup_logger
 
 logger = setup_logger('bit_blum', 'blum_auto.log')
@@ -146,8 +140,8 @@ if __name__ == '__main__':
     thread_num = 8
 
     # 浏览器编号执行到多少
-    bit_num_start = 376
-    bit_num_end = 400
+    bit_num_start = 2001
+    bit_num_end = 2025
 
     # 电报账号文
     error_list =   2839, 2841, 2842, 2862, 2869, 2881, 2886, 2887, 2893, 2950, 2955, 2958, 2959, 2960, 2962, 2968, 2969, 2971, 2972, 2978
