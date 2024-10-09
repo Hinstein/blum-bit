@@ -1,15 +1,20 @@
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
-from django.template.defaultfilters import yesno
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC  # 从 Selenium 导入 EC
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
 
-import time
 import bit_browser_request
 import get_file
-from kill_bit import terminate_processes
 from log_config import setup_logger
+
+# 你的其他代码逻辑
+
 
 logger = setup_logger('bit_blum', 'blum_auto.log')
 
@@ -134,6 +139,10 @@ def execute_tasks(seq, id):
 
         # 设置 JavaScript 执行超时为10秒
         driver.set_script_timeout(10)
+
+        driver.get('chrome://settings/clearBrowserData')
+
+        # driver.get('https://web.telegram.org/k/#@BlumCryptoBot')
 
         # Close the browser session
         # bit_browser_request.close_browser(id)
