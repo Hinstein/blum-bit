@@ -79,7 +79,7 @@ def generate_random_sequence(start=1, end=100):
     return numbers
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game, task_timeout=50):
+def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game, task_timeout=120):
     """
     打印给定的数字列表，并根据 play_blum_game 设置超时机制
 
@@ -96,24 +96,23 @@ def print_numbers(numbers, thread_name, shuffled_dict, play_blum_game, task_time
     def task_function(num, item):
         return execute_tasks(num, item, play_blum_game)
 
-    for num in numbers:
+    for seq in numbers:
         error_num = None
         try:
-            item = shuffled_dict.get(num)
-            logger.info(f'{thread_name} 开始 {num} 任务 {item}')
-
+            id = shuffled_dict.get(seq)
+            logger.info(f'{thread_name} 开始 {seq} 任务 {id}')
             try:
-                task_function(num, item)
-                logger.info(f'{thread_name} 结束 {num} 任务 {item}')
+                task_function(seq, id)
+                logger.info(f'{thread_name} 结束 {seq} 任务 {id}')
             except TimeoutError:
-                logger.warning(f'{thread_name} 执行 {num} 任务超时 {item}')
+                logger.warning(f'{thread_name} 执行 {seq} 任务超时 {id}')
             except Exception as e:
-                logger.error(f'{thread_name} 执行 {num} 任务报错 {item}，错误信息: {e}')
+                logger.error(f'{thread_name} 执行 {seq} 任务报错 {id}，错误信息: {e}')
             finally:
-                terminate_processes(bit_browser_request.get_browser_pids(item))
+                terminate_processes(bit_browser_request.get_browser_pids(id))
 
         except Exception as e:
-            logger.error(f'{thread_name} 执行 {num} 任务报错 {item}，错误信息: {e}')
+            logger.error(f'{thread_name} 执行 {seq} 任务报错 {id}，错误信息: {e}')
 
         if error_num is not None:
             error.append(error_num)
@@ -156,6 +155,7 @@ def create_threads(n, bit_num_start, bit_num_end, play_blum_game, error_list=Non
         numbers = error_list
     else:
         numbers = list(range(bit_num_start, bit_num_end + 1))
+        random.shuffle(numbers)
 
     selected_values = get_file.get_id_by_seq(numbers)
 
