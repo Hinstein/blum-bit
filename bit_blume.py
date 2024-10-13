@@ -29,10 +29,10 @@ def execute_tasks(seq, id, play_blum_game):
         driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
         # 设置页面加载超时为10秒
-        driver.set_page_load_timeout(10)
+        driver.set_page_load_timeout(30)
 
         # 设置 JavaScript 执行超时为10秒
-        driver.set_script_timeout(10)
+        driver.set_script_timeout(30)
 
         # blum任务
         play_blum(driver, play_blum_game, seq)
@@ -98,12 +98,17 @@ def play_blum(browser_driver, is_play_blum_game, seq):
 
     # Random wait after clicking folders
     time.sleep(random.uniform(1, 3))
-    wait = WebDriverWait(browser_driver, 10)
+    wait = WebDriverWait(browser_driver, 30)
 
-    # 点击 左下角 Launch Blum 按钮
-    button_element = wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
-    button_element.click()
+    # 防止点击 launch 弹出 start 面板
+    try:
+        # 点击 左下角 Launch Blum 按钮
+        button_element = wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, 'div.new-message-bot-commands.is-view')))
+        button_element.click()
+    except Exception:
+        logger.error(f"An error open blum '{seq}'")
+        raise  # 重新抛出异常，终止程序
 
     # Random wait after clicking button
     time.sleep(random.uniform(1, 3))
