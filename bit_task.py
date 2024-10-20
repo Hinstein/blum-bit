@@ -35,6 +35,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
         numbers = error_list
     else:
         numbers = list(range(bit_num_start, bit_num_end + 1))
+        random.shuffle(numbers)
 
     selected_values = get_file.get_id_by_seq(numbers)
 
@@ -51,7 +52,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(5)
+            time.sleep(10)
 
         logger.info("All task has completed")
 
@@ -63,7 +64,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
                 logger.error(f"Thread-{i + 1} 发生异常: {e}")
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, task_timeout=300):
+def print_numbers(numbers, thread_name, shuffled_dict, task_timeout=600):
     """
     打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
@@ -262,11 +263,42 @@ def do_task(browser_driver, seq):
         iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
         browser_driver.switch_to.frame(iframe_element)
 
+        # 打开 frens 页面
+        # button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[3]')))
+        # button.click()
+        #
+        # time.sleep(10)
+        #
+        # # 点击 clamin 按钮
+        # try:
+        #     button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div[2]/button')))
+        #     button.click()
+        # except Exception:
+        #     pass
+
         # 打开 earn 页面
         button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[2]')))
         button.click()
 
         time.sleep(10)
+
+        try:
+            # 找到所有的任务项
+            task_items = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.pages-tasks-item.item')))
+
+            # 遍历每个任务项，找到其中的按钮并点击
+            for item in task_items:
+                try:
+                    # 找到任务项中的按钮
+                    button = item.find_element(By.CSS_SELECTOR, '.tasks-pill-inline')
+
+                    # 检查按钮中的文本是否是 "Start"
+                    if "Start" in button.text or "Claim" in button.text:
+                        wait.until(EC.element_to_be_clickable(button)).click()
+                except Exception:
+                    pass
+        except Exception:
+            pass
 
         # 如果weekly 没有完成任务才打开
         if not is_element_with_class_present(browser_driver, ".kit-icon.done-icon"):
