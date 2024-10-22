@@ -241,10 +241,10 @@ def do_task(browser_driver, seq):
         wait = WebDriverWait(browser_driver, 15)
 
         # 窗口自适应排列
-        # try:
-        #     bit_browser_request.windowbounds_flexable()
-        # except Exception:
-        #     logger.error("窗口自适应排列失败")
+        try:
+            bit_browser_request.windowbounds_flexable()
+        except Exception:
+            logger.error("窗口自适应排列失败")
 
         # 点击 Launch Blum 按钮
         button_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
@@ -300,37 +300,35 @@ def do_task(browser_driver, seq):
         except Exception:
             pass
 
-        # 如果weekly 没有完成任务才打开
-        if not is_element_with_class_present(browser_driver, ".kit-icon.done-icon"):
-            # 点击 weekly open 按钮
-            button = wait.until(EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
-            button.click()
+        # 点击 weekly open 按钮
+        button = wait.until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
+        button.click()
 
-            # 点击 "Start" 按钮
-            # print("开始点击 Start 按钮...")
-            was_clicked = click_visible_buttons(browser_driver,
-                                  ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
+        # 点击 "Start" 按钮
+        # print("开始点击 Start 按钮...")
+        was_clicked = click_visible_buttons(browser_driver,
+                              ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-            # 等待一段时间，确保任务处理完成
-            time.sleep(2)
+        # 等待一段时间，确保任务处理完成
+        time.sleep(2)
 
-            # 被点击过才执行claim操作
-            if was_clicked:
-                clean_old_label(browser_driver)
-                browser_driver.switch_to.frame(iframe_element)
+        # 被点击过才执行claim操作
+        if was_clicked:
+            clean_old_label(browser_driver)
+            browser_driver.switch_to.frame(iframe_element)
 
-            # 点击 "Claim" 按钮
-            # print("开始点击 Claim 按钮...")
-            click_visible_buttons(browser_driver,
-                                  ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
+        # 点击 "Claim" 按钮
+        # print("开始点击 Claim 按钮...")
+        click_visible_buttons(browser_driver,
+                              ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-            time.sleep(2)
+        time.sleep(2)
 
-            # 关闭页面
-            button = wait.until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
-            button.click()
+        # 关闭页面
+        button = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
+        button.click()
 
         # 等待页面加载完成
         time.sleep(2)  # 可以根据页面加载速度调整等待时间
