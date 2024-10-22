@@ -303,6 +303,7 @@ def do_task(browser_driver, seq):
         # 点击 weekly open 按钮
         button = wait.until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
         button.click()
 
         # 点击 "Start" 按钮
