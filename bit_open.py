@@ -140,30 +140,51 @@ def execute_tasks(seq, id):
         # 设置 JavaScript 执行超时为10秒
         driver.set_script_timeout(10)
 
-        driver.get('chrome://settings/clearBrowserData')
+        driver.get('https://t.me/DuckChain_bot/quack?startapp=HjBigbDI')
 
-        # driver.get('https://web.telegram.org/k/#@BlumCryptoBot')
+        # Open a new tab and switch to it
+        driver.execute_script("window.open('');")
+        driver.switch_to.window(driver.window_handles[1])
+
+        # Open the second URL in the new tab
+        driver.get('https://t.me/PAWSOG_bot/PAWS?startapp=49HkFv47')
+
+        # 窗口自适应排列
+        try:
+            bit_browser_request.windowbounds_flexable()
+        except Exception:
+            logger.error("窗口自适应排列失败")
+
+        # driver.get('https://web.telegram.org/k/#777000')
+
+        # wait = WebDriverWait(driver, 30)
+        # # 防止点击 launch 弹出 start 面板
+        # try:
+        #     # 点击 左下角 Launch Blum 按钮
+        #     button_element = wait.until(EC.element_to_be_clickable(
+        #         (By.CSS_SELECTOR, 'div.new-message-bot-commands.is-view')))
+        #     button_element.click()
+        # except Exception:
+        #     logger.error(f"An error open blum '{seq}'")
 
         # Close the browser session
         # bit_browser_request.close_browser(id)
 
     except Exception as e:
-        logger.error(f"An error occurred in blum '{seq}'")
+        logger.error(f"An error occurred in blum '{seq}' ,'{e}'")
         # Close the browser session if an error occurs
         return seq
 
 
 if __name__ == '__main__':
     # 开启几个线程
-    thread_num = 15
+    thread_num = 10
 
     # 浏览器编号执行到多少
-    bit_num_start = 174
-    bit_num_end = 188
+    bit_num_start = 1
+    bit_num_end = 10
 
-
-    # 电报账号文件
-    file_path = 'file/电报账号.xlsx'
-    error_list = [1293]
+    error_list = [2554]
     error_list = None
+
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
