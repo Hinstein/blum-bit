@@ -133,6 +133,8 @@ def play_blum(browser_driver, is_play_blum_game, seq):
         logger.error(f"blum '{seq}' : iframe 切换到游戏窗口失败")
         pass
 
+    wait = WebDriverWait(browser_driver, 5)
+
     # 领取每日登录奖励
     try:
         button = wait.until(
@@ -202,6 +204,7 @@ def play_blum_game(driver, wait, seq):
             try:
                 play_button = long_wait.until(EC.element_to_be_clickable(
                     (By.XPATH, '//button[contains(@class, "kit-button") and contains(.//span, "Play")]')))
+                driver.execute_script("arguments[0].scrollIntoView();", play_button)
                 play_button.click()
                 sum = sum + 1
                 # Random wait after clicking play button
