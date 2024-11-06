@@ -241,10 +241,10 @@ def do_task(browser_driver, seq):
         wait = WebDriverWait(browser_driver, 15)
 
         # 窗口自适应排列
-        try:
-            bit_browser_request.windowbounds_flexable()
-        except Exception:
-            logger.error("窗口自适应排列失败")
+        # try:
+        #     bit_browser_request.windowbounds_flexable()
+        # except Exception:
+        #     logger.error("窗口自适应排列失败")
 
         # 点击 Launch Blum 按钮
         button_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
@@ -263,7 +263,7 @@ def do_task(browser_driver, seq):
         iframe_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'iframe.payment-verification')))
         browser_driver.switch_to.frame(iframe_element)
 
-        # 打开 frens 页面
+        # 打开 frens 页面 ，获取邀请奖励
         # button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[3]')))
         # button.click()
         #
@@ -284,7 +284,8 @@ def do_task(browser_driver, seq):
 
         try:
             # 找到所有的任务项
-            task_items = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.pages-tasks-item.item')))
+            task_items = browser_driver.find_elements(By.CSS_SELECTOR,
+                                                      ".pages-tasks-list.is-card .pages-tasks-item.item")
 
             # 遍历每个任务项，找到其中的按钮并点击
             for item in task_items:
@@ -301,15 +302,26 @@ def do_task(browser_driver, seq):
             pass
 
         # 点击 weekly open 按钮
-        button = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-        button.click()
+        # Find all task items by class name
+        task_items = browser_driver.find_elements(By.CSS_SELECTOR,
+                                                  ".pages-tasks-list.is-short-card .pages-tasks-item.item")
+
+        # Loop through each task item to find the one with the correct title
+        for item in task_items:
+            title = item.find_element(By.CLASS_NAME, "title").text
+            if title == "Earn for checking socials":
+                # Once the correct item is found, locate the button within it
+                button = item.find_element(By.CLASS_NAME, "tasks-pill-inline")
+
+                # Scroll to the button and click it
+                browser_driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
+                button.click()
+                break  # Exit the loop after clicking the correct button
 
         # 点击 "Start" 按钮
         # print("开始点击 Start 按钮...")
         was_clicked = click_visible_buttons(browser_driver,
-                              ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
+                                            ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
         # 等待一段时间，确保任务处理完成
         time.sleep(2)
@@ -338,7 +350,8 @@ def do_task(browser_driver, seq):
 
         # 点击socilas
         button = wait.until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[3]')))
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[3]')))
         browser_driver.execute_script("arguments[0].scrollIntoView();", button)
         time.sleep(0.5)  # 等待滚动完成
         button.click()
