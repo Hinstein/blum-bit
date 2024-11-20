@@ -52,7 +52,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(10)
+            time.sleep(15)
 
         logger.info("All task has completed")
 
@@ -309,42 +309,43 @@ def do_task(browser_driver, seq):
         # Loop through each task item to find the one with the correct title
         for item in task_items:
             title = item.find_element(By.CLASS_NAME, "title").text
-            if title == "Earn for checking socials":
+            if title != "Proof of Activity":
                 # Once the correct item is found, locate the button within it
                 button = item.find_element(By.CLASS_NAME, "tasks-pill-inline")
 
                 # Scroll to the button and click it
                 browser_driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
                 button.click()
-                break  # Exit the loop after clicking the correct button
 
-        # 点击 "Start" 按钮
-        # print("开始点击 Start 按钮...")
-        was_clicked = click_visible_buttons(browser_driver,
-                                            ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
+                # 点击 "Start" 按钮
+                # print("开始点击 Start 按钮...")
+                was_clicked = click_visible_buttons(browser_driver,
+                                                    ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-        # 等待一段时间，确保任务处理完成
-        time.sleep(2)
+                # 等待一段时间，确保任务处理完成
+                time.sleep(2)
 
-        # 被点击过才执行claim操作
-        if was_clicked:
-            clean_old_label(browser_driver)
-            browser_driver.switch_to.frame(iframe_element)
+                # 被点击过才执行claim操作
+                if was_clicked:
+                    clean_old_label(browser_driver)
+                    browser_driver.switch_to.frame(iframe_element)
 
-        # 点击 "Claim" 按钮
-        # print("开始点击 Claim 按钮...")
-        click_visible_buttons(browser_driver,
-                              ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
+                # 点击 "Claim" 按钮
+                # print("开始点击 Claim 按钮...")
+                click_visible_buttons(browser_driver,
+                                      ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-        time.sleep(2)
+                time.sleep(2)
 
-        # 关闭页面
-        button = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
-        button.click()
+                # 关闭页面
+                button = wait.until(
+                    EC.element_to_be_clickable(
+                        (By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
+                button.click()
 
-        # 等待页面加载完成
-        time.sleep(2)  # 可以根据页面加载速度调整等待时间
+                # 等待页面加载完成
+                time.sleep(2)  # 可以根据页面加载速度调整等待时间
+
 
         home_task_click(browser_driver, iframe_element)
 
