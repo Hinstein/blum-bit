@@ -390,9 +390,38 @@ def home_task_click(browser_driver, iframe_element):
     if was_clicked:
         clean_old_label(browser_driver)
         browser_driver.switch_to.frame(iframe_element)
+    # 点击verify
+    verify_css_selector = ".tasks-pill-inline.is-status-ready-for-verify.is-dark.pages-tasks-pill.pill-btn"
+    click_verify(browser_driver, verify_css_selector)
+
     # 使用该方法点击 "Claim" 按钮（示例代码）
     claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
     click_visible_buttons(browser_driver, claim_css_selector)
+
+
+def click_verify(browser_driver, verify_css_selector, wait_time=2):
+    buttons = browser_driver.find_elements(By.CSS_SELECTOR, verify_css_selector)
+
+    for button in buttons:
+        try:
+            # 获取按钮的父级 div 的标题文本
+            title_element = button.find_element(By.XPATH, "..//div[@class='title']")
+            title_text = title_element.text
+
+            # 判断标题内容
+            if title_text not in forbidden_titles:
+                # 滚动到按钮的位置
+                browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+                time.sleep(0.5)  # 等待滚动完成
+
+                # 检查按钮是否可见且可点击
+                if button.is_displayed() and button.is_enabled():
+                    button.click()
+                    time.sleep(wait_time)  # 点击后等待一段时间
+            else:
+                print("不点击按钮，因为标题是 'Choosing a Crypto Exchange'")
+        except Exception as e:
+            pass  # 忽略异常，继续循环
 
 
 def schedule_checker():
@@ -413,6 +442,7 @@ def run_create_threads():
     # error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
 
+forbidden_titles = ["Choosing a Crypto Exchange"]
 
 if __name__ == '__main__':
     run_create_threads()
