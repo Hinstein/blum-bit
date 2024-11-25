@@ -442,7 +442,7 @@ def run_create_threads():
     # error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
 
-forbidden_titles = ["Choosing a Crypto Exchange"]
+forbidden_titles = ["Choosing a Crypto Exchange","DEX History"]
 
 if __name__ == '__main__':
     run_create_threads()
