@@ -91,10 +91,10 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     browser_driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
 
     # 窗口自适应排列
-    try:
-        bit_browser_request.windowbounds_flexable()
-    except Exception:
-        logger.error("窗口自适应排列失败")
+    # try:
+    #     bit_browser_request.windowbounds_flexable()
+    # except Exception:
+    #     logger.error("窗口自适应排列失败")
 
     # Random wait after clicking folders
     time.sleep(random.uniform(1, 3))
@@ -143,7 +143,7 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     except Exception:
         pass
 
-    # 打开 earn 页面
+    # 打开 HOME 页面
     button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[1]')))
     button.click()
 
@@ -180,6 +180,15 @@ def play_blum(browser_driver, is_play_blum_game, seq):
         button = wait.until(
             EC.element_to_be_clickable(
                 (By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.button")))
+        button.click()
+    except Exception:
+        pass
+
+    try:
+        # 点击start farming
+        button = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div[4]/div[1]/div/button')))
         button.click()
     except Exception:
         pass
