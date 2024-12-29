@@ -136,16 +136,16 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     wait = WebDriverWait(browser_driver, 5)
 
     # 领取每日登录奖励
-    try:
-        button = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.btn")))
-        button.click()
-    except Exception:
-        pass
+    # try:
+    #     button = wait.until(
+    #         EC.element_to_be_clickable((By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.btn")))
+    #     button.click()
+    # except Exception:
+    #     pass
 
     # 打开 HOME 页面
-    button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[1]')))
-    button.click()
+    # button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[1]')))
+    # button.click()
 
     # 出现彩蛋，需要关闭
     # try:
@@ -163,33 +163,48 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     # Random wait after clicking folders
     time.sleep(1)
 
-    # 领取每日奖励
+    # days check-in
     try:
-        # 点击clam
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.CSS_SELECTOR, "button.kit-button.is-large.is-drop.is-fill.button.is-done")))
-        button.click()
+        long_wait = WebDriverWait(browser_driver, 60)
+        check_in_button = long_wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-default.pill .label')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
+        check_in_button.click()
+        # button = long_wait.until(
+        #     EC.element_to_be_clickable(
+        #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-default.pill .label')))
+        # button.click()
     except Exception:
         pass
 
     time.sleep(1)
 
     try:
-        # 点击start farming
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.CSS_SELECTOR, "button.kit-button.is-large.is-primary.is-fill.button")))
-        button.click()
+        # 点击Blum points claim
+        check_in_button = wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR,  'div.pages-wallet-asset-farming-slot button.kit-pill-claim .label')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
+        check_in_button.click()
+
+
+        # button = wait.until(
+        #     EC.element_to_be_clickable(
+        #         (By.CSS_SELECTOR, 'div.pages-wallet-asset-farming-slot button.kit-pill-claim .label')))
+        # button.click()
     except Exception:
         pass
 
     try:
-        # 点击start farming
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div[4]/div[1]/div/button')))
-        button.click()
+        # 点击Blum points farm
+        check_in_button = wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-dark .label')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
+        check_in_button.click()
+
+        # button = wait.until(
+        #     EC.element_to_be_clickable(
+        #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-dark .label')))
+        # button.click()
     except Exception:
         pass
 
@@ -205,7 +220,7 @@ def play_blum_game(driver, wait, seq):
     try:
         # Click Play button in iframe
         play_button = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, '//a[contains(@class, "play-btn") and contains(text(), "Play")]')))
+            (By.CSS_SELECTOR, 'button.kit-pill.reset.is-type-white.pill .label')))
         # 滚动到元素位置
         driver.execute_script("arguments[0].scrollIntoView();", play_button)
         play_button.click()
