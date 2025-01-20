@@ -161,55 +161,55 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     #     pass
 
     # Random wait after clicking folders
-    time.sleep(1)
+    # time.sleep(1)
 
     # days check-in
-    try:
-        long_wait = WebDriverWait(browser_driver, 60)
-        check_in_button = long_wait.until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-default.pill .label')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
-        check_in_button.click()
-        # button = long_wait.until(
-        #     EC.element_to_be_clickable(
-        #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-default.pill .label')))
-        # button.click()
-    except Exception:
-        pass
+    # try:
+    #     long_wait = WebDriverWait(browser_driver, 60)
+    #     check_in_button = long_wait.until(EC.element_to_be_clickable(
+    #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-default.pill .label')))
+    #     browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
+    #     check_in_button.click()
+    #     # button = long_wait.until(
+    #     #     EC.element_to_be_clickable(
+    #     #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-default.pill .label')))
+    #     # button.click()
+    # except Exception:
+    #     pass
 
-    time.sleep(1)
+    # time.sleep(1)
 
-    try:
-        # 点击Blum points claim
-        check_in_button = wait.until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR,  'div.pages-wallet-asset-farming-slot button.kit-pill-claim .label')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
-        check_in_button.click()
+    # try:
+    #     # 点击Blum points claim
+    #     check_in_button = wait.until(EC.element_to_be_clickable(
+    #         (By.CSS_SELECTOR,  'div.pages-wallet-asset-farming-slot button.kit-pill-claim .label')))
+    #     browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
+    #     check_in_button.click()
+    #
+    #
+    #     # button = wait.until(
+    #     #     EC.element_to_be_clickable(
+    #     #         (By.CSS_SELECTOR, 'div.pages-wallet-asset-farming-slot button.kit-pill-claim .label')))
+    #     # button.click()
+    # except Exception:
+    #     pass
 
-
-        # button = wait.until(
-        #     EC.element_to_be_clickable(
-        #         (By.CSS_SELECTOR, 'div.pages-wallet-asset-farming-slot button.kit-pill-claim .label')))
-        # button.click()
-    except Exception:
-        pass
-
-    try:
-        # 点击Blum points farm
-        check_in_button = wait.until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-dark .label')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
-        check_in_button.click()
-
-        # button = wait.until(
-        #     EC.element_to_be_clickable(
-        #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-dark .label')))
-        # button.click()
-    except Exception:
-        pass
+    # try:
+    #     # 点击Blum points farm
+    #     check_in_button = wait.until(EC.element_to_be_clickable(
+    #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-dark .label')))
+    #     browser_driver.execute_script("arguments[0].scrollIntoView();", check_in_button)
+    #     check_in_button.click()
+    #
+    #     # button = wait.until(
+    #     #     EC.element_to_be_clickable(
+    #     #         (By.CSS_SELECTOR, 'button.kit-pill-claim.reset.is-state-claim.is-type-dark .label')))
+    #     # button.click()
+    # except Exception:
+    #     pass
 
     # Random wait after clicking folders
-    time.sleep(1)
+    time.sleep(5)
 
     if is_play_blum_game:
         # 是否玩游戏
@@ -218,28 +218,33 @@ def play_blum(browser_driver, is_play_blum_game, seq):
 
 def play_blum_game(driver, wait, seq):
     try:
-        # Click Play button in iframe
-        play_button = wait.until(EC.element_to_be_clickable(
-            (By.CSS_SELECTOR, 'button.kit-pill.reset.is-type-white.pill .label')))
-        # 滚动到元素位置
-        driver.execute_script("arguments[0].scrollIntoView();", play_button)
-        play_button.click()
+        balance_element = driver.find_element(By.CSS_SELECTOR, "div.content > div.balance")
 
-        # Loop to click the 'Play' button if it exists
-        sum = 0
-        long_wait = WebDriverWait(driver, 100)
-        while True:
-            try:
-                play_button = long_wait.until(EC.element_to_be_clickable(
-                    (By.XPATH, '//button[contains(@class, "kit-button") and contains(.//span, "Play")]')))
-                driver.execute_script("arguments[0].scrollIntoView();", play_button)
-                play_button.click()
-                sum = sum + 1
-                # Random wait after clicking play button
-            except (NoSuchElementException, TimeoutException):
-                logger.warning(f"blum '{seq}' : 点击结束")
-                break
-        logger.info(f"blum '{seq}' completed the game '{sum}' times")
+        # 判断文本内容是否为 "0 Play passes"
+        if balance_element.text != "0 Play passes":
+            logger.info("不是 0 play")
+            # Click Play button in iframe
+            play_button = wait.until(EC.element_to_be_clickable(
+                (By.CSS_SELECTOR, 'button.kit-pill.reset.is-type-white.pill .label')))
+            # 滚动到元素位置
+            driver.execute_script("arguments[0].scrollIntoView();", play_button)
+            play_button.click()
+
+            # Loop to click the 'Play' button if it exists
+            sum = 0
+            long_wait = WebDriverWait(driver, 100)
+            while True:
+                try:
+                    play_button = long_wait.until(EC.element_to_be_clickable(
+                        (By.XPATH, '//button[contains(@class, "kit-button") and contains(.//span, "Play")]')))
+                    driver.execute_script("arguments[0].scrollIntoView();", play_button)
+                    play_button.click()
+                    sum = sum + 1
+                    # Random wait after clicking play button
+                except (NoSuchElementException, TimeoutException):
+                    logger.warning(f"blum '{seq}' : 点击结束")
+                    break
+            logger.info(f"blum '{seq}' completed the game '{sum}' times")
 
     except Exception:
         logger.warning(f"blum '{seq}' : 已经完成所有任务")
@@ -278,7 +283,7 @@ def clean_old_label(driver):
 
 if __name__ == '__main__':
     # select = list(range(1, 41))
-    select = [142]
+    select = [2443]
     selected_values = get_file.get_id_by_seq(select)
     # Iterate through each profile directory
     for key in selected_values:
