@@ -144,8 +144,8 @@ def play_blum(browser_driver, is_play_blum_game, seq):
     #     pass
 
     # 打开 HOME 页面
-    # button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[1]')))
-    # button.click()
+    button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[1]')))
+    button.click()
 
     # 出现彩蛋，需要关闭
     # try:
