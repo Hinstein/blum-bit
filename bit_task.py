@@ -52,7 +52,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(15)
+            time.sleep(8)
 
         logger.info("All task has completed")
 
@@ -187,28 +187,33 @@ def click_visible_buttons(browser_driver, css_selector, wait_time=2):
 
     for button in buttons:
         try:
-            # 滚动到按钮的位置
-            browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-            time.sleep(0.5)  # 等待滚动完成
+            title_element = button.find_element(By.XPATH, "..//div[@class='title']")
+            title_text = title_element.text
 
-            # 检查按钮是否可见且可点击
-            if button.is_displayed() and button.is_enabled():
-                button.click()
-                time.sleep(wait_time)  # 点击后等待一段时间
-                was_clicked = True  # 标记在某次循环中有按钮被点击过
+            # 判断标题内容
+            if title_text not in forbidden_click:
+                # 滚动到按钮的位置
+                browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+                time.sleep(0.5)  # 等待滚动完成
 
-                # 如果是 'started' 按钮，记录点击次数
-                if is_started_button:
-                    click_count += 1
-                    print(f"已点击 'started' 按钮 {click_count} 次")
+                # 检查按钮是否可见且可点击
+                if button.is_displayed() and button.is_enabled():
+                    button.click()
+                    time.sleep(wait_time)  # 点击后等待一段时间
+                    was_clicked = True  # 标记在某次循环中有按钮被点击过
 
-                    # 当点击次数大于 5 时，执行 clean_old_label 方法
-                    if click_count > 5:
-                        clean_old_label(browser_driver)
-                        # 切换到游戏窗口 iframe
-                        iframe_element = browser_driver.find_element(By.CSS_SELECTOR, 'iframe.payment-verification')
-                        browser_driver.switch_to.frame(iframe_element)
-                        click_count = 0  # 重置点击次数
+                    # 如果是 'started' 按钮，记录点击次数
+                    if is_started_button:
+                        click_count += 1
+                        print(f"已点击 'started' 按钮 {click_count} 次")
+
+                        # 当点击次数大于 5 时，执行 clean_old_label 方法
+                        if click_count > 5:
+                            clean_old_label(browser_driver)
+                            # 切换到游戏窗口 iframe
+                            iframe_element = browser_driver.find_element(By.CSS_SELECTOR, 'iframe.payment-verification')
+                            browser_driver.switch_to.frame(iframe_element)
+                            click_count = 0  # 重置点击次数
 
         except Exception as e:
             pass  # 忽略异常，继续循环
@@ -282,24 +287,25 @@ def do_task(browser_driver, seq):
 
         time.sleep(10)
 
-        try:
-            # 找到所有的任务项
-            task_items = browser_driver.find_elements(By.CSS_SELECTOR,
-                                                      ".pages-tasks-list.is-card .pages-tasks-item.item")
-
-            # 遍历每个任务项，找到其中的按钮并点击
-            for item in task_items:
-                try:
-                    # 找到任务项中的按钮
-                    button = item.find_element(By.CSS_SELECTOR, '.tasks-pill-inline')
-
-                    # 检查按钮中的文本是否是 "Start"
-                    if "Start" in button.text or "Claim" in button.text:
-                        wait.until(EC.element_to_be_clickable(button)).click()
-                except Exception:
-                    pass
-        except Exception:
-            pass
+        # 第一排任务
+        # try:
+        #     # 找到所有的任务项
+        #     task_items = browser_driver.find_elements(By.CSS_SELECTOR,
+        #                                               ".pages-tasks-list.is-card .pages-tasks-item.item")
+        #
+        #     # 遍历每个任务项，找到其中的按钮并点击
+        #     for item in task_items:
+        #         try:
+        #             # 找到任务项中的按钮
+        #             button = item.find_element(By.CSS_SELECTOR, '.tasks-pill-inline')
+        #
+        #             # 检查按钮中的文本是否是 "Start"
+        #             if "Start" in button.text or "Claim" in button.text:
+        #                 wait.until(EC.element_to_be_clickable(button)).click()
+        #         except Exception:
+        #             pass
+        # except Exception:
+        #     pass
 
         # 点击 weekly open 按钮
         # Find all task items by class name
@@ -346,7 +352,6 @@ def do_task(browser_driver, seq):
                 # 等待页面加载完成
                 time.sleep(2)  # 可以根据页面加载速度调整等待时间
 
-
         home_task_click(browser_driver, iframe_element)
 
         # 点击socilas
@@ -375,6 +380,45 @@ def do_task(browser_driver, seq):
 
         home_task_click(browser_driver, iframe_element)
 
+        # 点击 Blum bits
+        button = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[5]')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+        time.sleep(0.5)  # 等待滚动完成
+        button.click()
+
+        # 等待页面加载完成
+        time.sleep(10)  # 可以根据页面加载速度调整等待时间
+
+        home_task_click(browser_driver, iframe_element)
+
+        # 点击Frens
+        button = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[6]')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+        time.sleep(0.5)  # 等待滚动完成
+        button.click()
+
+        # 等待页面加载完成
+        time.sleep(10)  # 可以根据页面加载速度调整等待时间
+
+        home_task_click(browser_driver, iframe_element)
+
+        # 点击Farming
+        button = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[7]')))
+        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+        time.sleep(0.5)  # 等待滚动完成
+        button.click()
+
+        # 等待页面加载完成
+        time.sleep(10)  # 可以根据页面加载速度调整等待时间
+
+        home_task_click(browser_driver, iframe_element)
+
 
     except Exception as e:
         print(f"{seq}任务执行失败:")
@@ -391,12 +435,12 @@ def home_task_click(browser_driver, iframe_element):
         clean_old_label(browser_driver)
         browser_driver.switch_to.frame(iframe_element)
     # 点击verify
-    verify_css_selector = ".tasks-pill-inline.is-status-ready-for-verify.is-dark.pages-tasks-pill.pill-btn"
-    click_verify(browser_driver, verify_css_selector)
-
-    # 使用该方法点击 "Claim" 按钮（示例代码）
-    claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
-    click_visible_buttons(browser_driver, claim_css_selector)
+    # verify_css_selector = ".tasks-pill-inline.is-status-ready-for-verify.is-dark.pages-tasks-pill.pill-btn"
+    # click_verify(browser_driver, verify_css_selector)
+    #
+    # # 使用该方法点击 "Claim" 按钮（示例代码）
+    # claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
+    # click_visible_buttons(browser_driver, claim_css_selector)
 
 
 def click_verify(browser_driver, verify_css_selector, wait_time=2):
@@ -432,17 +476,29 @@ def schedule_checker():
 
 def run_create_threads():
     # 开启几个线程
-    thread_num = 20
+    thread_num = 1
 
     # 浏览器编号执行到多少
-    bit_num_start = 1
-    bit_num_end = 300
+    bit_num_start = 241
+    bit_num_end = 400
 
-    error_list = [1912]
-    # error_list = None
+    # 定义两个范围
+    range1 = list(range(1, 301))
+    range2 = list(range(2400, 3001))
+
+    # 合并两个列表
+    combined_range = range1 + range2
+
+    error_list = [165]
+    # error_list = range2
+    error_list = None
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
 
-forbidden_titles = ["Choosing a Crypto Exchange","DEX History","Regulation: Yay or Nay?"]
+
+forbidden_click = ["Trade any memecoin", "Launch a memecoin"]
+
+forbidden_titles = ["Blum CMO @ Blockchain Life", "Dec 13 News", "Dec 12 News", "DEX History #3", "Memepad Tutorial",
+                    "Dec 10 News", "Crypto Slang. Part 4", "DEX Evolution", "Is Binance a DEX?", "Crypto Communities"]
 
 if __name__ == '__main__':
     run_create_threads()
