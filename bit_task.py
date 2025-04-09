@@ -246,10 +246,10 @@ def do_task(browser_driver, seq):
         wait = WebDriverWait(browser_driver, 15)
 
         # 窗口自适应排列
-        try:
-            bit_browser_request.windowbounds_flexable()
-        except Exception:
-            logger.error("窗口自适应排列失败")
+        # try:
+        #     bit_browser_request.windowbounds_flexable()
+        # except Exception:
+        #     logger.error("窗口自适应排列失败")
 
         # 点击 Launch Blum 按钮
         button_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
@@ -476,10 +476,10 @@ def schedule_checker():
 
 def run_create_threads():
     # 开启几个线程
-    thread_num = 1
+    thread_num = 20
 
     # 浏览器编号执行到多少
-    bit_num_start = 241
+    bit_num_start = 1
     bit_num_end = 400
 
     # 定义两个范围
