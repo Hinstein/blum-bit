@@ -439,8 +439,8 @@ def home_task_click(browser_driver, iframe_element):
     # click_verify(browser_driver, verify_css_selector)
     #
     # # 使用该方法点击 "Claim" 按钮（示例代码）
-    # claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
-    # click_visible_buttons(browser_driver, claim_css_selector)
+    claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
+    click_visible_buttons(browser_driver, claim_css_selector)
 
 
 def click_verify(browser_driver, verify_css_selector, wait_time=2):
