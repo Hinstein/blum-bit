@@ -1,3 +1,4 @@
+import json
 import random
 import threading
 import time
@@ -435,8 +436,8 @@ def home_task_click(browser_driver, iframe_element):
         clean_old_label(browser_driver)
         browser_driver.switch_to.frame(iframe_element)
     # 点击verify
-    # verify_css_selector = ".tasks-pill-inline.is-status-ready-for-verify.is-dark.pages-tasks-pill.pill-btn"
-    # click_verify(browser_driver, verify_css_selector)
+    verify_css_selector = ".tasks-pill-inline.is-status-ready-for-verify.is-dark.pages-tasks-pill.pill-btn"
+    click_verify(browser_driver, verify_css_selector)
     #
     # # 使用该方法点击 "Claim" 按钮（示例代码）
     claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
@@ -453,7 +454,7 @@ def click_verify(browser_driver, verify_css_selector, wait_time=2):
             title_text = title_element.text
 
             # 判断标题内容
-            if title_text not in forbidden_titles:
+            if title_text in answers_set:
                 # 滚动到按钮的位置
                 browser_driver.execute_script("arguments[0].scrollIntoView();", button)
                 time.sleep(0.5)  # 等待滚动完成
@@ -463,7 +464,7 @@ def click_verify(browser_driver, verify_css_selector, wait_time=2):
                     button.click()
                     time.sleep(wait_time)  # 点击后等待一段时间
             else:
-                print("不点击按钮，因为标题是 'Choosing a Crypto Exchange'")
+                print("不点击按钮，因为标题是没有答案")
         except Exception as e:
             pass  # 忽略异常，继续循环
 
@@ -497,8 +498,10 @@ def run_create_threads():
 
 forbidden_click = ["Trade any memecoin", "Launch a memecoin"]
 
-forbidden_titles = ["Blum CMO @ Blockchain Life", "Dec 13 News", "Dec 12 News", "DEX History #3", "Memepad Tutorial",
-                    "Dec 10 News", "Crypto Slang. Part 4", "DEX Evolution", "Is Binance a DEX?", "Crypto Communities"]
+# 从 codes.json 加载所有键到 answers_title
+with open('./file/codes.json', 'r', encoding='utf-8') as file:
+    codes_data = json.load(file)
+    answers_set = set(codes_data.keys())  # 使用集合
 
 if __name__ == '__main__':
     run_create_threads()
