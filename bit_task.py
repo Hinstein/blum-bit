@@ -449,24 +449,50 @@ def click_verify(browser_driver, verify_css_selector, wait_time=2):
 
     for button in buttons:
         try:
-            # 获取按钮的父级 div 的标题文本
+            # 获取标题文本
             title_element = button.find_element(By.XPATH, "..//div[@class='title']")
             title_text = title_element.text
 
-            # 判断标题内容
-            if title_text in answers_set:
-                # 滚动到按钮的位置
-                browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-                time.sleep(0.5)  # 等待滚动完成
+            # 检查标题是否在字典的键中
+            if title_text in answers_dict:
+                value_to_input = answers_dict[title_text]
 
-                # 检查按钮是否可见且可点击
+                # 滚动并点击按钮
+                browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+                time.sleep(0.5)
+
                 if button.is_displayed() and button.is_enabled():
                     button.click()
-                    time.sleep(wait_time)  # 点击后等待一段时间
+                    time.sleep(wait_time)
+
+                    # 新增：输入值并点击验证
+                    if value_to_input != "N/A":
+                        # 方案1：通过 placeholder 属性定位
+                        input_box = WebDriverWait(browser_driver, 15).until(
+                            EC.visibility_of_element_located(
+                                (By.CSS_SELECTOR, "input[placeholder='Keyword']")
+                            )
+                        )
+
+                        # 清空并输入值
+                        input_box.clear()
+                        input_box.send_keys(value_to_input)
+
+                        # 定位验证按钮
+                        verify_button = WebDriverWait(browser_driver, 10).until(
+                            EC.element_to_be_clickable(
+                                (By.XPATH, "//button[contains(@class, 'kit-button') and .//div[text()='Verify']]"))
+                        )
+
+                        # 点击验证
+                        verify_button.click()
+                        time.sleep(wait_time)
+
             else:
-                print("不点击按钮，因为标题是没有答案")
+                print(f"跳过未配置的标题: {title_text}")
+
         except Exception as e:
-            pass  # 忽略异常，继续循环
+            continue
 
 
 def schedule_checker():
@@ -481,7 +507,7 @@ def run_create_threads():
 
     # 浏览器编号执行到多少
     bit_num_start = 1
-    bit_num_end = 400
+    bit_num_end = 40
 
     # 定义两个范围
     range1 = list(range(1, 301))
@@ -496,12 +522,10 @@ def run_create_threads():
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
 
 
-forbidden_click = ["Trade any memecoin", "Launch a memecoin"]
+forbidden_click = ["Trade any memecoin", "Launch a memecoin", "Share story"]
 
-# 从 codes.json 加载所有键到 answers_title
 with open('./file/codes.json', 'r', encoding='utf-8') as file:
-    codes_data = json.load(file)
-    answers_set = set(codes_data.keys())  # 使用集合
+    answers_dict = json.load(file)  # 直接使用字典结构
 
 if __name__ == '__main__':
     run_create_threads()
