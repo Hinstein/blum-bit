@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 import schedule
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -65,7 +65,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
                 logger.error(f"Thread-{i + 1} 发生异常: {e}")
 
 
-def print_numbers(numbers, thread_name, shuffled_dict, task_timeout=600):
+def print_numbers(numbers, thread_name, shuffled_dict, task_timeout=1000):
     """
     打印给定的数字列表并处理任务。首先执行所有任务，若有 error_num，再针对这些错误任务进行重试。
 
@@ -168,60 +168,69 @@ def execute_tasks(seq, id):
 
 def click_visible_buttons(browser_driver, css_selector, wait_time=2):
     """
-    查找所有可见且可点击的按钮并点击。
-    如果 CSS 选择器中包含 'started' 字符串，则记录点击次数，当点击次数大于 5 次时执行 clean_old_label 方法。
-    返回是否有任何按钮被点击过。
-
-    :param browser_driver: 浏览器驱动对象
-    :param css_selector: 按钮的 CSS 选择器
-    :param wait_time: 每次点击后的等待时间，默认2秒
-    :return: 布尔值，表示是否有按钮被点击过
+    增强版按钮点击逻辑：
+    1. 每次点击成功后重新获取按钮列表
+    2. 持续处理动态变化的按钮
     """
-    attempts = 0  # 初始化尝试次数
-    click_count = 0  # 记录 'started' 按钮的点击次数
-    was_clicked = False  # 标记是否有按钮被点击过
+    total_click = 0
+    is_started = 'started' in css_selector
+    processed_titles = set()  # 记录已处理的标题
 
-    # 判断是否为 'started' 按钮
-    is_started_button = 'started' in css_selector
+    while True:
+        # 每次循环重新获取最新按钮列表
+        current_buttons = browser_driver.find_elements(By.CSS_SELECTOR, css_selector)
+        if not current_buttons:
+            break
 
-    buttons = browser_driver.find_elements(By.CSS_SELECTOR, css_selector)
+        clicked_in_loop = False
 
-    for button in buttons:
-        try:
-            title_element = button.find_element(By.XPATH, "..//div[@class='title']")
-            title_text = title_element.text
+        for button in list(current_buttons):  # 转换为列表避免实时更新问题
+            try:
+                # 动态获取标题元素
+                title_element = button.find_element(By.XPATH, "..//div[@class='title']")
+                title_text = title_element.text
 
-            # 判断标题内容
-            if title_text not in forbidden_click:
-                # 滚动到按钮的位置
-                browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-                time.sleep(0.5)  # 等待滚动完成
+                if title_text in processed_titles:
+                    continue
 
-                # 检查按钮是否可见且可点击
-                if button.is_displayed() and button.is_enabled():
-                    button.click()
-                    time.sleep(wait_time)  # 点击后等待一段时间
-                    was_clicked = True  # 标记在某次循环中有按钮被点击过
+                if title_text not in forbidden_click:
+                    # 滚动到最新位置
+                    browser_driver.execute_script("arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});",
+                                                  button)
+                    time.sleep(0.3)
 
-                    # 如果是 'started' 按钮，记录点击次数
-                    if is_started_button:
-                        click_count += 1
-                        print(f"已点击 'started' 按钮 {click_count} 次")
+                    if button.is_displayed() and button.is_enabled():
+                        # 点击前克隆必要信息
+                        current_title = title_text
 
-                        # 当点击次数大于 5 时，执行 clean_old_label 方法
-                        if click_count > 5:
-                            clean_old_label(browser_driver)
-                            # 切换到游戏窗口 iframe
-                            iframe_element = browser_driver.find_element(By.CSS_SELECTOR, 'iframe.payment-verification')
-                            browser_driver.switch_to.frame(iframe_element)
-                            click_count = 0  # 重置点击次数
+                        button.click()
+                        time.sleep(wait_time)
+                        clicked_in_loop = True
+                        processed_titles.add(current_title)  # 记录已处理标题
 
-        except Exception as e:
-            pass  # 忽略异常，继续循环
+                        # 特殊逻辑处理
+                        if is_started:
+                            total_click += 1
+                            if total_click > 5:
+                                clean_old_label(browser_driver)
+                                iframe = browser_driver.find_element(By.CSS_SELECTOR, 'iframe.payment-verification')
+                                browser_driver.switch_to.frame(iframe)
+                                total_click = 0
 
-    attempts += 1  # 增加尝试次数
+                        # 点击后立即跳出循环重新获取列表
+                        break  # 关键点：处理一个按钮后重新获取列表
 
-    return was_clicked  # 返回是否有按钮被点击过
+            except StaleElementReferenceException:
+                # 元素已失效时自动进入下一次循环
+                break
+            except Exception as e:
+                continue
+
+        # 如果本轮没有点击，说明处理完成
+        if not clicked_in_loop:
+            break
+
+    return len(processed_titles) > 0
 
 
 def is_element_with_class_present(driver, class_name):
@@ -312,113 +321,125 @@ def do_task(browser_driver, seq):
         # Find all task items by class name
         task_items = browser_driver.find_elements(By.CSS_SELECTOR,
                                                   ".pages-tasks-list.is-short-card .pages-tasks-item.item")
+        try:
+            for item in task_items:
+                title = item.find_element(By.CLASS_NAME, "title").text
+                # 获取分数显示元素
+                points_element = item.find_element(By.CLASS_NAME, "points")
+                points_text = points_element.text.split()[0]  # 提取 "450/450" 部分
 
-        # Loop through each task item to find the one with the correct title
-        for item in task_items:
-            title = item.find_element(By.CLASS_NAME, "title").text
-            if title != "Proof of Activity":
-                # Once the correct item is found, locate the button within it
-                button = item.find_element(By.CLASS_NAME, "tasks-pill-inline")
+                # 解析分数
+                numerator, denominator = map(int, points_text.split('/'))
 
-                # Scroll to the button and click it
-                browser_driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
-                button.click()
+                if numerator != denominator and title != "Proof of Activity":
+                    # Once the correct item is found, locate the button within it
+                    button = item.find_element(By.CLASS_NAME, "tasks-pill-inline")
 
-                # 点击 "Start" 按钮
-                # print("开始点击 Start 按钮...")
-                was_clicked = click_visible_buttons(browser_driver,
-                                                    ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
+                    # Scroll to the button and click it
+                    browser_driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
+                    button.click()
 
-                # 等待一段时间，确保任务处理完成
-                time.sleep(2)
+                    # 点击 "Start" 按钮
+                    # print("开始点击 Start 按钮...")
+                    was_clicked = click_visible_buttons(browser_driver,
+                                                        ".tasks-pill-inline.is-status-not-started.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-                # 被点击过才执行claim操作
-                if was_clicked:
-                    clean_old_label(browser_driver)
-                    browser_driver.switch_to.frame(iframe_element)
+                    # 等待一段时间，确保任务处理完成
+                    time.sleep(2)
 
-                # 点击 "Claim" 按钮
-                # print("开始点击 Claim 按钮...")
-                click_visible_buttons(browser_driver,
-                                      ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
+                    # 被点击过才执行claim操作
+                    if was_clicked:
+                        clean_old_label(browser_driver)
+                        browser_driver.switch_to.frame(iframe_element)
 
-                time.sleep(2)
+                    # 点击 "Claim" 按钮
+                    # print("开始点击 Claim 按钮...")
+                    click_visible_buttons(browser_driver,
+                                          ".tasks-pill-inline.is-status-ready-for-claim.is-dark.is-nested.pages-tasks-pill.pill-btn")
 
-                # 关闭页面
-                button = wait.until(
-                    EC.element_to_be_clickable(
-                        (By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
-                button.click()
+                    time.sleep(2)
 
-                # 等待页面加载完成
-                time.sleep(2)  # 可以根据页面加载速度调整等待时间
+                    # 关闭页面
+                    button = wait.until(
+                        EC.element_to_be_clickable(
+                            (By.CSS_SELECTOR, '.kit-button.is-medium.is-ghost.is-icon-only.close-btn')))
+                    button.click()
 
-        home_task_click(browser_driver, iframe_element)
+                    # 等待页面加载完成
+                    time.sleep(2)  # 可以根据页面加载速度调整等待时间
+            home_task_click(browser_driver, iframe_element)
+        except Exception as e:
+            pass
 
-        # 点击socilas
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[3]')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-        time.sleep(0.5)  # 等待滚动完成
-        button.click()
+        try:
+            # 点击socilas
+            button = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[3]')))
+            browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+            time.sleep(0.5)  # 等待滚动完成
+            button.click()
+            # 等待页面加载完成
+            time.sleep(2)  # 可以根据页面加载速度调整等待时间
+            home_task_click(browser_driver, iframe_element)
+        except Exception as e:
+            pass
 
-        # 等待页面加载完成
-        time.sleep(2)  # 可以根据页面加载速度调整等待时间
+        try:
+            # 点击Acedemy
+            button = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[4]')))
+            browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+            time.sleep(0.5)  # 等待滚动完成
+            button.click()
+            # 等待页面加载完成
+            time.sleep(2)  # 可以根据页面加载速度调整等待时间
+            home_task_click(browser_driver, iframe_element)
+        except Exception as e:
+            pass
 
-        home_task_click(browser_driver, iframe_element)
+        try:
+            # 点击 Blum bits
+            button = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[5]')))
+            browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+            time.sleep(0.5)  # 等待滚动完成
+            button.click()
+            # 等待页面加载完成
+            time.sleep(2)  # 可以根据页面加载速度调整等待时间
+            home_task_click(browser_driver, iframe_element)
+        except Exception as e:
+            pass
 
-        # 点击Acedemy
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[4]')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-        time.sleep(0.5)  # 等待滚动完成
-        button.click()
+        try:
+            # 点击Frens
+            button = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[6]')))
+            browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+            time.sleep(0.5)  # 等待滚动完成
+            button.click()
+            # 等待页面加载完成
+            time.sleep(2)  # 可以根据页面加载速度调整等待时间
+            home_task_click(browser_driver, iframe_element)
+        except Exception as e:
+            pass
 
-        # 等待页面加载完成
-        time.sleep(2)  # 可以根据页面加载速度调整等待时间
-
-        home_task_click(browser_driver, iframe_element)
-
-        # 点击 Blum bits
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[5]')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-        time.sleep(0.5)  # 等待滚动完成
-        button.click()
-
-        # 等待页面加载完成
-        time.sleep(10)  # 可以根据页面加载速度调整等待时间
-
-        home_task_click(browser_driver, iframe_element)
-
-        # 点击Frens
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[6]')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-        time.sleep(0.5)  # 等待滚动完成
-        button.click()
-
-        # 等待页面加载完成
-        time.sleep(10)  # 可以根据页面加载速度调整等待时间
-
-        home_task_click(browser_driver, iframe_element)
-
-        # 点击Farming
-        button = wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[7]')))
-        browser_driver.execute_script("arguments[0].scrollIntoView();", button)
-        time.sleep(0.5)  # 等待滚动完成
-        button.click()
-
-        # 等待页面加载完成
-        time.sleep(10)  # 可以根据页面加载速度调整等待时间
-
-        home_task_click(browser_driver, iframe_element)
+        try:
+            # 点击Farming
+            button = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[3]/div/div[1]/div[3]/div/label[7]')))
+            browser_driver.execute_script("arguments[0].scrollIntoView();", button)
+            time.sleep(0.5)  # 等待滚动完成
+            button.click()
+            # 等待页面加载完成
+            time.sleep(2)  # 可以根据页面加载速度调整等待时间
+            home_task_click(browser_driver, iframe_element)
+        except Exception as e:
+            pass
 
 
     except Exception as e:
@@ -426,22 +447,25 @@ def do_task(browser_driver, seq):
 
 
 def home_task_click(browser_driver, iframe_element):
-    # 定位 "首页" 任务的 Start 按钮
-    css_selector = ".tasks-pill-inline.is-status-not-started.is-dark.pages-tasks-pill.pill-btn"
-    # 使用该方法点击 "Start" 按钮
-    was_clicked = click_visible_buttons(browser_driver, css_selector)
-    # 等待一段时间，确保任务处理完成
-    time.sleep(2)
-    if was_clicked:
-        clean_old_label(browser_driver)
-        browser_driver.switch_to.frame(iframe_element)
-    # 点击verify
-    verify_css_selector = ".tasks-pill-inline.is-status-ready-for-verify.is-dark.pages-tasks-pill.pill-btn"
-    click_verify(browser_driver, verify_css_selector)
-    #
-    # # 使用该方法点击 "Claim" 按钮（示例代码）
-    claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
-    click_visible_buttons(browser_driver, claim_css_selector)
+    try:
+        # 定位 "首页" 任务的 Start 按钮
+        css_selector = ".tasks-pill-inline.is-status-not-started.is-dark.pages-tasks-pill.pill-btn"
+        # 使用该方法点击 "Start" 按钮
+        was_clicked = click_visible_buttons(browser_driver, css_selector)
+        # 等待一段时间，确保任务处理完成
+        time.sleep(2)
+        if was_clicked:
+            clean_old_label(browser_driver)
+            browser_driver.switch_to.frame(iframe_element)
+        # 点击verify
+        verify_css_selector = ".tasks-pill-inline.is-status-ready-for-verify.is-dark.pages-tasks-pill.pill-btn"
+        click_verify(browser_driver, verify_css_selector)
+        #
+        # # 使用该方法点击 "Claim" 按钮（示例代码）
+        claim_css_selector = ".tasks-pill-inline.is-status-ready-for-claim.is-dark.pages-tasks-pill.pill-btn"
+        click_visible_buttons(browser_driver, claim_css_selector)
+    except Exception:
+        pass
 
 
 def click_verify(browser_driver, verify_css_selector, wait_time=2):
@@ -522,7 +546,8 @@ def run_create_threads():
     create_threads(thread_num, bit_num_start, bit_num_end, error_list)
 
 
-forbidden_click = ["Trade any memecoin", "Launch a memecoin", "Share story"]
+forbidden_click = ["Trade any memecoin", "Launch a memecoin", "Share story", "Trade any token in Blum bot",
+                   "Connect TON wallet"]
 
 with open('./file/codes.json', 'r', encoding='utf-8') as file:
     answers_dict = json.load(file)  # 直接使用字典结构
