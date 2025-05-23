@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 import schedule
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -53,7 +53,7 @@ def create_threads(n, bit_num_start, bit_num_end, error_list=None):
             futures.append(future)
 
             # 添加启动延迟
-            time.sleep(8)
+            time.sleep(15)
 
         logger.info("All task has completed")
 
@@ -250,6 +250,7 @@ def is_element_with_class_present(driver, class_name):
 
 
 def do_task(browser_driver, seq):
+    global task_items
     try:
         browser_driver.get("https://web.telegram.org/k/#@BlumCryptoBot")
         time.sleep(random.uniform(1, 3))
@@ -261,6 +262,7 @@ def do_task(browser_driver, seq):
         # except Exception:
         #     logger.error("窗口自适应排列失败")
 
+        long_wait = WebDriverWait(browser_driver, 45)
         # 点击 Launch Blum 按钮
         button_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.new-message-bot-commands-view')))
         button_element.click()
@@ -292,10 +294,8 @@ def do_task(browser_driver, seq):
         #     pass
 
         # 打开 earn 页面
-        button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[2]')))
+        button = long_wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/a[2]')))
         button.click()
-
-        time.sleep(10)
 
         # 第一排任务
         # try:
@@ -319,8 +319,16 @@ def do_task(browser_driver, seq):
 
         # 点击 weekly open 按钮
         # Find all task items by class name
-        task_items = browser_driver.find_elements(By.CSS_SELECTOR,
-                                                  ".pages-tasks-list.is-short-card .pages-tasks-item.item")
+        try:
+            task_items = long_wait.until(
+                EC.presence_of_all_elements_located(
+                    (By.CSS_SELECTOR, ".pages-tasks-list.is-short-card .pages-tasks-item.item")
+                )
+            )
+        except TimeoutException:
+            # 处理超时逻辑（例如记录日志或抛出错误）
+            print("等待30秒后仍未找到元素")
+
         try:
             for item in task_items:
                 title = item.find_element(By.CLASS_NAME, "title").text
